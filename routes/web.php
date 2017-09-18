@@ -13,7 +13,7 @@
 
 // 首页
 Route::get('/', function () {
-    return view('home');
+    return view('index');
 });
 
 Route::get('logout','Auth\LoginController@logout'); //登出
