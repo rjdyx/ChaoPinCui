@@ -1,9 +1,29 @@
-
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
-// Variables
+// Core variables , minxins , % and function
 @import "variables";
+@import "mixins";
+@import "function";
+@import "percent";
 
-// Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+// Reset and dependencies
+@import "public/reset";
+@import "public/base";
+
+
+#app {
+	height: 100%;
+}
+
+/*placeholder*/
+::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: #d6d6d7 !important; 
+}
+
+:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: #d6d6d7 !important; 
+}
+
+.vux-input-icon.vux-input-icon, .vux-input-icon.weui-icon-success:before, .vux-input-icon.weui-icon-warn:before {
+    font-size: 20px;
+}

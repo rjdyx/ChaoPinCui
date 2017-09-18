@@ -1,0 +1,19 @@
+// Core variables , minxins , % and function
+@import "variables";
+@import "mixins";
+@import "function";
+@import "percent";
+
+// Reset and dependencies
+@import "public/reset";
+@import "public/base";
+
+
+.el-upload-dragger {
+    width: 360px;
+    height: 100px;
+}
+
+.el-upload-dragger .el-icon-upload {
+    margin: 20px 0 16px;
+}
