@@ -2,9 +2,9 @@
 /**
  * controller: User
  * autoer: guosenlin
- * date: 2017/09/14
+ * date: 2017/09/18
 */
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Api\Home;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -18,8 +18,7 @@ class UserController extends Controller
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = User::paginate(config('app.page'));
-    	return response()->json($datas);
+
     }
 
     // 查看

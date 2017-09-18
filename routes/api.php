@@ -25,21 +25,23 @@ Route::group(['namespace' => 'Api'], function() {
 
 	/******* 后台 *********/
 	Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'UserAuth:admin'], function() {
-		Route::resource('user', 'UserController');
-		Route::resource('system', 'SystemController');
-		Route::resource('category', 'CategoryController');
-		Route::resource('comment', 'CommentController');
-		Route::resource('product', 'ProductController');
-		Route::resource('turn', 'TurnController');
+		Route::resource('index', 'IndexController'); //首页
+		Route::resource('user', 'UserController'); // 用户管理
+		Route::resource('system', 'SystemController'); // 系统管理
+		Route::resource('turn', 'TurnController'); // 轮播图管理
+		Route::resource('category', 'CategoryController'); // 分类管理
+		Route::resource('product', 'ProductController'); // 产品管理
+		Route::resource('img', 'ImgController'); // 图片管理
+		Route::resource('custom', 'CustomController'); // 自定义参数管理
+		Route::resource('comment', 'CommentController'); // 评论管理
 	});
 
 	/******* 前台 *********/
 	Route::group(['prefix' => 'home', 'namespace' => 'Home', 'middleware' => 'UserAuth:home'], function() {
-		Route::resource('user', 'UserController');
-		Route::resource('system', 'SystemController');
-		Route::resource('category', 'CategoryController');
-		Route::resource('comment', 'CommentController');
-		Route::resource('product', 'ProductController');
-		Route::resource('turn', 'TurnController');
+		Route::post('wx/bind','WxController@bindWeiXin');// 微信绑定账户登录
+		Route::post('wx/register','WxController@bindWeiXinUserRegister');// 微信直接登录
+		Route::get('wx/relieve','WxController@bindWeiXinRelieve');//微信解除绑定
+		Route::get('index', 'IndexController@index'); //首页
 	});
+
 });
