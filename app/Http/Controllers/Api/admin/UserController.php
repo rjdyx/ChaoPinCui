@@ -18,7 +18,7 @@ class UserController extends Controller
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = User::paginate(config('app.page'));
+    	$datas = User::orderBy('created_at','desc')->paginate(config('app.page'));
     	return response()->json($datas);
     }
 
@@ -31,8 +31,7 @@ class UserController extends Controller
     // 单条删除
     public function destroy($id)
     {
-    	$model = User::find($id);
-    	if ($model->destroy()) return $id;
+    	if (User::destroy($id)) return $id;
     	return 0;
     }
 
@@ -93,7 +92,8 @@ class UserController extends Controller
         $model->img = IQuery::upload($request,'img')['p'];
         $model->type = 1; // 管理员
         
-        if ($model->save()) return 1;
-        return 0;
+        if (!$model->save()) return 0;
+        if ($id != -1) $model->id = $id;
+        return $model->id;
     }
 }

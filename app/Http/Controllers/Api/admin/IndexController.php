@@ -62,7 +62,7 @@ class IndexController extends Controller
         $model->setRawAttributes($request->only($arr));
         $model->img = IQuery::upload($request,'img')['p'];
 
-        if ($model->save()) return 1;
-        return 0;
+        if (!$model->save()) return 0;
+        return $id;
     }
 }
