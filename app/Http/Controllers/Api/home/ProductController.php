@@ -46,7 +46,34 @@ class CategoryController extends Controller
 	// 获取产品附近产品信息
 	public function productNearby(Request $request)
 	{
-		$pt = Product::find($request->id);
-		$res = Product::->orderBy('sort','desc')->get();
+		$lon = $request->lon;
+		$lat = $request->lat;
+		$id = $request->id;
+		$pt = Product::find($id);
+		$res = Product::where('category_id', $pt->category_id)
+			->paginate(6);
+		return $res;
+	}
+
+	// 获取产品列表信息
+	public function productLists(Request $request)
+	{
+		$type = $request->type; // 产品类型（推荐、附近）
+		$cid = $request->category_id; // 分类id
+		if ($type == 'recommend') {
+			$data = $this->getRecommend($cid);
+		}
+		return $data;
+	}
+
+	// 获取推荐产品信息
+	public function getRecommend($cid)
+	{
+		$data = Product::where('category_id', $cid)
+			->orderBy('heat','desc')
+			->offset(1)
+			->limit(6)
+			->get();
+		return $data;
 	}
 }

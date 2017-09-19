@@ -18,7 +18,7 @@ class TurnController extends Controller
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = Turn::paginate(config('app.page'));
+    	$datas = Turn::orderBy('created_at','desc')->paginate(config('app.page'));
     	return response()->json($datas);
     }
 
@@ -31,8 +31,7 @@ class TurnController extends Controller
     // 单条删除
     public function destroy($id)
     {
-    	$model = Turn::find($id);
-    	if ($model->destroy()) return $id;
+    	if (Turn::destroy($id)) return $id;
     	return 0;
     }
 
@@ -74,7 +73,8 @@ class TurnController extends Controller
         $model->setRawAttributes($request->only($arr));
         $model->img =  IQuery::upload($request,'img')['p'];
         
-        if ($model->save()) return 1;
-        return 0;
+        if (!$model->save()) return 0;
+        if ($id != -1) $model->id = $id;
+        return $model->id;
     }
 }

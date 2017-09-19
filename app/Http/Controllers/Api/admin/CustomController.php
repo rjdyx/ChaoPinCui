@@ -18,7 +18,7 @@ class CustomController extends Controller
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = Custom::paginate(config('app.page'));
+    	$datas = Custom::orderBy('created_at','desc')->paginate(config('app.page'));
     	return response()->json($datas);
     }
 
@@ -31,8 +31,7 @@ class CustomController extends Controller
     // 单条删除
     public function destroy($id)
     {
-    	$model = Custom::find($id);
-    	if ($model->destroy()) return $id;
+    	if (Custom::destroy($id)) return $id;
     	return 0;
     }
 
@@ -73,7 +72,8 @@ class CustomController extends Controller
         $arr = ['name', 'content', 'product_id', 'sort'];
         $model->setRawAttributes($request->only($arr));
 
-        if ($model->save()) return 1;
-        return 0;
+        if (!$model->save()) return 0;
+        if ($id != -1) $model->id = $id;
+        return $model->id;
     }
 }

@@ -26,6 +26,7 @@ Route::group(['namespace' => 'Api'], function() {
 
 	/******* 后台 *********/
 	Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'UserAuth:admin'], function() {
+		// Route::get('deletes','UtilController@deletes');// 批量删除
 		Route::resource('index', 'IndexController'); //首页
 		Route::resource('user', 'UserController'); // 用户管理
 		Route::resource('system', 'SystemController'); // 系统管理
@@ -55,6 +56,7 @@ Route::group(['namespace' => 'Api'], function() {
 		Route::get('product/details', 'ProductController@productInfo'); // 获取产品信息
 		Route::get('product/imgs', 'ProductController@productImgs'); // 获取产品图片信息
 		Route::get('product/nearbys', 'ProductController@productNearby'); // 获取当前产品附近产品信息
+		Route::get('product/lists', 'ProductController@productLists'); // 获取产品列表信息
 	});
 
 });
