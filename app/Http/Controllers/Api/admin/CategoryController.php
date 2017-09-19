@@ -61,21 +61,22 @@ class CategoryController extends Controller
     	$this->validate($request, [
             'name' => ['required','max:30',
                 Rule::unique('categories')->ignore($id)->where(function($query) use ($id, $pid) {
-                    if ($pid) {
-                        $query->whereNotNull('pid')->whereNull('deleted_at');
-                    } else {
-                        $query->whereNull('pid')->whereNull('deleted_at');
-                    }
+                    // if ($pid) {
+                        // $query->whereNotNull('pid')->whereNull('deleted_at');
+                    // } else {
+                        // $query->whereNull('pid')->whereNull('deleted_at');
+                    // }
+                    $query->whereNull('deleted_at');
                 })
             ],
             'desc' => 'nullable|max:255'
         ]);
 
-        if (!empty($pid)) {
-            $this->validate($request, [
-                'pid' => 'required|max:30|exists:categories'
-            ]);
-        }
+        // if (!empty($pid)) {
+        //     $this->validate($request, [
+        //         'pid' => 'required|max:30|exists:categories'
+        //     ]);
+        // }
 
         if ($id == -1) {
         	$model = new Category;
@@ -83,7 +84,8 @@ class CategoryController extends Controller
         	$model = Category::find($id);
         }
 
-        $arr = ['name','desc','pid'];
+        // $arr = ['name','desc','pid'];
+        $arr = ['name','desc'];
         $model->setRawAttributes($request->only($arr));
         $model->ico = IQuery::upload($request,'ico')['p'];
         $model->img = IQuery::upload($request,'img')['p'];

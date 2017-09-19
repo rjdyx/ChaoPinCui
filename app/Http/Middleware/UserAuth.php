@@ -18,7 +18,10 @@ class UserAuth
     // 用户登录及权限 中间件
     public function handle($request, Closure $next, $role)
     {
-        if (!Auth::user()) {
+        return $next($request);
+        
+        // print_r(Auth::user());die;
+        if (!Auth::guest()) {
             return response()->json($this->res['401'], 401);
         }
 
