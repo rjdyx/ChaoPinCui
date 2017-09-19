@@ -14,6 +14,16 @@ export default [
         ]
     },
     {
+        name: '产品管理',
+        role: 'product',
+        children: [
+            {
+                path: '/index/product/product',
+                name: '产品管理'
+            }
+        ]
+    },
+    {
         name: '专家管理',
         role: 'expert',
         children: [

@@ -31,9 +31,8 @@ class ProductController extends Controller
     // 单条删除
     public function destroy($id)
     {
-    	$model = Product::find($id);
-    	if ($model->destroy()) return $id;
-    	return 0;
+        if (Product::destroy($id)) return $id;
+        return 0;
     }
 
     // 编辑
@@ -58,12 +57,13 @@ class ProductController extends Controller
     private function storeOrUpdate($request, $id = -1)
     {
     	$this->validate($request, [
-            'name' => ['required','max:50',
-                Rule::unique('products')->ignore($id)->where(function($query) use ($id, $pid) {
-                    $query->whereNull('deleted_at');
-                })
-            ],
-            'category_id' => 'required|exists:categories',
+            // 'name' => ['required','max:50',
+            //     Rule::unique('products')->ignore($id)->where(function($query) use ($id, $pid) {
+            //         $query->whereNull('deleted_at');
+            //     })
+            // ],
+            'name' => 'required','max:50',
+            'category_id' => 'required|exists:categories,id',
             'desc' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:100',
             'meridian' => 'nullable|string|max:30',
@@ -78,9 +78,9 @@ class ProductController extends Controller
 
         $arr = ['name', 'desc', 'category_id', 'address', 'meridian', 'weft'];
         $model->setRawAttributes($request->only($arr));
-        $res = IQuery::upload($request,'img');
-        $model->img = $res['p'];
-        $model->thumb = $res['t'];
+        // $res = IQuery::upload($request,'img');
+        // $model->img = $res['p'];
+        // $model->thumb = $res['t'];
 
         if ($model->save()) return 1;
         return 0;

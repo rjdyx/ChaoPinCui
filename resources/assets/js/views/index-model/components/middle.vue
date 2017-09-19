@@ -34,14 +34,14 @@ import { mapMutations } from 'vuex'
 import BasicModel from './basic-model'
 import expert from '../../expert/expert'
 import category from '../../category/category'
-import classification from '../../classification/classification'
+import product from '../../product/product'
 import spotCheckApplicationForm from '../../spot-check-application-form/spot-check-application-form'
 import spotCheckResult from '../../spot-check-result/spot-check-result'
 export default {
     name: 'Message',
     data () {
         let modelObj = {}
-        Object.assign(modelObj, category, expert, classification, spotCheckApplicationForm, spotCheckResult)
+        Object.assign(modelObj, category, product, expert, spotCheckApplicationForm, spotCheckResult)
         return {
             modelObj: modelObj,
             model: {},
@@ -100,6 +100,7 @@ export default {
         },
         getTableData (currentPage = 1, inputValue = '') {
             let url = this.modelObj[this.type][0].url
+            this.loading = true
             axios.get(this.$adminUrl(url), {params: {params: this.model.urlParams, page: currentPage}})
                 .then((response) => {
                     if (response.status === 200) {
