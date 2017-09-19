@@ -15,7 +15,7 @@ process.traceDeprecation = true
 let config = {
 
     entry: {
-        index: 'jsPath/index.js',
+        index: '@/index.js',
         vendor: [
             'axios',
             'jquery',
@@ -93,13 +93,13 @@ let config = {
         extensions: ['.js', '.vue', '.json'],
         // 路径别名
         alias: {
+            'vue': 'vue/dist/vue.js',
+            '@': path.join(__dirname, './resources/assets/js'),
+            'vue': 'vue/dist/vue.js',
             'projectRoot': projectRoot,
-            'vue$': 'vue/dist/vue',
             'sass': path.resolve(__dirname, './resources/assets/sass'),
-            'jsPath': path.resolve(__dirname, './resources/assets/js'),
-            'lang': path.resolve(__dirname, './resources/lang'),
             'components': path.resolve(__dirname, './resources/assets/js/components'),
-            'page': path.resolve(__dirname, './resources/assets/js/page'),
+            'utils': path.resolve(__dirname, './resources/assets/js/utils'),
             'api': path.resolve(__dirname, './resources/assets/js/api')
         }
     },

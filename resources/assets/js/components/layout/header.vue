@@ -8,7 +8,7 @@
  */
 <template>
     <div id="head">
-        <h1 id="title">专家库</h1>
+        <h1 id="title">潮品萃</h1>
         <div id="content">
             <ul class="left">
                 <li>总览</li>
@@ -23,7 +23,7 @@
     </div>
 </template>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
     @import "../../../sass/function";
     #head {
         position: absolute;
@@ -86,20 +86,19 @@
 </style>
 
 <script>
+    import { mapMutations } from 'vuex'
     export default{
         name: 'MyHeader',
         data () {
             return {}
         },
         methods: {
+            ...mapMutations([
+                'SET_IS_LOGIN'
+            ]),
             logout () {
-                axios.post('/logout')
-                    .then((responce) => {
-                        if (responce.data) {
-                            Laravel.user = {id: null, name: null, email: null}
-                            this.$router.push('/login')
-                        }
-                    })
+                this.SET_IS_LOGIN(false)
+                this.$router.push('/login')
             }
         }
     }

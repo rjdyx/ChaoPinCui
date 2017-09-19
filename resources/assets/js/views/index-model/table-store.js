@@ -11,10 +11,18 @@ let TableStore = {
     theads: [''],
     // 此table模块的列属性，与从后端获取到的数据字段名相同
     protos: [''],
+    // 过滤不想在列表中显示的数据
+    protosFilter: [''],
     // 此table模块的列宽度，不包括checkbox列和序号列的宽度，不填则默认都为50
     widths: [50],
+    // 新增/编辑表单数据
+    formRows: {},
+    // 是否显示每行数据的详情下拉框
+    showDetail: false,
     // 搜索框的placeholder
     searchPlaceholder: '请搜索',
+    // 是否显示tab栏
+    showTabs: true,
     // 是否显示搜索框模块，默认显示
     showSearchModel: true,
     // 是否显示新建按钮，默认显示
@@ -31,6 +39,8 @@ let TableStore = {
     showEdit: true,
     // 是否显示删除按钮，默认显示
     showDelete: true,
+    // 是否显示分页
+    showFooter: true,
     // 决定上边（和搜索模块同行）自定义搜索模块在左边显示还是右边（以搜索模块为中心），
     // 默认"left"
     // 可选"left"或"right"
@@ -59,7 +69,13 @@ let TableStore = {
     // 比如需要自定义性别这一列，可写为{sex: sexComponent}
     // 属性名与protos属性数组里的值一致
     // 没被替换的列则简单地根据protos数组显示字符串数据
-    colComponents: {}
+    colComponents: {},
+    // 表单新增时，数据录入前的回调函数
+    addActive: null,
+    // 表单编辑时，数据录入前的回调函数
+    editActive: null,
+    // 表单删除时，数据删除前的回调函数
+    deleteActive: null
 }
 
 /**
@@ -81,7 +97,6 @@ const proFilter = (pro, value, filterArr = ['left', 'right'], defaultValue = 'le
  * 将传递过来的对象里面不为undefined的属性赋予新建的实例
  * 为undefined的属性则使用TableStore对象的默认属性赋予新建实例
  * 其中对checkPros数组里面含有属性进行过滤，保证赋值合法
- * 
  * @param  {Object} tableStoreParam [description]
  * @return {[type]}                 [description]
  */

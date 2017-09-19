@@ -17,3 +17,26 @@
 .el-upload-dragger .el-icon-upload {
     margin: 20px 0 16px;
 }
+
+.el-submenu .el-menu-item {
+    min-width: 180px;
+}
+
+.table-expand {
+    font-size: 0;
+}
+.table-expand label {
+    width: 90px;
+    color: #99a9bf;
+}
+.table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 25%;
+}
+
+.el-dialog__body {
+    padding-right: 55px;
+    overflow: auto;
+    max-height: 400px;
+}

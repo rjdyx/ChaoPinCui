@@ -12,6 +12,7 @@
                 v-for="(operateBuntton, index) in components" 
                 :is="operateBuntton.component" 
                 :params="operateBuntton.params" 
+                :scope="scope" 
                 :model="model"
                 :key="index"
             ></component>
@@ -21,6 +22,7 @@
                 v-for="(operateBuntton, index) in components[0]" 
                 :is="operateBuntton.component" 
                 :params="operateBuntton.params" 
+                :scope="scope" 
                 :model="model"
                 :key="index"
             ></component>
@@ -30,6 +32,7 @@
                 v-for="(operateBuntton, index) in components[1]" 
                 :is="operateBuntton.component" 
                 :params="operateBuntton.params" 
+                :scope="scope" 
                 :model="model"
                 :key="index"
             ></component>

@@ -12,22 +12,6 @@ export function fetchKit (cookies) {
         : axios.get(env.host + '/kit')
 }
 
-export function fetchRoles (cookies) {
-    return typeof window === 'undefined'
-        ? axios.get(env.host + '/login/state', { headers: { Cookie: cookies } })
-        : axios.get(env.host + '/login/state')
-}
-
-export function fetchTableData (url, cookies) {
-    return typeof window === 'undefined'
-        ? axios.get(env.host + pre(url), { headers: { Cookie: cookies } })
-        : axios.get(env.host + pre(url))
-}
-
 export function fetchTokenAndKit (cookies) {
     return axios.all([fetchToken(), fetchKit(cookies)])
-}
-
-export function fetchTokenAndRole (cookies) {
-    return axios.all([fetchToken(), fetchRoles(cookies)])
 }

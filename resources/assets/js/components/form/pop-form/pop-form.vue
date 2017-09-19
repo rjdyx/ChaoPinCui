@@ -1,9 +1,9 @@
 <template>
-    <el-dialog title="新增" size="tiny" :visible.sync="dialogTableVisible" :show-close="false">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" id="pop-form">
+    <el-dialog title="新增" size="small" :visible.sync="dialogTableVisible" :show-close="false">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" id="pop-form">
             <template v-for="pro of Object.keys(rows)">
                 <!-- 普通输入框 -->
-                <el-form-item v-if="!rows[pro].type || rows[pro].type === 'input'" :label="rows[pro].label" :prop="pro">
+                <el-form-item v-if="!rows[pro].type && !rows[pro].component || rows[pro].type === 'input'" :label="rows[pro].label" :prop="pro">
                     <el-input
                         v-model="ruleForm[pro]"
                         :placeholder="rows[pro].placeholder"
@@ -31,18 +31,31 @@
                 <el-form-item v-else-if="rows[pro].type === 'textarea'" :label="rows[pro].label" :prop="pro">
                     <el-input type="textarea" v-model="ruleForm[pro]"></el-input>
                 </el-form-item>
+                <el-form-item v-else-if="rows[pro].component" :label="rows[pro].label" :prop="pro">
+                    <component
+                        :is="rows[pro].component"
+                        :dialogTableVisible="dialogTableVisible"
+                        :isEdit="isEdit"
+                        :scope="scope"
+                        :row="rows[pro]"
+                        :componentParam="rows[pro].componentParam"
+                        @emit="returnValue"
+                    ></component>
+                </el-form-item>
             </template>
-            
-            
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">新建</el-button>
-                <el-button @click="handleClose">取消</el-button>
-            </el-form-item>
         </el-form>
+        <div slot="footer">
+            <el-button type="primary" @click="submitForm('ruleForm')">
+                <template v-if="!isEdit">新建</template>
+                <template v-else>保存</template>
+            </el-button>
+            <el-button @click="handleClose('ruleForm')">取消</el-button>
+        </div>
     </el-dialog>
 </template>
 
 <script>
+    import { mapMutations } from 'vuex'
     export default {
         props: {
             isNewShow: {
@@ -95,54 +108,138 @@
                     }
                 }
             },
+            scope: {
+                type: Object,
+                default () {
+                    return {row: {}}
+                }
+            },
             isEdit: {
                 type: Boolean,
                 default: false
+            },
+            url: {
+                type: String,
+                default: ''
             }
         },
         data () {
-            let ruleForm = {}
-            let rules = {}
-            for (let pro in this.rows) {
-                ruleForm[pro] = this.rows[pro].value
-                if (this.rows[pro].rules) {
-                    rules[pro] = this.rows[pro].rules
-                }
-            }
             return {
-                ruleForm: ruleForm,
-                rules: rules
+                ruleForm: {},
+                rules: {}
             }
         },
         computed: {
+            // el-dialog在某个地方直接修改了dialogTableVisible
+            // 故需要设置setter
+            dialogTableVisible: {
+                get () {
+                    return this.isNewShow
+                },
+                set (value) {}
+            }
+        },
+        watch: {
+            rows () {
+                this.resetRuleAndForm('rows')
+            },
+            scope () {
+                this.resetRuleAndForm('scope')
+            },
             dialogTableVisible () {
-                return this.isNewShow
+                if (this.$refs['ruleForm']) {
+                    this.$refs['ruleForm'].validate((valid) => {
+                        if (!valid) {
+                            this.$refs['ruleForm'].resetFields()
+                        }
+                    })
+                }
+                this.resetRuleAndForm('dialogTableVisible')
             }
         },
         methods: {
+            ...mapMutations([
+                'PUSH_TABLE_DATA',
+                'UPDATE_TABLE_DATA',
+                'ACT_ADDACTIVE',
+                'ACT_EDITACTIVE'
+            ]),
+            resetRuleAndForm (type) {
+                let ruleForm = {}
+                let rules = {}
+                for (let pro in this.rows) {
+                    if (type === 'rows' && this.rows[pro].rules) {
+                        rules[pro] = this.rows[pro].rules
+                    }
+                    if (type === 'scope' || type === 'dialogTableVisible') {
+                        if (!this.isEdit) {
+                            ruleForm[pro] = ''
+                        } else {
+                            ruleForm[pro] = this.scope.row[pro]
+                        }
+                    }
+                }
+                if (JSON.stringify(rules) !== '{}') {
+                    this.$set(this, 'rules', rules)
+                }
+                this.$set(this, 'ruleForm', ruleForm)
+            },
             submitForm (formName) {
-                this.$refs[formName].validate((valid) => {
+                this.$refs[formName].validate(async (valid) => {
                     if (valid) {
-                        alert('submit!')
+                        if (!this.isEdit) {
+                            await this.ACT_ADDACTIVE({id: this.ruleForm.id, obj: this.ruleForm})
+                            axios.post(this.$adminUrl(this.url), this.form)
+                                .then((responce) => {
+                                    if (responce.data) {
+                                        this.$message({
+                                            message: '新增成功',
+                                            type: 'success'
+                                        })
+                                        // this.$emit('addSuccess')
+                                    }
+                                })
+                        } else {
+                            let id = this.scope.row.id
+                            await this.ACT_EDITACTIVE({id: id, obj: this.ruleForm})
+                            axios.put(this.$adminUrl(this.url) + this.form.id, this.form)
+                                .then((responce) => {
+                                    if (responce.data) {
+                                        this.$message({
+                                            message: '修改成功',
+                                            type: 'success'
+                                        })
+                                        this.$refs['ruleForm'].resetFields()
+                                        this.handleClose()
+                                    }
+                                })
+                        }
                     } else {
-                        console.log('error submit!!')
+                        this.$message({
+                            type: 'error',
+                            message: '提交错误'
+                        })
                         return false
                     }
                 })
             },
-            handleClose (done) {
-                this.$emit('handleClose', done)
+            handleClose () {
+                this.$refs['ruleForm'].resetFields()
+                this.$emit('handleClose')
+            },
+            returnValue ({pro, val}) {
+                this.ruleForm[pro] = val
             }
         }
     }
 </script>
-
 <style scope>
     #pop-form {
-        width: 355px;
+        margin: auto;
+        width: 618px;
     }
 
     #el-select {
-        width: 100%
+        display: block;
     }
 </style>
