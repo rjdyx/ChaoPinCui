@@ -41,6 +41,21 @@ class UtilController extends Controller
     }
 
     /* 方法描述：查询某表所有信息 
+    * 参数：Model=>tname, 主键=>id
+    * Url : ** / 13 
+    * 如：{ tname:'User'}
+    **/
+    public function findTable(Request $request, $id) 
+    {
+        $tname = $request->tname;
+        if (empty($tname)) {
+            return response()->json('Parameter error', 500);
+        }
+        $res = $tname::find($id);
+        return $res;
+    }
+
+    /* 方法描述：查询某表所有信息 
     * 参数：Model=>tname, 条件数组=>ids
     * 如：{ tname:'User', ids:[1,2,3] }
     **/
