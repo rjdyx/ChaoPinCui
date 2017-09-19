@@ -5,6 +5,7 @@ import Vue from 'vue'
  */
 export default {
     install () {
+        let host = process.env.NODE_ENV === 'production' ? require('projectRoot/env').app_url : ''
         /**
          * 自动生成完整的后台url
          *
@@ -14,7 +15,7 @@ export default {
         Vue.prototype.$adminUrl = (url) => {
             let regx = /^\/{1,}/g
             url = url.replace(regx, '')
-            return host + '/admin/' + url
+            return host + '/api/admin/' + url
         }
 
         Vue.prototype.$deepClone = (obj) => {

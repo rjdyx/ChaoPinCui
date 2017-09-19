@@ -4,11 +4,11 @@
 export default [
     {
         name: '分类管理',
-        role: 'classification',
+        role: 'category',
         isEvent: false,
         children: [
             {
-                path: '/index/classification/classification',
+                path: '/index/category/category',
                 name: '分类管理'
             }
         ]

@@ -52,33 +52,16 @@ export default {
                 type: 'error'
             }).then(async () => {
                 await this.ACT_DELETEACTIVE(id)
-                let result = this.db.get(url).remove({ id: id }).write()
-                this.SPLICE_TABLE_DATA(index)
-                // 更新记录数
-                // 并判断本页数据是否删除光
-                let num = require('projectRoot/env.js').num
-                let db = this.db.get(url)
-                    .filter(item => {
-                        return item.name.indexOf(this.$store.state.basicModel.inputValue) > -1
+                axios.delete(this.$adminUrl(url) + '/' + id)
+                    .then((response) => {
+                        if (response.data) {
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            })
+                            this.SPLICE_TABLE_DATA(index)
+                        }
                     })
-                    .sortBy('created_at')
-                    .reverse()
-                    .cloneDeep()
-                let total = db.size().value()
-                let paginator = {
-                    total: total,
-                    per_page: require('projectRoot/env.js').num
-                }
-                if (!this.$store.state.basicModel.tableData.length) {
-                    this.SET_TABLE_DATA(this.$paginator(db, this.$store.state.basicModel.currentPage - 1))
-                }
-                this.SET_TOTAL_NUM(total)
-                this.SET_NUM(Math.round(total / num))
-                this.SET_PAGINATOR(paginator)
-                this.$message({
-                    type: 'success',
-                    message: '删除成功'
-                })
             }).catch((e) => {
                 if (e.message === '被引用') {
                     this.$message({

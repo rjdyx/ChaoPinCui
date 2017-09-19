@@ -4,7 +4,7 @@
  * autoer: guosenlin
  * date: 2017/09/15
 */
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -67,6 +67,7 @@ class UtilController extends Controller
         if (empty($tname) || !count($ids)) {
             return response()->json('Parameter error', 500);
         }
+        $model = 'App\Model\\'."$tname";
         if (!$model::destroy($ids)) return response()->json(0);
         return response()->json(1);
     }

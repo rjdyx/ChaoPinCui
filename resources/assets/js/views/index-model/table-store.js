@@ -7,6 +7,8 @@ let TableStore = {
     url: '',
     // url的参数
     urlParams: {},
+    // 数据库表名
+    database: '',
     // 此table模块的列名称，如['名称', '性别']，不包括checkbox列和序号列
     theads: [''],
     // 此table模块的列属性，与从后端获取到的数据字段名相同

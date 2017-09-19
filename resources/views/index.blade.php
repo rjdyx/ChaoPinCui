@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>专家库系统</title>
+        <title>潮品萃后台管理</title>
 
         @if(!env('APP_DEBUG'))
             <link rel="stylesheet" href="{{ elixir('build/css/index.css') }}">

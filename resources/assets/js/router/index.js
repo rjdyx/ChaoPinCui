@@ -26,7 +26,7 @@ const routes = [
         children: [
             {
                 path: 'user/:model',
-                alias: ['spot-check-result/:model', 'spot-check-application-form/:model', 'expert/:model', 'classification/:model', 'system/:model'],
+                alias: ['category/:model', 'spot-check-result/:model', 'spot-check-application-form/:model', 'expert/:model', 'classification/:model', 'system/:model'],
                 component: middle,
                 meta: { requiresAuth: true }
             },

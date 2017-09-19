@@ -189,22 +189,29 @@
                     if (valid) {
                         if (!this.isEdit) {
                             await this.ACT_ADDACTIVE({id: this.ruleForm.id, obj: this.ruleForm})
-                            axios.post(this.$adminUrl(this.url), this.form)
+                            axios.post(this.$adminUrl(this.url), this.ruleForm)
                                 .then((responce) => {
                                     if (responce.data) {
+                                        let newOne = this.$deepClone(this.ruleForm)
+                                        newOne.id = responce.data
+                                        this.PUSH_TABLE_DATA(newOne)
                                         this.$message({
                                             message: '新增成功',
                                             type: 'success'
                                         })
+                                        this.handleClose()
                                         // this.$emit('addSuccess')
                                     }
                                 })
                         } else {
                             let id = this.scope.row.id
                             await this.ACT_EDITACTIVE({id: id, obj: this.ruleForm})
-                            axios.put(this.$adminUrl(this.url) + this.form.id, this.form)
+                            axios.put(this.$adminUrl(this.url) + '/' + id, this.ruleForm)
                                 .then((responce) => {
                                     if (responce.data) {
+                                        let newOne = this.$deepClone(this.ruleForm)
+                                        newOne.id = responce.data
+                                        this.UPDATE_TABLE_DATA({index: this.scope.$index, newOne: newOne})
                                         this.$message({
                                             message: '修改成功',
                                             type: 'success'

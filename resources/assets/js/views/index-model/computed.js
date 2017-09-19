@@ -40,6 +40,9 @@ export default {
         urlParams () {
             return this.model.urlParams
         },
+        database () {
+            return this.model.database
+        },
         theads () {
             return this.model.theads
         },

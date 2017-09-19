@@ -33,6 +33,7 @@
 import { mapMutations } from 'vuex'
 import BasicModel from './basic-model'
 import expert from '../../expert/expert'
+import category from '../../category/category'
 import classification from '../../classification/classification'
 import spotCheckApplicationForm from '../../spot-check-application-form/spot-check-application-form'
 import spotCheckResult from '../../spot-check-result/spot-check-result'
@@ -40,7 +41,7 @@ export default {
     name: 'Message',
     data () {
         let modelObj = {}
-        Object.assign(modelObj, expert, classification, spotCheckApplicationForm, spotCheckResult)
+        Object.assign(modelObj, category, expert, classification, spotCheckApplicationForm, spotCheckResult)
         return {
             modelObj: modelObj,
             model: {},
@@ -99,7 +100,7 @@ export default {
         },
         getTableData (currentPage = 1, inputValue = '') {
             let url = this.modelObj[this.type][0].url
-            axios.get(url, {params: this.model.urlParams})
+            axios.get(this.$adminUrl(url), {params: {params: this.model.urlParams, page: currentPage}})
                 .then((response) => {
                     if (response.status === 200) {
                         if (response.data.data.length !== 0) {
@@ -118,6 +119,7 @@ export default {
                 })
         },
         pageChange (currentPage) {
+            console.log(123)
             this.getTableData(currentPage, this.$store.state.basicModel.inputValue)
             this.SET_CURRENTPAGE(currentPage)
         },

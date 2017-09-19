@@ -39,7 +39,7 @@ export default {
         ]),
         // 点击删除
         handelDel () {
-            let url = this.model.url
+            let database = this.model.database
             let select = this.$deepClone(this.$store.state.basicModel.selectData)
             if (!select.length) {
                 this.$message({
@@ -55,37 +55,23 @@ export default {
                     for (let item of select) {
                         await this.ACT_DELETEACTIVE(item.id)
                     }
+                    let ids = []
                     for (let item of select) {
-                        this.db.get(url).remove({ id: item.id }).write()
+                        ids.push(item.id)
                     }
-                    let target = this.$deepClone(this.$store.state.basicModel.tableData)
-                    let result = this.$deleteArrayWith(target, select, 'id')
-                    this.SET_TABLE_DATA(this.$reverseObj(result, 'created_at'))
-                    // 更新记录数
-                    // 并判断本页数据是否删除光
-                    let num = require('projectRoot/env.js').num
-                    let db = this.db.get(url)
-                        .filter(item => {
-                            return item.name.indexOf(this.$store.state.basicModel.inputValue) > -1
+                    console.log(ids)
+                    axios.delete(this.$adminUrl('deletes'), {data: {tname: database, ids: ids}})
+                        .then((response) => {
+                            if (response.data) {
+                                this.$message({
+                                    message: '删除成功',
+                                    type: 'success'
+                                })
+                                let target = this.$deepClone(this.$store.state.basicModel.tableData)
+                                let result = this.$deleteArrayWith(target, select, 'id')
+                                this.SET_TABLE_DATA(result)
+                            }
                         })
-                        .sortBy('created_at')
-                        .reverse()
-                        .cloneDeep()
-                    let total = db.size().value()
-                    let paginator = {
-                        total: total,
-                        per_page: require('projectRoot/env.js').num
-                    }
-                    if (!this.$store.state.basicModel.tableData.length) {
-                        this.SET_TABLE_DATA(this.$paginator(db, this.$store.state.basicModel.currentPage - 1))
-                    }
-                    this.SET_TOTAL_NUM(total)
-                    this.SET_NUM(Math.round(total / num))
-                    this.SET_PAGINATOR(paginator)
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功'
-                    })
                 }).catch((e) => {
                     if (e.message === '被引用') {
                         this.$message({
