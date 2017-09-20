@@ -15,10 +15,10 @@ use IQuery;
 
 class UserController extends Controller
 {
-	// 分页信息
+	// 用户信息
     public function index(Request $request)
     {
-
+        return response()->json(Auth::user());
     }
 
     // 查看

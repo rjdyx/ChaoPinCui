@@ -40,6 +40,7 @@ Route::group(['namespace' => 'Api'], function() {
 
 	/******* 前台 *********/
 	Route::group(['prefix' => 'home', 'namespace' => 'Home', 'middleware' => 'UserAuth:home'], function() {
+		/**** 登录 ****/
 		Route::post('wx/bind','WxController@bindWeiXin');// 微信绑定账户登录
 		Route::post('wx/register','WxController@bindWeiXinUserRegister');// 微信直接登录
 		Route::get('wx/relieve','WxController@bindWeiXinRelieve');//微信解除绑定
@@ -57,6 +58,9 @@ Route::group(['namespace' => 'Api'], function() {
 		Route::get('product/imgs', 'ProductController@productImgs'); // 获取产品图片信息
 		Route::get('product/nearbys', 'ProductController@productNearby'); // 获取当前产品附近产品信息
 		Route::get('product/lists', 'ProductController@productLists'); // 获取产品列表信息
+
+		/**** 个人中心、用户编辑页 ****/
+		Route::resource('user', 'UserController');
 	});
 
 });
