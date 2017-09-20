@@ -56,14 +56,24 @@ export default {
     },
     methods: {
         change (val) {
-            let timestamp = Math.round(new Date(val).getTime() / 1000)
-            this.$emit('emit', {pro: this.componentParam.type, val: timestamp})
+            if (val !== undefined && val !== '') {
+                let timestamp = Math.round(new Date(val).getTime() / 1000)
+                this.$emit('emit', {pro: this.componentParam.type, val: this.getDate(timestamp * 1000)})
+            } else {
+                this.$emit('emit', {pro: this.componentParam.type, val: ''})
+            }
         },
         getDate (time) {
             let date = time ? new Date(time) : new Date()
             let year = date.getFullYear()
             let month = date.getMonth() + 1
             let day = date.getDate()
+            if (month < 10) {
+                month = '0' + month
+            }
+            if (date < 10) {
+                date = '0' + date
+            }
             return year + '-' + month + '-' + day
         },
         setTime () {
@@ -72,7 +82,7 @@ export default {
             if ((this.componentParam.nowDate && !value) || !this.isEdit) {
                 this.date = this.getDate()
             } else {
-                this.date = this.getDate(value * 1000)
+                this.date = value
             }
         }
     }

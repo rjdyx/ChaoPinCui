@@ -67,13 +67,13 @@ class UserController extends Controller
                     $query->whereNull('deleted_at');
                 })
             ],
-            'phone' => ['required','max:20',
+            'phone' => ['max:20',
                 Rule::unique('users')->ignore($id)->where(function($query) use ($id) {
                     $query->whereNull('deleted_at');
                 })
             ],
             'sex' => 'required',
-            'age' => 'nullable|datetime',
+            'age' => 'nullable|Date',
             'real_name' => 'nullable|max:30',
             'password' => 'nullable|max:100',
             'openid' => 'nullable|max:50',
@@ -82,15 +82,17 @@ class UserController extends Controller
 
         if ($id == -1) {
         	$model = new User;
-        	$arr = ['name','real_name','sex','age','email','phone','address','password'];
+        	$arr = ['name','real_name','sex','age','email','phone','type','address'];
         } else {
         	$model = User::find($id);
-        	$arr = ['real_name','sex','age','email','phone','address'];
+        	$arr = ['real_name','sex','age','email','phone','type','address'];
         }
 
         $model->setRawAttributes($request->only($arr));
-        $model->img = IQuery::upload($request,'img')['p'];
-        $model->type = 1; // 管理员
+        if ($id == -1) {
+            $model->password = bcrypt('000000');
+        }
+        // $model->img = IQuery::upload($request,'img')['p'];
         
         if (!$model->save()) return 0;
         if ($id != -1) $model->id = $id;
