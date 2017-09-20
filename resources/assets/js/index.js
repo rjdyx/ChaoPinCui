@@ -1,8 +1,8 @@
 import 'es6-promise/auto'
 import Vue from 'vue'
 import App from './App.vue'
-import store from './vuex/index.js'
-import router from './route/routers.js'
+import store from './store/index.js'
+import router from './router/index.js'
 import env from 'projectRoot/env.js'
 
 require('./config/config')

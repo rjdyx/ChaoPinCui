@@ -36,20 +36,30 @@
                 }
             }
         },
+        mounted () {
+            if (localStorage.navbarName) {
+                this.SET_NAVBARNAME(localStorage.navbarName)
+                this.SET_SUBNAVBARNAME(localStorage.subNavBarName)
+            }
+        },
         methods: {
             ...mapMutations([
                 'SET_NAVBARNAME',
                 'SET_SUBNAVBARNAME'
             ]),
             clickEvent (menu, subMenu) {
-                this.SET_NAVBARNAME(menu.name)
-                this.SET_SUBNAVBARNAME(subMenu.name)
+                let navbarName = menu.name
+                let subNavBarName = subMenu.name
+                localStorage.navbarName = navbarName
+                localStorage.subNavBarName = subNavBarName
+                this.SET_NAVBARNAME(navbarName)
+                this.SET_SUBNAVBARNAME(subNavBarName)
             }
         }
     }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
     @import "../../../sass/function";
     
     .left-menu {

@@ -17,8 +17,10 @@
             <el-breadcrumb-item>{{subNavBarName}}</el-breadcrumb-item>
         </el-breadcrumb>
 
+        <slot name="tabs-upside"></slot>
+
         <!-- tab栏 --> 
-        <el-tabs v-model="activeName" id="tabs" type="card" @tab-click="tabClick">
+        <el-tabs v-if="showTabs" v-model="activeName" id="tabs" type="card" @tab-click="tabClick">
             <el-tab-pane 
                 v-for="(tab, index) in tabsName" 
                 :label="tab" 
@@ -26,6 +28,8 @@
                 :key="index">
             </el-tab-pane>
         </el-tabs>
+
+        <slot name="tabs-downside"></slot>
 
         <!-- 操作模块 -->
         <div id="operate">
@@ -54,20 +58,32 @@
                 ></custom-component>
             </div>
             <div id="btns">
-                <!-- 左边自定义操作按钮 -->
+                <!-- 右边自定义操作按钮 -->
                 <custom-component
+                    class="rightBtn"
+                    position="right"
                     :components="topOperateComponents"
                     :model="model"
                 ></custom-component>
 
-                <!-- 操作按钮 -->
-                <new-build
-                    class="fr rightBtn"
-                ></new-build>
+                <multi-delete
+                    v-if="showDelete"
+                    class="rightBtn"
+                    :model="model"
+                ></multi-delete>
 
-                <!-- 右边自定义操作按钮 -->
+                <!-- 操作按钮 -->
+                <div v-if="showNewBuild" class="rightBtn" >
+                    <el-button
+                        type="primary" 
+                        icon="plus" 
+                        @click="showPopNew"
+                    >新增</el-button>
+                </div>
+                
+                <!-- 左边自定义操作按钮 -->
                 <custom-component
-                    position="right"
+                    class="rightBtn"
                     :components="topOperateComponents"
                     :model="model"
                 ></custom-component>
@@ -77,19 +93,43 @@
         <!-- 列表模块 -->
         <el-table 
             id="table"
-            :data="tableData"  
+            :data="tableData" 
+            v-loading.body="loading"
             @selection-change="handleSelectionChange">
+            
 
             <!-- checkbox -->
-            <el-table-column v-if="showCheckbox" width="50" type="selection"></el-table-column> 
-            <!-- 序号 --> 
-            <el-table-column v-if="showNumber" width="80" label="序号" type="index" id="test-id"></el-table-column>
+            <el-table-column v-if="showCheckbox" type="selection" width="50"></el-table-column> 
+
+            <el-table-column v-if="showDetail" type="expand">
+                <template scope="scope">
+                    <el-form label-position="left" inline class="table-expand">
+                        <template v-for="(item, index) in theads">
+                            <el-form-item 
+                                v-if="colComponents[protos[index]]"
+                                :label="item">
+                                <component
+                                    v-if="colComponents[protos[index]]"
+                                    :is="colComponents[protos[index]]"
+                                    :scope="scope"
+                                    :prop="protos[index]"
+                                ></component>
+                            </el-form-item>
+                            <el-form-item 
+                                v-else
+                                :label="item">
+                                <span>{{ scope.row[protos[index]] }}</span>
+                            </el-form-item>
+                        </template>
+                    </el-form>
+                </template>
+            </el-table-column>
 
             <!-- 中间列表模块 -->
-            <template v-for="(item, index) in theads">
+            <template v-for="(item, index) in theadsShort">
                 <el-table-column
-                    v-if="colComponents[protos[index]] === undefined"
-                    :prop="protos[index]"
+                    v-if="colComponents[protosShort[index]] === undefined"
+                    :prop="protosShort[index]"
                     :label="item"
                     :min-width="widths[index]"
                     show-overflow-tooltip>
@@ -101,8 +141,9 @@
                     show-overflow-tooltip>
                     <template scope="scope">
                         <component
-                            :is="colComponents[protos[index]]"
+                            :is="colComponents[protosShort[index]]"
                             :scope="scope"
+                            :prop="protosShort[index]"
                         ></component>
                     </template>
                 </el-table-column>
@@ -110,27 +151,32 @@
 
             <!-- 列表操作模块 -->
             <el-table-column 
-                label="操作" v-if="showOperateCol" width="180">
+                label="操作" v-if="showOperateCol" :min-width="70">
                 <template scope="scope">
                     <template>
                         <!-- 左边自定义操作按钮 -->
                         <custom-col-component
+                            class="line-operate"
                             :components="operateComponents" 
                             :scope="scope" 
                             :model="model"
                         ></custom-col-component>
-                        <edit
-                            v-if="showEdit" 
-                            :scope="scope" 
-                            :model="model"
-                        ></edit>
+                        <el-button 
+                            class="line-operate"
+                            v-if="showEdit"
+                            type="text" 
+                            size="small"
+                            @click="showPopEdit(scope)"
+                        >编辑</el-button>
                         <delete
+                            class="line-operate"
                             v-if="showDelete" 
                             :scope="scope" 
                             :model="model"
                         ></delete>
                         <!-- 右边自定义操作按钮 -->
                         <custom-col-component
+                            class="line-operate"
                             position="right"
                             :components="operateComponents" 
                             :scope="scope" 
@@ -141,7 +187,7 @@
             </el-table-column>
         </el-table>
 
-        <div class="footer">
+        <div class="footer" v-if="showFooter">
             <p class="record">共有<span class="record_num">{{num}}</span>页，<span class="record_num">{{totalNum}}</span>条记录</p>
 
             <el-pagination
@@ -153,19 +199,26 @@
                 @current-change="pageChange">
             </el-pagination>
         </div>
+
+        <pop-form 
+            :isNewShow="isShowPop"
+            :isEdit="isEdit"
+            :url="url"
+            :rows="formRows"
+            :scope="editScope"
+            @handleClose="isShowPop=false"
+        ></pop-form>
     </div>
 </template>
 
 <script>
 import { tableStoreFactory } from '../table-store'
 import computed from '../computed'
-import ContainTitle from './contain-title'
-import NewBuild from './newbuild'
-import Edit from './edit'
 import Delete from './delete'
-import Operate from './operate'
+import MultiDelete from './multi-delete'
 import CustomComponent from './custom-component'
 import CustomColComponent from './custom-col-component'
+import PopForm from 'components/form/pop-form/pop-form'
 export default {
     name: 'BasicModel',
     props: {
@@ -180,6 +233,10 @@ export default {
             default () {
                 return []
             }
+        },
+        loading: {
+            type: Boolean,
+            default: false
         }
     },
     data () {
@@ -191,32 +248,52 @@ export default {
             // 被选中的列表项数组
             multipleSelection: [],
             // 默认搜索框的值
-            inputValue: ''
+            inputValue: '',
+            isShowPop: false,
+            editScope: {row: {}},
+            isEdit: false
         }
     },
     // 混合
     mixins: [computed],
     methods: {
-        handleSelectionChange () {},
+        showPopNew () {
+            this.isEdit = false
+            this.isShowPop = true
+        },
+        handleSelectionChange (val) {
+            this.$emit('multiSelect', val)
+        },
         tabClick (tab, event) {
             this.modelIndex = tab.$data.index
             this.$emit('tabClick', tab.$data)
         },
-        search () {}
+        search () {
+            this.$emit('search', this.inputValue)
+        },
+        pageChange (currentPage) {
+            this.$emit('pageChange', currentPage)
+        },
+        showPopEdit (scope) {
+            for (let pro in this.model.formRows) {
+                this.model.formRows[pro].value = scope.row[pro]
+            }
+            this.$set(this, 'editScope', scope)
+            this.isEdit = true
+            this.isShowPop = true
+        }
     },
     components: {
-        ContainTitle,
-        NewBuild,
-        Edit,
         Delete,
-        Operate,
+        MultiDelete,
         CustomComponent,
-        CustomColComponent
+        CustomColComponent,
+        PopForm
     }
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
     @import "../../../../sass/function";
     #nav {
         height: pxToRem(62);
@@ -226,8 +303,9 @@ export default {
 
     #tabs {
         height: pxToRem(62);
-        line-height: pxToRem(62);
     }
+
+    
 
     #operate {
         height: pxToRem(62);
@@ -241,6 +319,15 @@ export default {
                 display: inline-block;
                 margin: 0 pxToRem(10);
             }
+
+            .rightBtn {
+                float: right;
+                margin-right: 10px;
+            }
+
+            .rightBtn:nth-child(1) {
+                margin-right: 0px;
+            }
         }
 
         #inputs {
@@ -248,11 +335,28 @@ export default {
         }
     }
 
-    .pagination {
-        position: absolute;
-        bottom: 35px;
-        left: 0;
-        right: 0;
-        text-align: center;
+    .line-operate {
+        float: left;
+        margin-right: 10px;
+    }
+
+    .footer {
+        width: 99.9%;
+        height: 50px;
+        border: 1px solid #dfe6ec;
+        border-top: none;
+
+        .record {
+            float: right;
+            padding: 16px 26px;
+            font-size: 13px;
+        }
+
+        .pager {
+            display: inline-block;
+            float: right;
+            vertical-align: middle;
+            padding-top: 12px;
+        }
     }
 </style>

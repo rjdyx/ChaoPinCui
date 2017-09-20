@@ -31,8 +31,7 @@ class CategoryController extends Controller
     // 单条删除
     public function destroy($id)
     {
-    	$model = Category::find($id);
-    	if ($model->destroy()) return $id;
+    	if (Category::destroy($id)) return $id;
     	return 0;
     }
 
@@ -90,7 +89,12 @@ class CategoryController extends Controller
         $model->ico = IQuery::upload($request,'ico')['p'];
         $model->img = IQuery::upload($request,'img')['p'];
 
-        if ($model->save()) return 1;
+        if ($model->save()) {
+            if ($id != -1) {
+                $model->id = $id;
+            }
+            return $model->id;
+        }
         return 0;
     }
 }

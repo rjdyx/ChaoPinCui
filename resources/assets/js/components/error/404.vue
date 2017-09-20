@@ -11,9 +11,6 @@
         404
     </div>
 </template>
-<style lang="sass" scoped>
-    @import "../../../sass/function";
-</style>
 <script>
     export default{
         name: 'NotFound'

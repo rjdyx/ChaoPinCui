@@ -3,45 +3,55 @@
  */
 export default [
     {
-        name: '账户管理',
-        role: 'user',
-        children: [
-            {
-                path: '/index/user/user',
-                name: '账户管理'
-            }
-        ]
-    },
-    {
-        name: '单位管理',
-        role: 'unit',
-        children: [
-            {
-                path: '/index/unit/unit',
-                name: '单位管理'
-            }
-        ]
-    },
-    {
         name: '分类管理',
-        role: 'classification',
+        role: 'category',
         isEvent: false,
         children: [
             {
-                path: '/index/classification/classification',
+                path: '/index/category/category',
                 name: '分类管理'
             }
         ]
     },
     {
-        name: '系统管理',
-        role: 'system',
-        isEvent: false,
+        name: '专家管理',
+        role: 'expert',
         children: [
             {
-                path: '/index/system/system',
-                name: '系统管理'
+                path: '/index/expert/expert',
+                name: '专家管理'
+            }
+        ]
+    },
+    {
+        name: '申请管理',
+        role: 'spot-check-application-form',
+        children: [
+            {
+                path: '/index/spot-check-application-form/spot-check-application-form',
+                name: '申请管理'
+            }
+        ]
+    },
+    {
+        name: '抽取结果',
+        role: 'spot-check-result',
+        children: [
+            {
+                path: '/index/spot-check-result/spot-check-result',
+                name: '抽取结果'
             }
         ]
     }
+    // {
+    //     name: '系统管理',
+    //     role: 'system',
+    //     isEvent: false,
+    //     children: [
+    //         {
+    //             path: '/index/system/system',
+    //             name: '系统管理'
+    //         }
+    //     ]
+    // }
 ]

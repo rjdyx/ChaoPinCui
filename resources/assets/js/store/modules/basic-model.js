@@ -1,12 +1,19 @@
+import Vue from 'vue'
 const { fetchTableData } = require('api')
 
 const state = {
     tableData: [],
+    selectData: [],
     totalNum: 0,
     num: 0,
     paginator: 0,
+    currentPage: 1,
     navbarName: '',
-    subNavBarName: ''
+    subNavBarName: '',
+    inputValue: '',
+    addActive: null,
+    editActive: null,
+    deleteActive: null
 }
 
 // getters
@@ -50,13 +57,21 @@ const actions = {
 // mutations
 const mutations = {
     SET_TABLE_DATA (state, tableData) {
-        state.tableData = tableData
+        let newOne = Vue.prototype.$deepClone(tableData)
+        state.tableData = newOne
     },
     PUSH_TABLE_DATA (state, tableData) {
-        state.tableData.push(tableData)
+        state.tableData.splice(0, 0, tableData)
     },
     SPLICE_TABLE_DATA (state, index) {
         state.tableData.splice(index, 1)
+    },
+    UPDATE_TABLE_DATA (state, {index, newOne}) {
+        state.tableData.splice(index, 1, newOne)
+    },
+    SET_SELECT_DATA (state, selectData) {
+        let newOne = Vue.prototype.$deepClone(selectData)
+        state.selectData = newOne
     },
     SET_TOTAL_NUM (state, totalNum) {
         state.totalNum = totalNum
@@ -67,11 +82,41 @@ const mutations = {
     SET_PAGINATOR (state, paginator) {
         state.paginator = paginator
     },
+    SET_CURRENTPAGE (state, currentPage) {
+        state.currentPage = currentPage
+    },
     SET_NAVBARNAME (state, navbarName) {
         state.navbarName = navbarName
     },
     SET_SUBNAVBARNAME (state, subNavBarName) {
         state.subNavBarName = subNavBarName
+    },
+    SET_INPUTVALUE (state, inputValue) {
+        state.inputValue = inputValue
+    },
+    SET_ADDACTIVE (state, addActive) {
+        state.addActive = addActive
+    },
+    SET_EDITACTIVE (state, editActive) {
+        state.editActive = editActive
+    },
+    SET_DELETEACTIVE (state, deleteActive) {
+        state.deleteActive = deleteActive
+    },
+    ACT_ADDACTIVE (state, {id, obj}) {
+        if (state.addActive) {
+            return state.addActive(id, obj)
+        }
+    },
+    ACT_EDITACTIVE (state, {id, obj}) {
+        if (state.editActive) {
+            return state.editActive(id, obj)
+        }
+    },
+    ACT_DELETEACTIVE (state, id) {
+        if (state.deleteActive) {
+            return state.deleteActive(id)
+        }
     }
 }
 

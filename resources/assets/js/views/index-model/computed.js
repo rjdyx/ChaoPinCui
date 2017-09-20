@@ -40,17 +40,65 @@ export default {
         urlParams () {
             return this.model.urlParams
         },
+        database () {
+            return this.model.database
+        },
         theads () {
             return this.model.theads
         },
         protos () {
             return this.model.protos
         },
+        protosFilter () {
+            return this.model.protosFilter
+        },
+        theadsShort () {
+            let realTarget = this.$deepClone(this.model.theads)
+            let targetArr = this.model.protos
+            let seletedArr = this.protosFilter
+            let targetArrLength = targetArr.length - 1
+            let seletedArrLength = seletedArr.length - 1
+            for (; seletedArrLength >= 0; seletedArrLength--) {
+                for (; targetArrLength >= 0; targetArrLength--) {
+                    if (seletedArr[seletedArrLength] === targetArr[targetArrLength]) {
+                        realTarget.splice(targetArrLength, 1)
+                        targetArrLength--
+                        break
+                    }
+                }
+            }
+            return realTarget
+        },
+        protosShort () {
+            let targetArr = this.$deepClone(this.model.protos)
+            let seletedArr = this.protosFilter
+            let targetArrLength = targetArr.length - 1
+            let seletedArrLength = seletedArr.length - 1
+            for (; seletedArrLength >= 0; seletedArrLength--) {
+                for (; targetArrLength >= 0; targetArrLength--) {
+                    if (seletedArr[seletedArrLength] === targetArr[targetArrLength]) {
+                        targetArr.splice(targetArrLength, 1)
+                        targetArrLength--
+                        break
+                    }
+                }
+            }
+            return targetArr
+        },
         widths () {
             return this.model.widths
         },
+        formRows () {
+            return this.model.formRows
+        },
+        showDetail () {
+            return this.model.showDetail
+        },
         searchPlaceholder () {
             return this.model.searchPlaceholder
+        },
+        showTabs () {
+            return this.model.showTabs
         },
         showSearchModel () {
             return this.model.showSearchModel
@@ -75,6 +123,9 @@ export default {
         },
         showDelete () {
             return this.model.showDelete
+        },
+        showFooter () {
+            return this.model.showFooter
         },
         searchModelPosition () {
             return this.model.searchModelPosition

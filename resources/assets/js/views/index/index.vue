@@ -22,7 +22,7 @@
     </div>
 </template>
 
-<style lang="sass" scoped>
+<style scoped>
     #index {
         height: 100%;
     }

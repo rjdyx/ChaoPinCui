@@ -4,7 +4,8 @@ import actions from './actions'
 import getters from './getters'
 import mutations from './mutations'
 import basicModel from './modules/basic-model'
-
+import spotCheck from './modules/spot-check'
+import user from './modules/user'
 const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
@@ -12,7 +13,9 @@ export default new Vuex.Store({
     getters,
     mutations,
     modules: {
-        basicModel
+        basicModel,
+        spotCheck,
+        user
     },
     strict: debug
 })

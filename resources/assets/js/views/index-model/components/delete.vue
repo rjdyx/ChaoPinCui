@@ -10,13 +10,13 @@
 		<el-button 
             type="text" 
             size="small" 
-            :class="{'btn':hiddeRole}" 
-            @click="handelDel(scope.$index,scope.row)"
+            @click="handelDel(scope.$index, scope.row)"
         >删除</el-button>
 	</div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
     name: 'Edit',
     props: {
@@ -26,42 +26,61 @@ export default {
                 return {}
             }
         },
-        hiddeRole: {
-            type: Boolean,
-            default: false
+        model: {
+            type: Object,
+            default () {
+                return {}
+            }
         }
     },
     methods: {
+        ...mapMutations([
+            'SET_TABLE_DATA',
+            'SPLICE_TABLE_DATA',
+            'SET_TOTAL_NUM',
+            'SET_NUM',
+            'SET_PAGINATOR',
+            'ACT_DELETEACTIVE'
+        ]),
         // 点击删除
         handelDel (index, row) {
+            let id = row.id
+            let url = this.model.url
             this.$confirm('你确定要删除该信息吗?', '信息', {
                 cancelButtonText: '取消',
                 confirmButtonText: '确定',
                 type: 'error'
-            }).then(() => {
-                axios.delete(this.$adminUrl(this.url + '/' + row.id))
-                    .then((responce) => {
-                        if (responce.data === 'true') {
+            }).then(async () => {
+                await this.ACT_DELETEACTIVE(id)
+                axios.delete(this.$adminUrl(url) + '/' + id)
+                    .then((response) => {
+                        if (response.data) {
                             this.$message({
-                                type: 'success',
-                                message: '删除成功'
+                                message: '删除成功',
+                                type: 'success'
                             })
-                        } else if (responce.data === 'state') {
-                            this.$message('该数据已被使用，无法删除')
+                            this.SPLICE_TABLE_DATA(index)
                         }
                     })
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                })
+            }).catch((e) => {
+                if (e.message === '被引用') {
+                    this.$message({
+                        type: 'error',
+                        message: '分类被使用，无法删除'
+                    })
+                } else {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    })
+                }
             })
         }
     }
 }
 </script>
 
-<style lang="sass">
+<style lang="scss">
 .btn {
     span {
         border-left: 1px solid #a7bad6;

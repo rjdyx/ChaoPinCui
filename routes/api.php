@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 
 Route::get('get/tables','Api\UtilController@getTable');// 查询单张表数据
 Route::get('find/{$id}','Api\UtilController@findTable');// 查询单表单条数据
-Route::get('deletes','Api\UtilController@deletes');// 批量删除
+
 
 // Api 接口
 Route::group(['namespace' => 'Api'], function() {
@@ -36,6 +36,10 @@ Route::group(['namespace' => 'Api'], function() {
 		Route::resource('img', 'ImgController'); // 图片管理
 		Route::resource('custom', 'CustomController'); // 自定义参数管理
 		Route::resource('comment', 'CommentController'); // 评论管理
+
+		Route::get('get/tables','UtilController@getTable');// 查询单张表数据
+		Route::get('find/{$id}','UtilController@findTable');// 查询单表单条数据
+		Route::delete('deletes','UtilController@deletes');// 批量删除
 	});
 
 	/******* 前台 *********/
