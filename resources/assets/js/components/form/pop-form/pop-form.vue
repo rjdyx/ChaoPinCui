@@ -2,6 +2,10 @@
     <el-dialog title="新增" size="small" :visible.sync="dialogTableVisible" :show-close="false">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" id="pop-form">
             <template v-for="pro of Object.keys(rows)">
+                <!-- 隐藏域 -->
+                <el-form-item v-if="rows[pro].type === 'hidden'">
+                    <el-input type="hidden" :value="hiddenValue(pro, rows[pro].value)"></el-input>
+                </el-form-item>
                 <!-- 普通输入框 -->
                 <el-form-item v-if="!rows[pro].type && !rows[pro].component || rows[pro].type === 'input'" :label="rows[pro].label" :prop="pro">
                     <el-input
@@ -31,13 +35,14 @@
                 <el-form-item v-else-if="rows[pro].type === 'textarea'" :label="rows[pro].label" :prop="pro">
                     <el-input type="textarea" v-model="ruleForm[pro]"></el-input>
                 </el-form-item>
+
                 <el-form-item v-else-if="rows[pro].component" :label="rows[pro].label" :prop="pro">
                     <component
                         :is="rows[pro].component"
-                        :dialogTableVisible="dialogTableVisible"
                         :isEdit="isEdit"
                         :scope="scope"
                         :row="rows[pro]"
+                        :pro='pro'
                         :componentParam="rows[pro].componentParam"
                         @emit="returnValue"
                     ></component>
@@ -125,37 +130,28 @@
         },
         data () {
             return {
+                dialogTableVisible: true,
                 ruleForm: {},
                 rules: {}
             }
         },
-        computed: {
-            // el-dialog在某个地方直接修改了dialogTableVisible
-            // 故需要设置setter
-            dialogTableVisible: {
-                get () {
-                    return this.isNewShow
-                },
-                set (value) {}
-            }
-        },
-        watch: {
-            rows () {
-                this.resetRuleAndForm('rows')
-            },
-            scope () {
-                this.resetRuleAndForm('scope')
-            },
-            dialogTableVisible () {
-                if (this.$refs['ruleForm']) {
-                    this.$refs['ruleForm'].validate((valid) => {
-                        if (!valid) {
-                            this.$refs['ruleForm'].resetFields()
-                        }
-                    })
+        mounted () {
+            let ruleForm = {}
+            let rules = {}
+            for (let pro in this.rows) {
+                if (this.rows[pro].rules) {
+                    rules[pro] = this.rows[pro].rules
                 }
-                this.resetRuleAndForm('dialogTableVisible')
+                if (!this.isEdit) {
+                    ruleForm[pro] = ''
+                } else {
+                    ruleForm[pro] = this.scope.row[pro]
+                }
             }
+            if (JSON.stringify(rules) !== '{}') {
+                this.$set(this, 'rules', rules)
+            }
+            this.$set(this, 'ruleForm', ruleForm)
         },
         methods: {
             ...mapMutations([
@@ -164,32 +160,29 @@
                 'ACT_ADDACTIVE',
                 'ACT_EDITACTIVE'
             ]),
-            resetRuleAndForm (type) {
-                let ruleForm = {}
-                let rules = {}
-                for (let pro in this.rows) {
-                    if (type === 'rows' && this.rows[pro].rules) {
-                        rules[pro] = this.rows[pro].rules
+            hiddenValue (k, v) {
+                this.ruleForm[k] = v
+                return v
+            },
+            // 改变为表单数据格式
+            formDataCl () {
+                let form = new FormData()
+                for (let key of Object.keys(this.ruleForm)) {
+                    if (this.ruleForm[key] === '' || this.ruleForm[key] === null) {
+                        this.ruleForm[key] = ''
                     }
-                    if (type === 'scope' || type === 'dialogTableVisible') {
-                        if (!this.isEdit) {
-                            ruleForm[pro] = ''
-                        } else {
-                            ruleForm[pro] = this.scope.row[pro]
-                        }
-                    }
+                    form.append(key, this.ruleForm[key])
                 }
-                if (JSON.stringify(rules) !== '{}') {
-                    this.$set(this, 'rules', rules)
-                }
-                this.$set(this, 'ruleForm', ruleForm)
+                return form
             },
             submitForm (formName) {
+                let headers = {headers: {'Content-Type': 'multipart/form-data'}}
+                let form = this.formDataCl()
                 this.$refs[formName].validate(async (valid) => {
                     if (valid) {
                         if (!this.isEdit) {
                             await this.ACT_ADDACTIVE({id: this.ruleForm.id, obj: this.ruleForm})
-                            axios.post(this.$adminUrl(this.url), this.ruleForm)
+                            axios.post(this.$adminUrl(this.url), form, headers)
                                 .then((responce) => {
                                     if (responce.data) {
                                         let newOne = this.$deepClone(this.ruleForm)
@@ -206,7 +199,7 @@
                         } else {
                             let id = this.scope.row.id
                             await this.ACT_EDITACTIVE({id: id, obj: this.ruleForm})
-                            axios.put(this.$adminUrl(this.url) + '/' + id, this.ruleForm)
+                            axios.put(this.$adminUrl(this.url) + '/' + id, form, headers)
                                 .then((responce) => {
                                     if (responce.data) {
                                         let newOne = this.$deepClone(this.ruleForm)
@@ -231,6 +224,7 @@
                 })
             },
             handleClose () {
+                this.ruleForm = {}
                 this.$emit('handleClose')
             },
             returnValue ({pro, val}) {

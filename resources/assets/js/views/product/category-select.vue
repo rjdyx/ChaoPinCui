@@ -54,11 +54,6 @@ export default {
                 }
             })
     },
-    watch: {
-        dialogTableVisible () {
-            this.select = this.scope.row.category_id
-        }
-    },
     methods: {
         change () {
             this.$emit('emit', {pro: 'category_id', val: this.select})

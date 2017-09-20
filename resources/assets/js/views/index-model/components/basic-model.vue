@@ -202,7 +202,7 @@
         </div>
 
         <pop-form 
-            :isNewShow="isShowPopNew"
+            v-if="isShowPopNew"
             :isEdit="false"
             :url="url"
             :rows="formRows"
@@ -210,7 +210,7 @@
         ></pop-form>
 
         <pop-form 
-            :isNewShow="isShowPopEdit"
+            v-if="isShowPopEdit"
             :isEdit="true"
             :url="url"
             :rows="formRows"
