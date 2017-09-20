@@ -18,7 +18,7 @@ class CategoryController extends Controller
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = Category::paginate(config('app.page'));
+    	$datas = Category::orderBy('created_at','desc')->paginate(config('app.page'));
     	return response()->json($datas);
     }
 

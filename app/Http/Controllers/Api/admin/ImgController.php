@@ -59,7 +59,6 @@ class ImgController extends Controller
     	$this->validate($request, [
             'name' => 'required|max:50',
             'desc' => 'nullable|max:255',
-            'product_id' => 'required|exists:products',
             'sort' => 'required|max:10'
         ]);
 
@@ -69,9 +68,9 @@ class ImgController extends Controller
         	$model = Img::find($id);
         }
 
-        $arr = ['name', 'content', 'product_id', 'sort', 'desc'];
+        $arr = ['name', 'product_id', 'sort', 'desc'];
         $model->setRawAttributes($request->only($arr));
-        $res = IQuery::upload($request,'img');
+        $res = IQuery::upload($request,'img', true);
         $model->img = $res['p'];
         $model->thumb = $res['t'];
 

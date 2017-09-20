@@ -18,7 +18,10 @@ class ProductController extends Controller
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = Product::paginate(config('app.page'));
+    	$datas = Product::join('categories','products.category_id','=','categories.id')
+                ->orderBy('products.created_at','desc')
+                ->select('products.*','categories.name as category_name')
+                ->paginate(config('app.page'));
     	return response()->json($datas);
     }
 
@@ -57,11 +60,6 @@ class ProductController extends Controller
     private function storeOrUpdate($request, $id = -1)
     {
     	$this->validate($request, [
-            // 'name' => ['required','max:50',
-            //     Rule::unique('products')->ignore($id)->where(function($query) use ($id, $pid) {
-            //         $query->whereNull('deleted_at');
-            //     })
-            // ],
             'name' => 'required','max:50',
             'category_id' => 'required|exists:categories,id',
             'desc' => 'nullable|string|max:255',
@@ -78,9 +76,9 @@ class ProductController extends Controller
 
         $arr = ['name', 'desc', 'category_id', 'address', 'meridian', 'weft'];
         $model->setRawAttributes($request->only($arr));
-        // $res = IQuery::upload($request,'img');
-        // $model->img = $res['p'];
-        // $model->thumb = $res['t'];
+        $res = IQuery::upload($request,'img', true);
+        $model->img = $res['p'];
+        $model->thumb = $res['t'];
 
         if ($model->save()) return 1;
         return 0;
