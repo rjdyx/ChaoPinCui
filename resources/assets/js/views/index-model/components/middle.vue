@@ -32,6 +32,9 @@
 <script>
 import { mapMutations } from 'vuex'
 import BasicModel from './basic-model'
+import user from '../../user/user'
+import feedback from '../../feedback/feedback'
+import log from '../../log/log'
 import expert from '../../expert/expert'
 import category from '../../category/category'
 import product from '../../product/product'
@@ -41,7 +44,7 @@ export default {
     name: 'Message',
     data () {
         let modelObj = {}
-        Object.assign(modelObj, category, product, expert, spotCheckApplicationForm, spotCheckResult)
+        Object.assign(modelObj, user, log, feedback, category, product, expert, spotCheckApplicationForm, spotCheckResult)
         return {
             modelObj: modelObj,
             model: {},

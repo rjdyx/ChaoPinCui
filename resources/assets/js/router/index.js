@@ -28,7 +28,6 @@ const routes = [
                 path: 'user/:model',
                 alias: [
                     'category/:model',
-                    'user/:model',
                     'log/:model',
                     'feedback/:model',
                     'product/:model',
