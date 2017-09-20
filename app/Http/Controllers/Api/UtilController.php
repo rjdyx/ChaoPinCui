@@ -4,7 +4,7 @@
  * autoer: guosenlin
  * date: 2017/09/15
 */
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

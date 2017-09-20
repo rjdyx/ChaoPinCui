@@ -24,7 +24,9 @@ Route::group(['namespace' => 'Api'], function() {
 	/********************* 公共 ***********************/
 	Route::get('get/tables','UtilController@getTable');// 查询单张表数据
 	Route::get('find/{$id}','UtilController@findTable');// 查询单表单条数据
-	Route::get('deletes','UtilController@deletes');// 批量删除
+	Route::group(['prefix' => 'admin', 'middleware' => 'UserAuth:admin'], function() {
+		Route::delete('deletes','UtilController@deletes');// 批量删除
+	});
 
 	/********************* 后台 ***********************/
 	Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'UserAuth:admin'], function() {
