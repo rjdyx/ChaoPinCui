@@ -128,20 +128,21 @@
             <!-- 中间列表模块 -->
             <template v-for="(item, index) in theadsShort">
                 <el-table-column
-                    v-if="colComponents[protosShort[index]] === undefined"
                     :prop="protosShort[index]"
                     :label="item"
                     :min-width="widths[index]"
-                    show-overflow-tooltip>
-                </el-table-column>
-                <el-table-column
-                    v-else
-                    :label="item"
-                    :min-width="widths[index]"
-                    show-overflow-tooltip>
+                    :key="index">
                     <template scope="scope">
                         <component
+                            v-if="colComponents[protosShort[index]]"
                             :is="colComponents[protosShort[index]]"
+                            :scope="scope"
+                            :prop="protosShort[index]"
+                            :isEdit="isEdit"
+                        ></component>
+                        <component
+                            v-else
+                            :is="value"
                             :scope="scope"
                             :prop="protosShort[index]"
                         ></component>
@@ -201,12 +202,20 @@
         </div>
 
         <pop-form 
-            :isNewShow="isShowPop"
-            :isEdit="isEdit"
+            :isNewShow="isShowPopNew"
+            :isEdit="false"
+            :url="url"
+            :rows="formRows"
+            @handleClose="isShowPopNew=false"
+        ></pop-form>
+
+        <pop-form 
+            :isNewShow="isShowPopEdit"
+            :isEdit="true"
             :url="url"
             :rows="formRows"
             :scope="editScope"
-            @handleClose="isShowPop=false"
+            @handleClose="isShowPopEdit=false"
         ></pop-form>
     </div>
 </template>
@@ -219,6 +228,7 @@ import MultiDelete from './multi-delete'
 import CustomComponent from './custom-component'
 import CustomColComponent from './custom-col-component'
 import PopForm from 'components/form/pop-form/pop-form'
+import Value from 'components/public/value'
 export default {
     name: 'BasicModel',
     props: {
@@ -249,8 +259,10 @@ export default {
             multipleSelection: [],
             // 默认搜索框的值
             inputValue: '',
-            isShowPop: false,
+            isShowPopNew: false,
+            isShowPopEdit: false,
             editScope: {row: {}},
+            value: Value,
             isEdit: false
         }
     },
@@ -258,8 +270,7 @@ export default {
     mixins: [computed],
     methods: {
         showPopNew () {
-            this.isEdit = false
-            this.isShowPop = true
+            this.isShowPopNew = true
         },
         handleSelectionChange (val) {
             this.$emit('multiSelect', val)
@@ -279,8 +290,7 @@ export default {
                 this.model.formRows[pro].value = scope.row[pro]
             }
             this.$set(this, 'editScope', scope)
-            this.isEdit = true
-            this.isShowPop = true
+            this.isShowPopEdit = true
         }
     },
     components: {

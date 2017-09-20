@@ -231,7 +231,6 @@
                 })
             },
             handleClose () {
-                this.$refs['ruleForm'].resetFields()
                 this.$emit('handleClose')
             },
             returnValue ({pro, val}) {

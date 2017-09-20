@@ -56,7 +56,7 @@ export default {
     },
     watch: {
         dialogTableVisible () {
-            this.select = this.scope.row.category_id === '' ? '' : this.scope.row.category_id
+            this.select = this.scope.row.category_id
         }
     },
     methods: {

@@ -10,7 +10,9 @@ export default {
             database: 'Product',
             theads: ['产品名称', '分类', '描述', '图片', '缩略图', '地址', '经度', '纬度', '关注度', '好评率'],
             protos: ['name', 'category_id', 'desc', 'img', 'thumb', 'address', 'meridian', 'weft', 'heat', 'comment'],
+            protosFilter: ['img', 'thumb', 'weft', 'heat', 'comment'],
             widths: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+            showDetail: true,
             colComponents: {category_id: Category},
             formRows: {
                 name: {
@@ -60,6 +62,7 @@ export default {
                 address: {
                     label: '地址',
                     rules: [
+                        { required: true, message: '请输入地址', trigger: 'blur' },
                         { max: 100, message: '长度在 100 个字符以内', trigger: 'blur' }
                     ],
                     value: '',

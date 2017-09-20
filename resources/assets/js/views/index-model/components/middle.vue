@@ -62,7 +62,7 @@ export default {
     },
     watch: {
         type () {
-            this.getTableData([])
+            this.SET_TABLE_DATA([])
             this.$set(this, 'model', this.modelObj[this.type][0])
             this.SET_ADDACTIVE(this.model.addActive)
             this.SET_EDITACTIVE(this.model.editActive)
@@ -120,7 +120,6 @@ export default {
                 })
         },
         pageChange (currentPage) {
-            console.log(123)
             this.getTableData(currentPage, this.$store.state.basicModel.inputValue)
             this.SET_CURRENTPAGE(currentPage)
         },
