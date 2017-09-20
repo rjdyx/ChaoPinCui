@@ -21,20 +21,6 @@ class UserController extends Controller
         return response()->json(Auth::user());
     }
 
-    // 查看
-    public function show($id)
-    {
-    	return User::find($id);
-    }
-
-    // 单条删除
-    public function destroy($id)
-    {
-    	$model = User::find($id);
-    	if ($model->destroy()) return $id;
-    	return 0;
-    }
-
     // 编辑
     public function edit($id)
     {
@@ -44,19 +30,7 @@ class UserController extends Controller
     // 编辑保存
     public function update(Request $request, $id)
     {
-    	return $this->storeOrUpdate($request, $id);
-    }
-
-    // 新建保存
-    public function store(Request $request)
-    {
-    	return $this->storeOrUpdate($request);
-    }
-
-    // 新建、编辑 保存方法
-    private function storeOrUpdate($request, $id=-1)
-    {
-    	$this->validate($request, [
+        $this->validate($request, [
             'name' => ['required','max:30',
                 Rule::unique('users')->ignore($id)->where(function($query) use ($id) {
                     $query->whereNull('deleted_at');
@@ -76,23 +50,18 @@ class UserController extends Controller
             'age' => 'nullable|datetime',
             'real_name' => 'nullable|max:30',
             'password' => 'nullable|max:100',
-            'openid' => 'nullable|max:50',
             'address' => 'nullable|max:100'
         ]);
 
-        if ($id == -1) {
-        	$model = new User;
-        	$arr = ['name','real_name','sex','age','email','phone','address','password'];
-        } else {
-        	$model = User::find($id);
-        	$arr = ['real_name','sex','age','email','phone','address'];
-        }
-
+        $model = User::find($id);
+        $arr = ['name','real_name','sex','age','email','phone','address'];
         $model->setRawAttributes($request->only($arr));
         $model->img = IQuery::upload($request,'img')['p'];
-        $model->type = 1; // 管理员
+        $model->type = 0;
+        if ($request->password) $model->password = bcrypt($request->password);
         
-        if ($model->save()) return 1;
+        if ($model->save()) return $id;
         return 0;
     }
+
 }

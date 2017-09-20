@@ -14,21 +14,23 @@ use DB;
 
 class UtilController extends Controller
 {
-	/* 方法描述：查询某表所有信息 
+	/* 方法描述：查询某表指定条目或所有信息 
     * 参数：表名=>tname, 条件数组=>whs
-    * 如：{ tname:'users', whs:['pid|!=|null','sex|=|0'] }
-    * 注：whs数组中每个字符串以‘|’拆分作为Where函数的参数
+    * 如：{ tname:'users', whs:['pid|!=|null','sex|=|0'], limit:10 }
+    * 注：whs数组中每个字符串以‘|’拆分作为Where函数的参数, limit为0获取全部
     **/
     public function getTable(Request $request)
     {
         $tname = $request->tname;
         $whs = $request->whs;
+        $limit = $request->limit;
 
         if (empty($tname)) {
             return response()->json('Parameter error', 500);
         }
 
     	$model = DB::table($tname)->whereNull('deleted_at');
+
         if (!empty($whs) && count($whs)) {
             foreach ($whs as $wh) {
                 $arr = explode('|', $wh);
@@ -36,11 +38,17 @@ class UtilController extends Controller
                 $model = $model->where($arr[0], $arr[1], $arr[2]);
             }
         }
-        $datas = $model->get();
+
+        if ($limit) {
+            $datas = $model->paginate($limit);
+        } else {
+            $datas = $model->get();
+        }
+        
     	return response()->json($datas);
     }
 
-    /* 方法描述：查询某表所有信息 
+    /* 方法描述：查询某表单条信息 
     * 参数：Model=>tname, 主键=>id
     * Url : ** / 13 
     * 如：{ tname:'User'}
@@ -55,7 +63,7 @@ class UtilController extends Controller
         return $res;
     }
 
-    /* 方法描述：查询某表所有信息 
+    /* 方法描述：删除某表指定ids信息 
     * 参数：Model=>tname, 条件数组=>ids
     * 如：{ tname:'User', ids:[1,2,3] }
     **/

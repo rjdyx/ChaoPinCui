@@ -1,6 +1,7 @@
 /**
  * js库初始化
  */
+require('babel-polyfill')
 require('animate.css') // 动画css插件
 // 路由插件
 import VueRouter from 'vue-router'

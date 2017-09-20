@@ -20,7 +20,6 @@ Route::get('/', function () {
 });
 
 Route::get('logout','Auth\LoginController@logout'); //登出
-Route::get('categorys','Api\Home\IndexController@getCategorys'); 
 
 //登录界面
 Route::get('login',function() {
