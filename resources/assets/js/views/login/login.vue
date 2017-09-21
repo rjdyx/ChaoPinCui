@@ -38,7 +38,7 @@
                 },
                 rules: {
                     name: [
-                        { required: true, message: '请输入密码', trigger: 'blur' }
+                        { required: true, message: '请输入账号', trigger: 'blur' }
                     ],
                     password: [
                         { required: true, message: '请输入密码', trigger: 'blur' },
@@ -85,9 +85,6 @@
         top: 24%;
         left: 1%;
     }
-    .el-form-item__label{
-        color: white !important;
-    }
     .login-bg{background: #666;width: 100%;height:100%;}
     #login {
         position: absolute;
@@ -102,6 +99,9 @@
         #login-btn {
             width: 60px;
             margin: auto;
+        }
+        .el-form-item__label{
+            color: white !important;
         }
     }
 </style>

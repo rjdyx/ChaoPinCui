@@ -1,3 +1,5 @@
+import child from './child-check-result.vue'
+import inputFile from '../../components/public/inputFile.vue'
 // 中间列表的数据
 export default {
     category: [
@@ -9,6 +11,7 @@ export default {
             theads: ['分类名称', '描述', '图标', '图片'],
             protos: ['name', 'desc', 'ico', 'img'],
             widths: [50, 50, 50, 50],
+            operateComponents: [{component: child, params: {}}],
             formRows: {
                 name: {
                     label: '分类名称',
@@ -31,20 +34,16 @@ export default {
                 },
                 ico: {
                     label: '图标',
-                    rules: [
-                        { max: 50, message: '长度在 50 个字符以内', trigger: 'blur' }
-                    ],
+                    rules: [],
                     value: '',
-                    type: 'input',
+                    component: inputFile,
                     placeholder: ''
                 },
                 img: {
                     label: '图片',
-                    rules: [
-                        { max: 50, message: '长度在 50 个字符以内', trigger: 'blur' }
-                    ],
+                    rules: [],
                     value: '',
-                    type: 'input',
+                    component: inputFile,
                     placeholder: ''
                 }
             }

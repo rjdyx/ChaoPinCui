@@ -14,7 +14,7 @@ export default [
         ]
     },
     {
-        name: '产品分类管理',
+        name: '特色管理',
         role: 'category',
         // isEvent: false,
         children: [

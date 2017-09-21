@@ -13,13 +13,13 @@ use Illuminate\Validation\Rule;
 use App\Model\Category;
 use IQuery;
 
-class CategoryController extends Controller
+class CategoryChildController extends Controller
 {
 	// 分页信息
     public function index(Request $request)
     {
     	$datas = Category::orderBy('created_at','desc');
-        $datas = $datas->whereNull('pid')->paginate(config('app.page'));
+        $datas = $datas->whereNotNull('pid')->paginate(config('app.page'));
     	return response()->json($datas);
     }
 
@@ -73,7 +73,7 @@ class CategoryController extends Controller
         	$model = Category::find($id);
         }
 
-        $arr = ['name','desc'];
+        $arr = ['name','desc','pid'];
         $model->setRawAttributes($request->only($arr));
         $model->ico = IQuery::upload($request,'ico')['p'];
         $model->img = IQuery::upload($request,'img')['p'];
