@@ -69,6 +69,8 @@ export default {
             this.$set(this, 'model', this.modelObj[this.type][0])
             this.SET_ADDACTIVE(this.model.addActive)
             this.SET_EDITACTIVE(this.model.editActive)
+            this.SET_ADDEDACTIVE(this.model.addedActive)
+            this.SET_EDITEDACTIVE(this.model.editedActive)
             this.SET_DELETEACTIVE(this.model.deleteActive)
             this.getTableData()
         }
@@ -77,6 +79,8 @@ export default {
         this.$set(this, 'model', this.modelObj[this.type][0])
         this.SET_ADDACTIVE(this.model.addActive)
         this.SET_EDITACTIVE(this.model.editActive)
+        this.SET_ADDEDACTIVE(this.model.addedActive)
+        this.SET_EDITEDACTIVE(this.model.editedActive)
         this.SET_DELETEACTIVE(this.model.deleteActive)
         this.getTableData()
     },
@@ -91,12 +95,16 @@ export default {
             'SET_INPUTVALUE',
             'SET_ADDACTIVE',
             'SET_EDITACTIVE',
+            'SET_ADDEDACTIVE',
+            'SET_EDITEDACTIVE',
             'SET_DELETEACTIVE'
         ]),
         changeIndex (data) {
             this.$set(this, 'model', this.modelObj[this.type][data.index])
             this.SET_ADDACTIVE(this.model.addActive)
             this.SET_EDITACTIVE(this.model.editActive)
+            this.SET_ADDEDACTIVE(this.model.addedActive)
+            this.SET_EDITEDACTIVE(this.model.editedActive)
             this.SET_DELETEACTIVE(this.model.deleteActive)
             this.SET_TABLE_DATA([])
             this.getTableData()

@@ -79,6 +79,32 @@ class IQuery{
         imagejpeg($tn, $small_img); //输出图像
     }
 
+    // 单图片上传
+    public function singleImg($request, $img) {
+        $imgs = $img.'s';
+        if ($request->hasFile($imgs)) {
+            $file = $request->file($imgs);
+            $path = config('app.image_path').'/';
+            $Extension = $file->getClientOriginalExtension();
+            $filename = 'SZGC_'.time().'.'. $Extension;
+            $check = $file->move($path, $filename);
+            $filePath = $path.$filename; //原图路径加名称
+            $pic= $filePath;//原图
+            $this->delImg($request->$img);
+            return $pic;
+        } else {
+            if ($request->$img != '') {
+                if ($request->$imgs == 'del') {
+                    $this->delImg($request->$img);
+                    return '';
+                }
+                return $request->$img;
+            } else {
+                return '';
+            }
+        }
+    }
+
     // 删除图片
     public function destroyPic($name='', $thumb='')
     {
@@ -87,6 +113,14 @@ class IQuery{
             $thumb = str_replace("\\","/",public_path().'/'.($thumb));
             if (is_file($name)) unlink($name);
             if (is_file($thumb)) unlink($thumb);
+        }
+    }
+
+     //删除视频
+    public function delImg($file) {
+        if ($file != null && $file != '') {
+            $pic = str_replace("\\","/",public_path().'/'.($file));
+            if (is_file($pic)) unlink($pic);
         }
     }
 }

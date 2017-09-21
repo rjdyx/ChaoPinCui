@@ -3,7 +3,10 @@ import { cellphone } from 'utils/validate'
 import SexRadio from './sex-radio.vue'
 import Sex from './sex.vue'
 import Type from './type.vue'
+import Img from './img.vue'
+import { editCallBack } from './edit-callback'
 import DatePicker from 'components/form/date-picker'
+import inputFile from 'components/public/inputFile.vue'
 export default {
     user: [
         {
@@ -14,7 +17,7 @@ export default {
             theads: ['用户名', '姓名', '性别', '出生年月日', '用户类型', '邮箱', '手机', '住址', '头像'],
             protos: ['name', 'real_name', 'sex', 'age', 'type', 'email', 'phone', 'address', 'img'],
             widths: [50, 50, 50, 50, 50, 50, 50, 50, 50],
-            colComponents: {sex: Sex, type: Type},
+            colComponents: {sex: Sex, type: Type, img: Img},
             formRows: {
                 name: {
                     label: '用户名',
@@ -88,8 +91,16 @@ export default {
                     value: '',
                     type: 'input',
                     placeholder: ''
+                },
+                img: {
+                    label: '头像',
+                    rules: [],
+                    value: '',
+                    component: inputFile,
+                    placeholder: ''
                 }
-            }
+            },
+            editedActive: editCallBack
         }
     ]
 }

@@ -158,7 +158,9 @@
                 'PUSH_TABLE_DATA',
                 'UPDATE_TABLE_DATA',
                 'ACT_ADDACTIVE',
-                'ACT_EDITACTIVE'
+                'ACT_EDITACTIVE',
+                'ACT_ADDEDACTIVE',
+                'ACT_EDITEDACTIVE'
             ]),
             hiddenValue (k, v) {
                 this.ruleForm[k] = v
@@ -183,27 +185,30 @@
                         if (!this.isEdit) {
                             await this.ACT_ADDACTIVE({id: this.ruleForm.id, obj: this.ruleForm})
                             axios.post(this.$adminUrl(this.url), form, headers)
-                                .then((responce) => {
+                                .then(async (responce) => {
                                     if (responce.data) {
+                                        await this.ACT_ADDEDACTIVE({id: this.ruleForm.id, obj: this.ruleForm, res: responce})
                                         let newOne = this.$deepClone(this.ruleForm)
-                                        newOne.id = responce.data
+                                        newOne.id = typeof (responce.data) === 'object' ? responce.data.id : responce.data
                                         this.PUSH_TABLE_DATA(newOne)
                                         this.$message({
                                             message: '新增成功',
                                             type: 'success'
                                         })
                                         this.handleClose()
-                                        // this.$emit('addSuccess')
                                     }
                                 })
                         } else {
                             let id = this.scope.row.id
+                            form.append('_method', 'PUT')
                             await this.ACT_EDITACTIVE({id: id, obj: this.ruleForm})
-                            axios.put(this.$adminUrl(this.url) + '/' + id, form, headers)
-                                .then((responce) => {
+                            axios.post(this.$adminUrl(this.url) + '/' + id, form, headers)
+                                .then(async (responce) => {
                                     if (responce.data) {
+                                        await this.ACT_EDITEDACTIVE({id: id, obj: this.ruleForm, res: responce})
+                                        console.log(this.ruleForm)
                                         let newOne = this.$deepClone(this.ruleForm)
-                                        newOne.id = responce.data
+                                        newOne.id = typeof (responce.data) === 'object' ? responce.data.id : responce.data
                                         this.UPDATE_TABLE_DATA({index: this.scope.$index, newOne: newOne})
                                         this.$message({
                                             message: '修改成功',
@@ -228,7 +233,13 @@
                 this.$emit('handleClose')
             },
             returnValue ({pro, val}) {
-                this.ruleForm[pro] = val
+                if (val.name !== undefined) {
+                    this.ruleForm[pro + 's'] = val
+                } else if (val === 'del') {
+                    this.ruleForm[pro + 's'] = 'del'
+                } else {
+                    this.ruleForm[pro] = val
+                }
             }
         }
     }
