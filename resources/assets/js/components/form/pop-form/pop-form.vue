@@ -197,9 +197,10 @@
                                     }
                                 })
                         } else {
+                            form.append('_method', 'PUT')
                             let id = this.scope.row.id
                             await this.ACT_EDITACTIVE({id: id, obj: this.ruleForm})
-                            axios.put(this.$adminUrl(this.url) + '/' + id, form, headers)
+                            axios.post(this.$adminUrl(this.url) + '/' + id, form, headers)
                                 .then((responce) => {
                                     if (responce.data) {
                                         let newOne = this.$deepClone(this.ruleForm)

@@ -2,6 +2,7 @@
 import CategorySelect from './category-select.vue'
 import Category from './category.vue'
 import ImgDetails from './img-check-result.vue'
+import CustomDetails from './custom-check-result.vue'
 import inputFile from '../../components/public/inputFile.vue'
 export default {
     product: [
@@ -16,7 +17,7 @@ export default {
             widths: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
             showDetail: true,
             // colComponents: {category_id: Category},
-            operateComponents: [{component: ImgDetails, params: {}}],
+            operateComponents: [[{component: ImgDetails, params: {}}], [{component: CustomDetails, params: {}}]],
             formRows: {
                 name: {
                     label: '产品名称',

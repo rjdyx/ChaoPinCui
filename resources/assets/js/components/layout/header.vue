@@ -11,7 +11,7 @@
         <h1 id="title">潮品萃</h1>
         <div id="content">
             <ul class="left">
-                <li>总览</li>
+                <li><router-link to="/index/home">首页</router-link></li>
             </ul>
             <ul class="right">
                 <li></li>
@@ -58,6 +58,7 @@
                     width: pxToRem(85);
                     text-align: center;
                     cursor: pointer;
+                    a{ color:white; }
                 }
             }
 
@@ -97,8 +98,19 @@
                 'SET_IS_LOGIN'
             ]),
             logout () {
-                this.SET_IS_LOGIN(false)
-                this.$router.push('/login')
+                if (confirm('是否要退出后台？')) {
+                    this.axiosOut()
+                }
+            },
+            axiosOut () {
+                let url = 'logout'
+                axios.get(url).then((res) => {
+                    if (res.data === 200) {
+                        this.$message('退出成功')
+                        this.SET_IS_LOGIN(false)
+                        this.$router.push('/login')
+                    }
+                })
             }
         }
     }

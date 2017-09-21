@@ -7,6 +7,28 @@ import env from 'projectRoot/env.js'
 
 require('./config/config')
 
+router.beforeEach(async (to, from, next) => {
+    let res = false
+    if (!window.Auth) {
+        await axios.get('/auth').then(responce => {
+            if (responce.data.name === undefined) {
+                res = true
+                window.Auth = responce.data
+                return false
+            }
+        })
+    }
+    if (res) {
+        if (to.path !== '/login') {
+            next('/login')
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
+})
+
 const app = new Vue({
     router,
     store,

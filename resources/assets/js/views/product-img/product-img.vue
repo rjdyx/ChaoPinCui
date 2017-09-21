@@ -13,10 +13,12 @@
             :modelParam="model"
             @multiSelect="multiSelect"
         >
-            <el-row gutter="20">
-                <el-col :xs="12" :sm="8" :md="8" :lg="6" v-for="(item,i) in theads" class="text-small">{{item}}:<em class="margin-left_10">{{protos[i]}}</em>
-                 </el-col>
-            </el-row>
+        <el-row :gutter="20" slot="tabs-downside">
+            <el-col :span="6" v-for="(v, k) in theads" class="parent-info">
+                <span class="grid-content" >{{v}}: </span>
+                {{protos[k]}}
+            </el-col>
+        </el-row>
 
             <el-button id="back" slot="tabs-downside" @click="back"> 返回 </el-button>
         </basic-model>
@@ -69,7 +71,7 @@ export default {
                     sort: {
                         label: '排序',
                         rules: [
-                            { required: true, max: 255, message: '长度在 255 个字符以内', trigger: 'blur' }
+                            { required: true, trigger: 'blur' }
                         ],
                         value: '',
                         type: 'input',
@@ -89,7 +91,7 @@ export default {
                 }
             },
             id: this.$route.params.id,
-            theads: {name: '名称', address: '地址'},
+            theads: {name: '名称', address: '地址', desc: '描述', meridian: '经度', weft: '维度', heat: '热度', comment: '评分'},
             protos: [],
             total: 0
         }
@@ -133,6 +135,13 @@ export default {
 </script>
 
 <style lang="scss">
+    .basic-model > div#operate {
+        margin-top: 1rem !important;
+    }
+    .parent-info{
+        color:#999999;
+        height: 40px;
+    }
     .numbers {
         margin-top: 20px;
         margin-bottom: -60px;
