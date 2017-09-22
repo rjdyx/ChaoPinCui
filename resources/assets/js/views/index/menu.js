@@ -41,7 +41,7 @@ export default [
                 name: '意见反馈'
             },
             {
-                path: '/index/feedback/feedback',
+                path: '/index/log/log',
                 name: '操作日志'
             }
         ]

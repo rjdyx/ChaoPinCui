@@ -21,6 +21,7 @@
 </template>
 <script>
 export default {
+    name: 'input-file',
     props:
     {
         pro: null,
@@ -88,13 +89,10 @@ export default {
         }
     },
     mounted () {
+        console.log(this.row.value)
         if (this.row.value !== null && this.isEdit) {
             this.imageUrl = this.row.value
             this.$emit('emit', {pro: this.pro, val: this.row.value})
-        }
-    },
-    watch: {
-        imageUrl (curVal, oldVal) {
         }
     }
 }

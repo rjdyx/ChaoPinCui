@@ -7,6 +7,7 @@ Vue.use(Router)
 
 import index from '../views/index/index.vue'
 import home from '../views/home/home.vue'
+import system from '../views/system/system.vue'
 import middle from '../views/index-model/components/middle.vue'
 import spotCheckPage from '../views/spot-check-page/spot-check-page.vue'
 import productImg from '../views/product-img/product-img.vue'
@@ -57,6 +58,11 @@ const routes = [
             {
                 path: 'product-custom/:id',
                 component: productCustom,
+                meta: { requiresAuth: true }
+            },
+            {
+                path: 'system/system',
+                component: system,
                 meta: { requiresAuth: true }
             }
         ]
