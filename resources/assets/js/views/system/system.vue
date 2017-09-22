@@ -71,7 +71,8 @@ export default {
             select: '',
             ruleForm: {},
             logoVal: {},
-            showfile: false
+            showfile: false,
+            flag: ''
         }
     },
     mounted () {
@@ -79,12 +80,16 @@ export default {
     },
     methods: {
         userInfo () {
-            axios.get('/api/admin/system/1').then((res) => {
+            axios.get('/api/admin/system/2').then((res) => {
                 if (res.data) {
                     this.ruleForm = res.data
                     this.logoVal['value'] = res.data.logo
-                    this.showfile = true
+                    this.flag = 'edit'
+                } else {
+                    this.logoVal['value'] = ''
+                    this.flag = 'new'
                 }
+                this.showfile = true
             })
         },
         returnValue ({pro, val}) {
@@ -110,14 +115,22 @@ export default {
         submitForm () {
             let headers = {headers: {'Content-Type': 'multipart/form-data'}}
             let form = this.formDataCl(this.ruleForm)
-            form.append('_method', 'PUT')
-            axios.post(this.$adminUrl('system/1'), form, headers)
-                .then(async (responce) => {
+            var url
+            if (this.flag !== 'new') {
+                form.append('_method', 'PUT')
+                url = 'system/' + this.ruleForm.id
+            } else {
+                url = 'system'
+            }
+            axios.post(this.$adminUrl(url), form, headers)
+                .then((responce) => {
                     if (responce.data) {
                         this.$message({
-                            message: '修改成功',
+                            message: '操作数据成功',
                             type: 'success'
                         })
+                    } else {
+                        this.$message('操作数据失败')
                     }
                 })
         }
