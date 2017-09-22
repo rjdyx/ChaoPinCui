@@ -10,11 +10,19 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use App\Model\System;
+use App\Model\Log;
 use IQuery;
 
-class SystemController extends Controller
+class LogController extends Controller
 {
+    public function index(Request $request) {
+        $datas = Log::join('users','logs.user_id','=','users.id')->whereNull('users.deleted_at')
+                ->orderBy('created_at','desc')->select('logs.*','users.name as user_name');
+        $datas = IQuery::ofText($datas,$request->query_text,$text_params=['logs.name']);
+        $datas = $datas->paginate(config('app.page'));
+        return response()->json($datas);
+    }
+
     // 查看
     public function show()
     {

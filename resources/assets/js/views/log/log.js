@@ -6,9 +6,12 @@ export default {
             tab: '操作日志',
             url: 'log',
             database: 'Log',
-            theads: ['分类名称', '描述', '图标', '图片'],
-            protos: ['name', 'desc', 'ico', 'img'],
-            widths: [50, 50, 50, 50]
+            theads: ['模块名称', '操作行为', '操作用户', '客户端ip地址', '操作时间'],
+            protos: ['name', 'operate', 'user_name', 'ip', 'created_at'],
+            widths: [50, 50, 50, 50, 50],
+            showNewBuild: false,
+            showEdit: false,
+            searchPlaceholder: '请输入操作模块搜索'
         }
     ]
 }
