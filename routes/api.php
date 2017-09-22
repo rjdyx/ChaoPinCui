@@ -33,8 +33,9 @@ Route::group(['namespace' => 'Api'], function() {
 		Route::resource('index', 'IndexController'); //首页
 		Route::resource('user', 'UserController'); // 用户管理
 		Route::resource('system', 'SystemController'); // 系统管理
-		Route::resource('turn', 'TurnController'); // 轮播图管理
 		Route::resource('category', 'CategoryController'); // 分类管理
+		Route::resource('turn', 'TurnController'); // 轮播图管理
+		Route::resource('feedback', 'FeedBackController'); // 用户反馈
 		Route::resource('product', 'ProductController'); // 产品管理
 		Route::resource('img', 'ImgController'); // 图片管理
 		Route::resource('custom', 'CustomController'); // 自定义参数管理
