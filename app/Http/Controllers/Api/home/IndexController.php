@@ -17,7 +17,7 @@ class IndexController extends Controller
 	// 获取所有分类信息
 	public function getCategorys()
 	{
-		$data = Category::get();
+		$data = Category::whereNull('pid')->get();
 		return response()->json($data);
 	}
 
