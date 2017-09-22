@@ -156,11 +156,7 @@
         methods: {
             ...mapMutations([
                 'PUSH_TABLE_DATA',
-                'UPDATE_TABLE_DATA',
-                'ACT_ADDACTIVE',
-                'ACT_EDITACTIVE',
-                'ACT_ADDEDACTIVE',
-                'ACT_EDITEDACTIVE'
+                'UPDATE_TABLE_DATA'
             ]),
             hiddenValue (k, v) {
                 this.ruleForm[k] = v
@@ -183,12 +179,12 @@
                 this.$refs[formName].validate(async (valid) => {
                     if (valid) {
                         if (!this.isEdit) {
-                            await this.ACT_ADDACTIVE({id: this.ruleForm.id, obj: this.ruleForm})
+                            await this.$ACT_ADDACTIVE({vm: this, id: this.ruleForm.id, obj: this.ruleForm})
                             axios.post(this.$adminUrl(this.url), form, headers)
                                 .then(async (responce) => {
                                     if (responce.data) {
-                                        await this.ACT_ADDEDACTIVE({id: this.ruleForm.id, obj: this.ruleForm, res: responce})
-                                        let newOne = this.$deepClone(this.ruleForm)
+                                        let tmp = await this.$ACT_ADDEDACTIVE({vm: this, id: this.ruleForm.id, obj: this.ruleForm, res: responce})
+                                        let newOne = this.$deepClone(tmp ? tmp : this.ruleForm)
                                         newOne.id = typeof (responce.data) === 'object' ? responce.data.id : responce.data
                                         this.PUSH_TABLE_DATA(newOne)
                                         this.$message({
@@ -201,12 +197,12 @@
                         } else {
                             let id = this.scope.row.id
                             form.append('_method', 'PUT')
-                            await this.ACT_EDITACTIVE({id: id, obj: this.ruleForm})
+                            await this.$ACT_EDITACTIVE({vm: this, id: id, obj: this.ruleForm})
                             axios.post(this.$adminUrl(this.url) + '/' + id, form, headers)
                                 .then(async (responce) => {
                                     if (responce.data) {
-                                        await this.ACT_EDITEDACTIVE({id: id, obj: this.ruleForm, res: responce})
-                                        let newOne = this.$deepClone(this.ruleForm)
+                                        let tmp = await this.$ACT_EDITEDACTIVE({vm: this, id: this.ruleForm.id, obj: this.ruleForm, res: responce})
+                                        let newOne = this.$deepClone(tmp ? tmp : this.ruleForm)
                                         newOne.id = typeof (responce.data) === 'object' ? responce.data.id : responce.data
                                         this.UPDATE_TABLE_DATA({index: this.scope.$index, newOne: newOne})
                                         this.$message({

@@ -34,8 +34,7 @@ export default {
             'SPLICE_TABLE_DATA',
             'SET_TOTAL_NUM',
             'SET_NUM',
-            'SET_PAGINATOR',
-            'ACT_DELETEACTIVE'
+            'SET_PAGINATOR'
         ]),
         // 点击删除
         handelDel () {
@@ -53,13 +52,12 @@ export default {
                     type: 'error'
                 }).then(async () => {
                     for (let item of select) {
-                        await this.ACT_DELETEACTIVE(item.id)
+                        await this.$ACT_DELETEACTIVE({vm: this, id: item.id})
                     }
                     let ids = []
                     for (let item of select) {
                         ids.push(item.id)
                     }
-                    console.log(ids)
                     axios.delete(this.$adminUrl('deletes'), {data: {tname: database, ids: ids}})
                         .then((response) => {
                             if (response.data) {
