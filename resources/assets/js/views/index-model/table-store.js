@@ -76,6 +76,10 @@ let TableStore = {
     addActive: null,
     // 表单编辑时，数据录入前的回调函数
     editActive: null,
+    // 表单新增成功后的回调函数
+    addedActive: null,
+    // 表单编辑成功后的回调函数
+    editedActive: null,
     // 表单删除时，数据删除前的回调函数
     deleteActive: null
 }

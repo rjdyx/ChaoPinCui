@@ -79,7 +79,6 @@ class UserController extends Controller
             'openid' => 'nullable|max:50',
             'address' => 'nullable|max:100'
         ]);
-
         if ($id == -1) {
         	$model = new User;
         	$arr = ['name','real_name','sex','age','email','phone','type','address'];
@@ -92,10 +91,15 @@ class UserController extends Controller
         if ($id == -1) {
             $model->password = bcrypt('000000');
         }
-        // $model->img = IQuery::upload($request,'img')['p'];
+        $model->img = IQuery::singleImg($request,'img');
         
         if (!$model->save()) return 0;
-        if ($id != -1) $model->id = $id;
-        return $model->id;
+        if ($id != -1) {
+            $model->id = $id;
+        }
+        return [
+            'id'=>$model->id,
+            'img'=>$model->img
+        ];
     }
 }

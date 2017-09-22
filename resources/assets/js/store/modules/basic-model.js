@@ -12,7 +12,9 @@ const state = {
     subNavBarName: '',
     inputValue: '',
     addActive: null,
+    addedActive: null,
     editActive: null,
+    editedActive: null,
     deleteActive: null
 }
 
@@ -100,6 +102,12 @@ const mutations = {
     SET_EDITACTIVE (state, editActive) {
         state.editActive = editActive
     },
+    SET_ADDEDACTIVE (state, addedActive) {
+        state.addedActive = addedActive
+    },
+    SET_EDITEDACTIVE (state, editedActive) {
+        state.editedActive = editedActive
+    },
     SET_DELETEACTIVE (state, deleteActive) {
         state.deleteActive = deleteActive
     },
@@ -111,6 +119,16 @@ const mutations = {
     ACT_EDITACTIVE (state, {id, obj}) {
         if (state.editActive) {
             return state.editActive(id, obj)
+        }
+    },
+    ACT_ADDEDACTIVE (state, {id, obj, res}) {
+        if (state.addedActive) {
+            return state.addedActive(id, obj, res)
+        }
+    },
+    ACT_EDITEDACTIVE (state, {id, obj, res}) {
+        if (state.editedActive) {
+            return state.editedActive(id, obj, res)
         }
     },
     ACT_DELETEACTIVE (state, id) {

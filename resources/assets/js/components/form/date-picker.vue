@@ -20,10 +20,6 @@
 export default {
     name: 'DatePicker',
     props: {
-        dialogTableVisible: {
-            type: Boolean,
-            default: false
-        },
         isEdit: {
             type: Boolean,
             default: false
@@ -49,11 +45,6 @@ export default {
     mounted () {
         this.setTime()
     },
-    watch: {
-        dialogTableVisible () {
-            this.setTime()
-        }
-    },
     methods: {
         change (val) {
             if (val !== undefined && val !== '') {
@@ -77,7 +68,6 @@ export default {
             return year + '-' + month + '-' + day
         },
         setTime () {
-            if (!this.dialogTableVisible) return
             let value = this.scope.row[this.componentParam.type]
             if ((this.componentParam.nowDate && !value) || !this.isEdit) {
                 this.date = this.getDate()
