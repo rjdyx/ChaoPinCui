@@ -53,7 +53,17 @@ export default {
                 await this.$ACT_DELETEACTIVE({vm: this, id: id})
                 axios.delete(this.$adminUrl(url) + '/' + id)
                     .then((response) => {
-                        if (response.data) {
+                        if (response.data === 0) {
+                            this.$message({
+                                message: '删除失败',
+                                type: 'error'
+                            })
+                        } else if (response.data === -1) {
+                            this.$message({
+                                type: 'error',
+                                message: '已被使用，无法删除'
+                            })
+                        } else {
                             this.$message({
                                 message: '删除成功',
                                 type: 'success'
@@ -62,17 +72,10 @@ export default {
                         }
                     })
             }).catch((e) => {
-                if (e.message === '被引用') {
-                    this.$message({
-                        type: 'error',
-                        message: '分类被使用，无法删除'
-                    })
-                } else {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    })
-                }
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                })
             })
         }
     }

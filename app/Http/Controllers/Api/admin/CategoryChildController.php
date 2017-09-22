@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Model\Category;
+use App\Model\Product;
 use IQuery;
 
 class CategoryChildController extends Controller
@@ -32,6 +33,8 @@ class CategoryChildController extends Controller
     // 单条删除
     public function destroy($id)
     {
+        $childs = Product::where('category_id',$id)->get();
+        if (count($childs)) return -1;
     	if (Category::destroy($id)) return $id;
     	return 0;
     }

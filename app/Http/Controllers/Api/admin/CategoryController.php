@@ -32,6 +32,8 @@ class CategoryController extends Controller
     // 单条删除
     public function destroy($id)
     {
+        $childs = Category::where('pid',$id)->get();
+        if (count($childs)) return -1;
     	if (Category::destroy($id)) return $id;
     	return 0;
     }
