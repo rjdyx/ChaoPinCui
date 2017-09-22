@@ -1,7 +1,7 @@
 <?php
  /*
   V1.0
-  function：Custem Model
+  function：Custom Model
   author：guosenlin
   date：2017-09-14
  */
@@ -10,9 +10,9 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Custem extends Model
+class Custom extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at']; //开启deleted_at
-    protected $table='custems';  //绑定表
+    protected $table='customs';  //绑定表
 }

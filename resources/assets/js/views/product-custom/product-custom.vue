@@ -1,7 +1,7 @@
 /**
  * @description 列表组件上一层，负责数据操作
  * @author 郭森林
- * @date 2017/09/20
+ * @date 2017/09/21
  * 
  */
 <template>
@@ -32,17 +32,17 @@ import Classification from '../expert/classification.vue'
 import DateFilter from 'components/form/date-filter'
 import inputFile from '../../components/public/inputFile.vue'
 export default {
-    name: 'ImgCheckPage',
+    name: 'CustomCheckPage',
     data () {
         return {
             model: {
-                key: 'img',
-                tab: '图片管理',
-                url: 'img',
-                theads: ['名称', '描述', '图片', '排序'],
-                protos: ['name', 'desc', 'thumb', 'sort'],
+                key: 'custom',
+                tab: '产品参数管理',
+                url: 'custom',
+                theads: ['名称', '内容', '排序'],
+                protos: ['name', 'content', 'sort'],
                 protosFilter: [],
-                widths: [50],
+                widths: [50, 50, 50],
                 showDetail: true,
                 colComponents: {},
                 searchModelComponents: [{component: null, params: {}}],
@@ -50,19 +50,19 @@ export default {
                 showTabs: false,
                 formRows: {
                     name: {
-                        label: '图片名称',
+                        label: '参数名称',
                         rules: [
-                            { required: true, message: '请输入产品名称', trigger: 'blur' },
+                            { required: true, message: '请输入名称', trigger: 'blur' },
                             { max: 50, message: '长度在 50 个字符以内', trigger: 'blur' }
                         ],
                         value: '',
                         type: 'input',
                         placeholder: '必填'
                     },
-                    desc: {
-                        label: '描述',
+                    content: {
+                        label: '内容',
                         rules: [
-                            { required: true, max: 255, message: '长度在 255 个字符以内', trigger: 'blur' }
+                            { required: true, max: 2000, message: '长度在 2000 个字符以内', trigger: 'blur' }
                         ],
                         value: '',
                         type: 'textarea',
@@ -75,13 +75,6 @@ export default {
                         ],
                         value: '',
                         type: 'input',
-                        placeholder: ''
-                    },
-                    img: {
-                        label: '图片',
-                        rules: [],
-                        value: '',
-                        component: inputFile,
                         placeholder: ''
                     },
                     product_id: {
@@ -98,9 +91,9 @@ export default {
     },
     mounted () {
         this.SET_NAVBARNAME('产品管理')
-        this.SET_SUBNAVBARNAME('图片管理')
+        this.SET_SUBNAVBARNAME('参数管理')
         let params = {id: this.id}
-        let url = 'img'
+        let url = 'custom'
         axios.get(this.$adminUrl(url), {params: params}).then((res) => {
             this.SET_TABLE_DATA(res.data.data)
             this.SET_TOTAL_NUM(res.data.total)

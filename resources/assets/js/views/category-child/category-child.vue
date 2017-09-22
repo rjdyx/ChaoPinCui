@@ -1,7 +1,7 @@
 /**
  * @description 列表组件上一层，负责数据操作
  * @author 郭森林
- * @date 2017/09/20
+ * @date 2017/09/21
  * 
  */
 <template>
@@ -32,17 +32,17 @@ import Classification from '../expert/classification.vue'
 import DateFilter from 'components/form/date-filter'
 import inputFile from '../../components/public/inputFile.vue'
 export default {
-    name: 'ImgCheckPage',
+    name: 'CustomCheckPage',
     data () {
         return {
             model: {
-                key: 'img',
-                tab: '图片管理',
-                url: 'img',
-                theads: ['名称', '描述', '图片', '排序'],
-                protos: ['name', 'desc', 'thumb', 'sort'],
+                key: 'category_child',
+                tab: '分类子类管理',
+                url: 'category_child',
+                theads: ['名称', '内容', '图标', '图片'],
+                protos: ['name', 'desc', 'ico', 'img'],
                 protosFilter: [],
-                widths: [50],
+                widths: [50, 50, 50],
                 showDetail: true,
                 colComponents: {},
                 searchModelComponents: [{component: null, params: {}}],
@@ -50,9 +50,9 @@ export default {
                 showTabs: false,
                 formRows: {
                     name: {
-                        label: '图片名称',
+                        label: '子类名称',
                         rules: [
-                            { required: true, message: '请输入产品名称', trigger: 'blur' },
+                            { required: true, message: '请输入名称', trigger: 'blur' },
                             { max: 50, message: '长度在 50 个字符以内', trigger: 'blur' }
                         ],
                         value: '',
@@ -68,13 +68,11 @@ export default {
                         type: 'textarea',
                         placeholder: ''
                     },
-                    sort: {
-                        label: '排序',
-                        rules: [
-                            { required: true, trigger: 'blur' }
-                        ],
+                    ico: {
+                        label: '图标',
+                        rules: [],
                         value: '',
-                        type: 'input',
+                        component: inputFile,
                         placeholder: ''
                     },
                     img: {
@@ -84,30 +82,30 @@ export default {
                         component: inputFile,
                         placeholder: ''
                     },
-                    product_id: {
+                    pid: {
                         value: this.$route.params.id,
                         type: 'hidden'
                     }
                 }
             },
             id: this.$route.params.id,
-            theads: {name: '名称', address: '地址', desc: '描述', meridian: '经度', weft: '维度', heat: '热度', comment: '评分'},
+            theads: {name: '名称', desc: '描述', ico: '图标', img: '图片'},
             protos: [],
             total: 0
         }
     },
     mounted () {
-        this.SET_NAVBARNAME('产品管理')
-        this.SET_SUBNAVBARNAME('图片管理')
+        this.SET_NAVBARNAME('分类管理')
+        this.SET_SUBNAVBARNAME('子类管理')
         let params = {id: this.id}
-        let url = 'img'
+        let url = 'category_child'
         axios.get(this.$adminUrl(url), {params: params}).then((res) => {
             this.SET_TABLE_DATA(res.data.data)
             this.SET_TOTAL_NUM(res.data.total)
             this.SET_NUM(res.data.last_page)
             this.SET_PAGINATOR(res.data)
         })
-        url = 'product/' + this.id
+        url = 'category/' + this.id
         axios.get(this.$adminUrl(url)).then((res) => {
             this.protos = res.data
         })

@@ -58,8 +58,7 @@ class CustomController extends Controller
     {
     	$this->validate($request, [
             'name' => 'required|max:50',
-            'product_id' => 'required|exists:products',
-            'content' => 'required|text',
+            'content' => 'required|max:2000',
             'sort' => 'nullable|max:10'
         ]);
 

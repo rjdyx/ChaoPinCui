@@ -199,6 +199,7 @@
                                     }
                                 })
                         } else {
+                            form.append('_method', 'PUT')
                             let id = this.scope.row.id
                             form.append('_method', 'PUT')
                             await this.ACT_EDITACTIVE({id: id, obj: this.ruleForm})
