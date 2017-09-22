@@ -1,4 +1,5 @@
 // 中间列表的数据
+import Img from './img.vue'
 export default {
     feedback: [
         {
@@ -11,7 +12,8 @@ export default {
             widths: [50, 50, 50],
             showNewBuild: false,
             showEdit: false,
-            searchPlaceholder: '请输入反馈用户搜索'
+            searchPlaceholder: '请输入反馈用户搜索',
+            colComponents: {img: Img}
         }
     ]
 }
