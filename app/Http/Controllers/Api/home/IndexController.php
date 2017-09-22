@@ -24,7 +24,7 @@ class IndexController extends Controller
 	// 获取推荐产品信息
 	public function getRecommend()
 	{
-		$data = Product::orderBy('heat','desc')->paginate(4);
+		$data = Category::whereNotNull('pid')->paginate(4);
 		return response()->json($data);
 	}
 }

@@ -16,6 +16,7 @@ class WxController extends Controller
 {
 	use AuthenticatesUsers;
 
+
     /**
      *  100 : 已登录
      *  300 ：已被绑定
@@ -24,6 +25,15 @@ class WxController extends Controller
      *  200 ：登录并绑定成功
      *  404 ：未登录
      */
+    
+    // 微信号绑定判断
+    public function wxCheck(Request $request)
+    {
+        if (empty($request->openid)) return 500;
+        $user = User::where('openid', $request->openid)->first();
+        if (isset($user->id)) return 400;
+        return 200;
+    }
     
     //微信绑定账户
     public function bindWeiXin(Request $request)
@@ -56,20 +66,29 @@ class WxController extends Controller
     //微信号快速注册
     public function bindWeiXinUserRegister(Request $request)
     {
+        if ($request->password != $request->repassword) return 100;
+        if ($this->userCheckUnique('name', $request->name)) return 101;
+        if ($this->userCheckUnique('email', $request->email)) return 102;
+        if ($this->userCheckUnique('phone', $request->email)) return 103;
         $data['openid'] = $request->openid;
-        $data['realname'] = $request->nickname;
-        $data['img'] = $request->headimgurl;
         $data['sex'] = $request->sex;
-        $data['name'] = $this->Noncestr();
-        // $data['phone'] = $request->phone;
-        $data['email'] = $this->randOnlyEmail();
-        $data['password'] = bcrypt('000000');
+        $data['name'] = $request->name;
+        $data['phone'] = $request->phone;
+        $data['email'] = $request->email;
+        $data['password'] = bcrypt($request->password);
         $result = User::create($data);
         //注册成功 自动登录
         if ($result) return 500;
         auth()->login($result);//自动登录;
         return 200;
     }   
+
+    public function userCheckUnique($file, $value)
+    {
+        $user = User::where($file, $value)->first();
+        if (isset($user->id)) return true;
+        return false;
+    }
 
     //微信解除绑定
     public function bindWeiXinRelieve()
@@ -112,7 +131,6 @@ class WxController extends Controller
         ];
     }
 
-
     //验证手机
     public function isMobile($mobile) 
     {
@@ -122,7 +140,6 @@ class WxController extends Controller
             return false;
         }
     }
-
 
     //产生随机字符串，不长于10位
     public function Noncestr( $length = 10 ) 

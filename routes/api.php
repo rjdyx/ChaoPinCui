@@ -45,9 +45,10 @@ Route::group(['namespace' => 'Api'], function() {
 
 	/********************* 前台 ***********************/
 	Route::group(['prefix' => 'home', 'namespace' => 'Home', 'middleware' => 'UserAuth:home'], function() {
-		/* 登录 */
-		Route::post('wx/bind','WxController@bindWeiXin');// 微信绑定账户登录
-		Route::post('wx/register','WxController@bindWeiXinUserRegister');// 微信直接登录
+		/* 登录、注册 */
+		Route::get('wx/check','WxController@wxCheck');//微信解除绑定
+		Route::post('wx/login','WxController@bindWeiXin');// 微信绑定账户登录
+		Route::post('wx/register','WxController@bindWeiXinUserRegister');// 微信注册
 		Route::get('wx/relieve','WxController@bindWeiXinRelieve');//微信解除绑定
 
 		/* 首页 */
@@ -56,7 +57,8 @@ Route::group(['namespace' => 'Api'], function() {
 
 		/*分类页 */
 		Route::get('category/product', 'CategoryController@getProduct'); // 获取该类代表产品
-		Route::get('category/recommend', 'CategoryController@getRecommend'); // 获取该类推荐产品
+		Route::get('category/child', 'CategoryController@getChild'); // 获取该类下的二级分类
+		Route::get('category/recommend', 'CategoryController@getRecommend'); // 获取产品推荐
 
 		/* 产品详情页 */
 		Route::get('product/details', 'ProductController@productInfo'); // 获取产品信息
@@ -66,6 +68,15 @@ Route::group(['namespace' => 'Api'], function() {
 
 		/* 个人中心、用户编辑页 */
 		Route::resource('user', 'UserController');
+
+		/* 我的收藏 */
+		Route::resource('collect', 'CollectController');
+
+		/* 意见反馈 */
+		Route::post('feedback', 'FeedbackController@store');
+
+		/* 公司信息（关于我们） */
+		Route::get('company', 'SystemController@index');
 	});
 
 });
