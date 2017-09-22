@@ -14,6 +14,11 @@ Route::get('auth',function() {
 	return auth::user();
 });
 
+//获取token
+Route::get('/token',function() {
+    return response()->json(csrf_token());
+});
+
 // 首页
 Route::get('/', function () {
     return view('index');
