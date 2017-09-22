@@ -23,7 +23,7 @@
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="sass" scoped>
     @import "../../../sass/function";
     #head {
         position: absolute;

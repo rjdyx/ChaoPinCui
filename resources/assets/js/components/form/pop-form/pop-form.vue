@@ -206,7 +206,6 @@
                                 .then(async (responce) => {
                                     if (responce.data) {
                                         await this.ACT_EDITEDACTIVE({id: id, obj: this.ruleForm, res: responce})
-                                        console.log(this.ruleForm)
                                         let newOne = this.$deepClone(this.ruleForm)
                                         newOne.id = typeof (responce.data) === 'object' ? responce.data.id : responce.data
                                         this.UPDATE_TABLE_DATA({index: this.scope.$index, newOne: newOne})

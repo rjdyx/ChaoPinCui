@@ -89,7 +89,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="sass">
     .numbers {
         margin-top: 20px;
         margin-bottom: -60px;

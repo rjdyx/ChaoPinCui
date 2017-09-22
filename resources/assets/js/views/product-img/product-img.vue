@@ -14,7 +14,7 @@
             @multiSelect="multiSelect"
         >
             <el-row gutter="20">
-                <el-col :xs="12" :sm="8" :md="8" :lg="6" v-for="(item,i) in theads" class="text-small">{{item}}:<em class="margin-left_10">{{protos[i]}}</em>
+                <el-col :xs="12" :sm="8" :md="8" :lg="6" v-for="(item,i) in theads" :key="i" class="text-small">{{item}}:<em class="margin-left_10">{{protos[i]}}</em>
                  </el-col>
             </el-row>
 
@@ -132,7 +132,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="sass">
     .numbers {
         margin-top: 20px;
         margin-bottom: -60px;

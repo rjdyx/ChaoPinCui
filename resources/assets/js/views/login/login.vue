@@ -67,7 +67,7 @@
     }
 </script>
 
-<style lang="scss" scope>
+<style lang="sass" scope>
     #login {
         position: absolute;
         top: 0;

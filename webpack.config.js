@@ -1,16 +1,10 @@
-const path = require('path')
-const env = require('./env.js')
-const webpack = require('webpack')
-const merge = require('webpack-merge')
-const vueLoaderConfig = require('./build/vue-loader.conf')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const path = require('path');
+const env = require('./env.js');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const projectRoot = path.resolve(__dirname, './')
-function resolve (dir) {
-    return path.join(__dirname, '.', dir)
-}
-const isProd = process.env.NODE_ENV === 'production'
-process.traceDeprecation = true
+const projectRoot = path.resolve(__dirname, './');
 
 let config = {
 
@@ -31,58 +25,43 @@ let config = {
         chunkFilename: 'js/[id].[name].js'
     },
     module: {
-        rules: [
-            {
-                test: /\.(js|vue)$/,
-                loader: 'eslint-loader',
-                enforce: 'pre',
-                include: [resolve('resources'), resolve('tests')],
-                options: {
-                    formatter: require('eslint-friendly-formatter')
-                }
-            },
+        //加载器配置
+        loaders: [
             {
                 test: /\.vue$/,
-                loader: 'vue-loader',
-                options: vueLoaderConfig
+                loader: 'vue'
             },
             {
                 test: /\.css$/,
-                use: isProd
-                    ? ExtractTextPlugin.extract({
-                        use: 'css-loader',
-                        fallback: 'style-loader'
-                    })
-                    : ['style-loader', 'css-loader']
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
             },
             {
-                test: /\.scss$/,
-                use: isProd
-                    ? ExtractTextPlugin.extract({
-                        use: 'css-loader!sass-loader',
-                        fallback: 'style-loader'
-                    })
-                    : ['style-loader', 'css-loader', 'sass-loader']
+                test: /\.json$/,
+                loader: 'json'
+            },
+            {
+                test: /iview.src.*?js$/,
+                loader: 'babel'
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader',
-                include: [resolve('resources'), resolve('tests')]
+                loader: 'babel',
+                include: projectRoot,
+                exclude: /node_modules/
             },
             {
-                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: path.posix.join('public', 'img/[name].[hash:7].[ext]')
-                }
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader?sourceMap')
             },
             {
-                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: path.posix.join('public', 'fonts/[name].[hash:7].[ext]')
+                test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+                loader: 'file-loader'
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
+                loader: 'file-loader',
+                query: {
+                  name: '[name].[ext]?[hash]'
                 }
             }
         ]
@@ -90,23 +69,43 @@ let config = {
     // 配置应用层的模块（要被打包的模块）解析
     resolve: {
         // 这样就无需写后缀
-        extensions: ['.js', '.vue', '.json'],
+        extensions: ['', '.js', '.vue'],
+        // 解决当出现 Node.js 模块依赖查找失败的情况
+        fallback: [path.join(__dirname, '../node_modules')],
         // 路径别名
         alias: {
-            'vue': 'vue/dist/vue.js',
-            '@': path.join(__dirname, './resources/assets/js'),
-            'vue': 'vue/dist/vue.js',
             'projectRoot': projectRoot,
+            'vue$': 'vue/dist/vue',
             'sass': path.resolve(__dirname, './resources/assets/sass'),
+            '@': path.resolve(__dirname, './resources/assets/js'),
+            'lang': path.resolve(__dirname, './resources/lang'),
             'components': path.resolve(__dirname, './resources/assets/js/components'),
             'utils': path.resolve(__dirname, './resources/assets/js/utils'),
             'api': path.resolve(__dirname, './resources/assets/js/api')
         }
     },
+
+    // vue-loader 配置
+    vue: {
+        // ... 其他 vue 选项
+        loaders: {
+            // 用 babel-loader 加载所有没有 "lang" 属性的 <script>
+            js: 'babel',
+            // 将vue里面的css、sass和less抽离出来组成一个独立的css文件
+            css: ExtractTextPlugin.extract('vue-style-loader', 'css-loader'),
+            sass: ExtractTextPlugin.extract('vue-style-loader', 'css-loader!sass-loader')
+        },
+        postcss: [
+            require('autoprefixer')({
+                browsers: ['last 2 versions']
+            })
+        ]
+    },
+
     // 插件项
     plugins: [
         // 把css抽离成单独的文件
-        new ExtractTextPlugin({ filename: 'css/[name].css',  allChunks: true }),
+        new ExtractTextPlugin('css/[name].css', { allChunks: true }),
         // 将类库文件进行分开打包,便于缓存
         new webpack.optimize.CommonsChunkPlugin({
           name: 'vendor',
@@ -118,12 +117,15 @@ let config = {
             jQuery: 'jquery',
             'window.jQuery': 'jquery',
             'window.$': 'jquery',
+
             axios: 'axios',
             'window.axios': 'axios',
+
             Vue: 'vue',
             'window.Vue': 'vue'
         })
     ],
+
     node: {
       fs: "empty"
     }
@@ -132,16 +134,16 @@ let config = {
 if(process.env.NODE_ENV == 'development') {
     config = merge(config, {
         plugins: [
-            // new webpack.HotModuleReplacementPlugin(),
             new webpack.DefinePlugin({
                 'process.env.NODE.ENV': "development"
-            })
+            }),
+            // new webpack.HotModuleReplacementPlugin()
         ],
         devServer: {
-            contentBase: "build/",
             historyApiFallback: true,
             hot: true,
             inline: true,
+            progress: true,
             proxy: {
                 '/**': {
                     changeOrigin: true,
@@ -155,7 +157,7 @@ if(process.env.NODE_ENV == 'development') {
     config = merge(config, {
         plugins: [
             new webpack.DefinePlugin({
-                'process.env.NODE.ENV': "prodution"
+                'process.env.NODE.ENV': "development"
             }),
             // minify JS
             new webpack.optimize.UglifyJsPlugin({
@@ -166,5 +168,4 @@ if(process.env.NODE_ENV == 'development') {
         ]
     })
 }
-
 module.exports = config
