@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="新增" size="small" :visible.sync="dialogTableVisible" :show-close="false">
+    <el-dialog :title="title" size="small" :visible.sync="dialogTableVisible" :show-close="false">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" id="pop-form">
             <template v-for="pro of Object.keys(rows)">
                 <!-- 隐藏域 -->
@@ -132,7 +132,8 @@
             return {
                 dialogTableVisible: true,
                 ruleForm: {},
-                rules: {}
+                rules: {},
+                title: this.isEdit ? '编辑' : '新增'
             }
         },
         mounted () {
@@ -187,7 +188,7 @@
                             axios.post(this.$adminUrl(this.url), form, headers)
                                 .then(async (responce) => {
                                     if (responce.data) {
-                                        await this.ACT_ADDEDACTIVE({id: this.ruleForm.id, obj: this.ruleForm, res: responce})
+                                        // await this.ACT_ADDEDACTIVE({id: this.ruleForm.id, obj: this.ruleForm, res: responce})
                                         let newOne = this.$deepClone(this.ruleForm)
                                         newOne.id = typeof (responce.data) === 'object' ? responce.data.id : responce.data
                                         this.PUSH_TABLE_DATA(newOne)
@@ -206,7 +207,7 @@
                             axios.post(this.$adminUrl(this.url) + '/' + id, form, headers)
                                 .then(async (responce) => {
                                     if (responce.data) {
-                                        await this.ACT_EDITEDACTIVE({id: id, obj: this.ruleForm, res: responce})
+                                        // await this.ACT_EDITEDACTIVE({id: id, obj: this.ruleForm, res: responce})
                                         console.log(this.ruleForm)
                                         let newOne = this.$deepClone(this.ruleForm)
                                         newOne.id = typeof (responce.data) === 'object' ? responce.data.id : responce.data

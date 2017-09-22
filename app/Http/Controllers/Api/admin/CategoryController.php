@@ -75,6 +75,7 @@ class CategoryController extends Controller
 
         $arr = ['name','desc'];
         $model->setRawAttributes($request->only($arr));
+
         $model->ico = IQuery::upload($request,'ico')['p'];
         $model->img = IQuery::upload($request,'img')['p'];
 
