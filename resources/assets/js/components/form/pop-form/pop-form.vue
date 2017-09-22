@@ -187,9 +187,9 @@
                             axios.post(this.$adminUrl(this.url), form, headers)
                                 .then(async (responce) => {
                                     if (responce.data) {
-                                        await this.ACT_ADDEDACTIVE({id: this.ruleForm.id, obj: this.ruleForm, res: responce})
+                                        // await this.ACT_ADDEDACTIVE({id: this.ruleForm.id, obj: this.ruleForm, res: responce})
                                         let newOne = this.$deepClone(this.ruleForm)
-                                        newOne.id = typeof (responce.data) === 'object' ? responce.data.id : responce.data
+                                        newOne = this.$changeObj(newOne, responce.data)
                                         this.PUSH_TABLE_DATA(newOne)
                                         this.$message({
                                             message: '新增成功',
@@ -199,17 +199,15 @@
                                     }
                                 })
                         } else {
-                            form.append('_method', 'PUT')
                             let id = this.scope.row.id
                             form.append('_method', 'PUT')
                             await this.ACT_EDITACTIVE({id: id, obj: this.ruleForm})
                             axios.post(this.$adminUrl(this.url) + '/' + id, form, headers)
                                 .then(async (responce) => {
                                     if (responce.data) {
-                                        await this.ACT_EDITEDACTIVE({id: id, obj: this.ruleForm, res: responce})
-                                        console.log(this.ruleForm)
+                                        // await this.ACT_EDITEDACTIVE({id: id, obj: this.ruleForm, res: responce})
                                         let newOne = this.$deepClone(this.ruleForm)
-                                        newOne.id = typeof (responce.data) === 'object' ? responce.data.id : responce.data
+                                        newOne = this.$changeObj(newOne, responce.data)
                                         this.UPDATE_TABLE_DATA({index: this.scope.$index, newOne: newOne})
                                         this.$message({
                                             message: '修改成功',
