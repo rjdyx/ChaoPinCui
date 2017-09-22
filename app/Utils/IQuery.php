@@ -114,11 +114,29 @@ class IQuery{
         }
     }
 
-     //删除视频
+     //删除图片
     public function delImg($file) {
         if ($file != null && $file != '') {
             $pic = str_replace("\\","/",public_path().'/'.($file));
             if (is_file($pic)) unlink($pic);
         }
     }
+
+    //加入文本查询
+    public function ofText(&$query,$val,$text_params=['name'])
+    {
+        if (isset($val)) {
+            $texts=  explode(' ',$val);
+            $query = $query->where(function ($query) use ($text_params, $texts){
+                foreach($text_params as $param){
+                    $query->orWhere(function($query) use ($param, $texts){
+                        foreach($texts as $text){
+                            $query->where($param,'like', '%'.$text.'%');
+                        }
+                    });
+                }
+            });
+        }
+        return $query;
+    } 
 }

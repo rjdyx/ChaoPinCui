@@ -112,7 +112,7 @@ export default {
         getTableData (currentPage = 1, inputValue = '') {
             let url = this.modelObj[this.type][0].url
             this.loading = true
-            axios.get(this.$adminUrl(url), {params: {params: this.model.urlParams, page: currentPage}})
+            axios.get(this.$adminUrl(url), {params: {params: this.model.urlParams, page: currentPage, query_text: inputValue}})
                 .then((response) => {
                     if (response.status === 200) {
                         if (response.data.data.length !== 0) {

@@ -10,7 +10,8 @@ export default {
             protos: ['user_name', 'content', 'img'],
             widths: [50, 50, 50],
             showNewBuild: false,
-            showEdit: false
+            showEdit: false,
+            searchPlaceholder: '请输入反馈用户搜索'
         }
     ]
 }

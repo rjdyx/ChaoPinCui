@@ -18,6 +18,7 @@ export default {
             protos: ['name', 'real_name', 'sex', 'age', 'type', 'email', 'phone', 'address', 'img'],
             widths: [50, 50, 50, 50, 50, 50, 50, 50, 50],
             colComponents: {sex: Sex, type: Type, img: Img},
+            searchPlaceholder: '请输入用户名搜索',
             formRows: {
                 name: {
                     label: '用户名',

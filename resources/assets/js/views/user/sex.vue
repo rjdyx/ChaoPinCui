@@ -7,7 +7,7 @@
  */
 <template>
 	<div>
-		{{scope.row.sex === 1?'男':'女'}}
+		{{sex}}
 	</div>
 </template>
 
@@ -20,6 +20,30 @@ export default {
             default () {
                 return {}
             }
+        }
+    },
+    data () {
+        return {
+            sex: ''
+        }
+    },
+    methods: {
+        getRow () {
+            if (this.scope.row.sex === 0) {
+                this.sex = '保密'
+            } else if (this.scope.row.sex === 1) {
+                this.sex = '男'
+            } else {
+                this.sex = '女'
+            }
+        }
+    },
+    mounted () {
+        this.getRow()
+    },
+    watch: {
+        scope () {
+            this.getRow()
         }
     }
 }
