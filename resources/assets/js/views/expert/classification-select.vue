@@ -66,7 +66,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="sass">
 .btn {
     span {
         border-left: 1px solid #a7bad6;

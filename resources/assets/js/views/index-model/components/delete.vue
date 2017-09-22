@@ -39,8 +39,7 @@ export default {
             'SPLICE_TABLE_DATA',
             'SET_TOTAL_NUM',
             'SET_NUM',
-            'SET_PAGINATOR',
-            'ACT_DELETEACTIVE'
+            'SET_PAGINATOR'
         ]),
         // 点击删除
         handelDel (index, row) {
@@ -51,7 +50,7 @@ export default {
                 confirmButtonText: '确定',
                 type: 'error'
             }).then(async () => {
-                await this.ACT_DELETEACTIVE(id)
+                await this.$ACT_DELETEACTIVE({vm: this, id: id})
                 axios.delete(this.$adminUrl(url) + '/' + id)
                     .then((response) => {
                         if (response.data) {
@@ -80,7 +79,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="sass">
 .btn {
     span {
         border-left: 1px solid #a7bad6;

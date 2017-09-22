@@ -303,7 +303,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="sass" scoped>
     @import "../../../../sass/function";
     #nav {
         height: pxToRem(62);

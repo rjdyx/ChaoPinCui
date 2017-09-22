@@ -110,31 +110,6 @@ const mutations = {
     },
     SET_DELETEACTIVE (state, deleteActive) {
         state.deleteActive = deleteActive
-    },
-    ACT_ADDACTIVE (state, {id, obj}) {
-        if (state.addActive) {
-            return state.addActive(id, obj)
-        }
-    },
-    ACT_EDITACTIVE (state, {id, obj}) {
-        if (state.editActive) {
-            return state.editActive(id, obj)
-        }
-    },
-    ACT_ADDEDACTIVE (state, {id, obj, res}) {
-        if (state.addedActive) {
-            return state.addedActive(id, obj, res)
-        }
-    },
-    ACT_EDITEDACTIVE (state, {id, obj, res}) {
-        if (state.editedActive) {
-            return state.editedActive(id, obj, res)
-        }
-    },
-    ACT_DELETEACTIVE (state, id) {
-        if (state.deleteActive) {
-            return state.deleteActive(id)
-        }
     }
 }
 

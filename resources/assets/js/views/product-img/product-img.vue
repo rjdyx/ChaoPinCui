@@ -134,7 +134,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="sass">
     .basic-model > div#operate {
         margin-top: 1rem !important;
     }
