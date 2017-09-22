@@ -47,7 +47,9 @@ Object.keys(directive).forEach(k => Vue.directive(k, directive[k]()))
 
 // 注册全局方法
 import utils from '../utils/utils'
+import active from '../utils/active'
 Vue.use(utils)
+Vue.use(active)
 
 // 实例化Vue的filter
 import filters from '../filters/filters.js'

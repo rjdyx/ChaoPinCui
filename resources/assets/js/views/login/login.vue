@@ -73,7 +73,7 @@
     }
 </script>
 
-<style lang="scss" scope>
+<style lang="sass" scope>
     .admin-title {
         width: 100%;
         height: 100px;

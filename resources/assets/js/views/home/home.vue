@@ -9,7 +9,7 @@
     <div id="indexHome">
     <h1>个人信息与编辑</h1>
         <template>
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" id="pop-form">
+            <el-form :model="ruleForm" ref="ruleForm" id="pop-form">
                 <el-form-item label="用户名" prop="name">
                     用户名 <el-input type="text" v-model="ruleForm.name"></el-input>
                 </el-form-item>

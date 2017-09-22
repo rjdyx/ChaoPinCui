@@ -39,10 +39,7 @@ const routes = [
                     'category/:model',
                     'log/:model',
                     'feedback/:model',
-                    'product/:model',
-                    'spot-check-result/:model',
-                    'spot-check-application-form/:model',
-                    'expert/:model', 'system/:model'
+                    'product/:model'
                 ],
                 component: middle,
                 meta: { requiresAuth: true }
@@ -60,16 +57,6 @@ const routes = [
             {
                 path: 'product-custom/:id',
                 component: productCustom,
-                meta: { requiresAuth: true }
-            },
-            {
-                path: 'spot-check-page/:id/:count',
-                component: spotCheckPage,
-                meta: { requiresAuth: true }
-            },
-            {
-                path: 'spot-check-result-page/:id/:count',
-                component: spotCheckResultPage,
                 meta: { requiresAuth: true }
             }
         ]

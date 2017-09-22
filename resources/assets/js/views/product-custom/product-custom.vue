@@ -14,9 +14,9 @@
             @multiSelect="multiSelect"
         >
         <el-row :gutter="20" slot="tabs-downside">
-            <el-col :span="6" v-for="(v, k) in theads" class="parent-info">
+            <el-col :span="6" v-for="(v, i) in theads" :key="i" class="parent-info">
                 <span class="grid-content" >{{v}}: </span>
-                {{protos[k]}}
+                {{protos[i]}}
             </el-col>
         </el-row>
 
@@ -127,7 +127,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="sass">
     .basic-model > div#operate {
         margin-top: 1rem !important;
     }
