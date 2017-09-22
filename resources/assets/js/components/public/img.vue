@@ -7,13 +7,13 @@
  */
 <template>
 	<div>
-		{{sex}}
+        <img :src="imgOk">
 	</div>
 </template>
 
 <script>
 export default {
-    name: 'Sex',
+    name: 'Type',
     props: {
         scope: {
             type: Object,
@@ -24,26 +24,21 @@ export default {
     },
     data () {
         return {
-            sex: ''
-        }
-    },
-    methods: {
-        getRow () {
-            if (this.scope.row.sex === 0) {
-                this.sex = '保密'
-            } else if (this.scope.row.sex === 1) {
-                this.sex = '男'
-            } else {
-                this.sex = '女'
-            }
+            imgOk: ''
         }
     },
     mounted () {
-        this.getRow()
+        if (this.scope.row.img !== null && this.scope.row.img !== '') {
+            this.imgOk = 'img/ok.png'
+        }
     },
     watch: {
         scope () {
-            this.getRow()
+            if (this.scope.row.img !== null && this.scope.row.img !== '') {
+                this.imgOk = 'img/ok.png'
+            } else {
+                this.imgOk = ''
+            }
         }
     }
 }

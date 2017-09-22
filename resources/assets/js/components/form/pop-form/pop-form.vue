@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="新增" size="small" :visible.sync="dialogTableVisible" :show-close="false">
+    <el-dialog :title="title" size="small" :visible.sync="dialogTableVisible" :show-close="false">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" id="pop-form">
             <template v-for="pro of Object.keys(rows)">
                 <!-- 隐藏域 -->
@@ -132,7 +132,8 @@
             return {
                 dialogTableVisible: true,
                 ruleForm: {},
-                rules: {}
+                rules: {},
+                title: this.isEdit ? '编辑' : '新增'
             }
         },
         mounted () {

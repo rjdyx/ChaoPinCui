@@ -18,7 +18,9 @@ class UserController extends Controller
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = User::orderBy('created_at','desc')->paginate(config('app.page'));
+    	$datas = User::orderBy('created_at','desc');
+        $datas = IQuery::ofText($datas,$request->query_text);
+        $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }
 
@@ -31,6 +33,8 @@ class UserController extends Controller
     // 单条删除
     public function destroy($id)
     {
+        $img = User::find($id)->img;
+        IQuery::delImg($img);
     	if (User::destroy($id)) return $id;
     	return 0;
     }

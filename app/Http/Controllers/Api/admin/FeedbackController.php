@@ -18,7 +18,10 @@ class FeedbackController extends Controller
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = Feedback::orderBy('created_at','desc')->paginate(config('app.page'));
+    	$datas = Feedback::join('users','feedbacks.user_id','=','users.id')->whereNull('users.deleted_at')
+                ->orderBy('created_at','desc')->select('feedbacks.*','users.name as user_name');
+                $datas = IQuery::ofText($datas,$request->query_text,$text_params=['users.name']);
+                $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }
 

@@ -3,7 +3,7 @@ import { cellphone } from 'utils/validate'
 import SexRadio from './sex-radio.vue'
 import Sex from './sex.vue'
 import Type from './type.vue'
-import Img from './img.vue'
+import Img from '../../components/public/img.vue'
 import { editCallBack } from './edit-callback'
 import DatePicker from 'components/form/date-picker'
 import inputFile from 'components/public/inputFile.vue'
@@ -18,6 +18,7 @@ export default {
             protos: ['name', 'real_name', 'sex', 'age', 'type', 'email', 'phone', 'address', 'img'],
             widths: [50, 50, 50, 50, 50, 50, 50, 50, 50],
             colComponents: {sex: Sex, type: Type, img: Img},
+            searchPlaceholder: '请输入用户名搜索',
             formRows: {
                 name: {
                     label: '用户名',

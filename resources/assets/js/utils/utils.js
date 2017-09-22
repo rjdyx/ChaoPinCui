@@ -102,5 +102,22 @@ export default {
             }
             return targetArr
         }
+
+        /**
+         * 根据传过来的属性添加到对象里面
+         * @param newOne 对象仓储
+         * @param ret 对象返回值
+         * @returns 函数返回值
+         */
+        Vue.prototype.$changeObj = (newOne, ret) => {
+            if (typeof (ret) === 'object') {
+                for (let i in ret) {
+                    newOne[i] = ret[i]
+                }
+            } else {
+                newOne.id = ret
+            }
+            return newOne
+        }
     }
 }

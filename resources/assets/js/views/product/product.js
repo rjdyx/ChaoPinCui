@@ -2,7 +2,10 @@
 import CategorySelect from './category-select.vue'
 import Category from './category.vue'
 import ImgDetails from './img-check-result.vue'
+import CustomDetails from './custom-check-result.vue'
 import inputFile from '../../components/public/inputFile.vue'
+import Img from '../../components/public/img.vue'
+
 export default {
     product: [
         {
@@ -10,13 +13,13 @@ export default {
             tab: '产品',
             url: 'product',
             database: 'Product',
-            theads: ['产品名称', '分类', '描述', '图片', '缩略图', '地址', '经度', '纬度', '关注度', '好评率'],
-            protos: ['name', 'category_name', 'desc', 'img', 'thumb', 'address', 'meridian', 'weft', 'heat', 'comment'],
+            theads: ['产品名称', '分类', '描述', '图片', '地址', '经度', '纬度', '关注度', '好评率'],
+            protos: ['name', 'category_name', 'desc', 'img', 'address', 'meridian', 'weft', 'heat', 'comment'],
             protosFilter: ['img', 'thumb', 'weft', 'heat', 'comment'],
-            widths: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+            widths: [50, 50, 50, 50, 50, 50, 50, 50, 50],
             showDetail: true,
-            // colComponents: {category_id: Category},
-            operateComponents: [{component: ImgDetails, params: {}}],
+            colComponents: {img: Img},
+            operateComponents: [[{component: ImgDetails, params: {}}], [{component: CustomDetails, params: {}}]],
             formRows: {
                 name: {
                     label: '产品名称',
@@ -74,13 +77,6 @@ export default {
                 },
                 img: {
                     label: '图片',
-                    rules: [],
-                    value: '',
-                    component: inputFile,
-                    placeholder: ''
-                },
-                thumb: {
-                    label: '缩略图',
                     rules: [],
                     value: '',
                     component: inputFile,

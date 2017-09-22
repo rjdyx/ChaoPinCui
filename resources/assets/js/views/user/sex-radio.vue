@@ -8,8 +8,9 @@
 <template>
 	<div>
 		<el-radio-group v-model="sex" @change="change">
+            <el-radio-button :label="0">保密</el-radio-button>
             <el-radio-button :label="1">男</el-radio-button>
-            <el-radio-button :label="0">女</el-radio-button>
+            <el-radio-button :label="2">女</el-radio-button>
         </el-radio-group>
 	</div>
 </template>

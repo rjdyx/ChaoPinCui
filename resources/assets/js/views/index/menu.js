@@ -14,7 +14,7 @@ export default [
         ]
     },
     {
-        name: '产品分类管理',
+        name: '特色管理',
         role: 'category',
         // isEvent: false,
         children: [
@@ -43,36 +43,6 @@ export default [
             {
                 path: '/index/feedback/feedback',
                 name: '操作日志'
-            }
-        ]
-    },
-    {
-        name: '专家管理',
-        role: 'expert',
-        children: [
-            {
-                path: '/index/expert/expert',
-                name: '专家管理'
-            }
-        ]
-    },
-    {
-        name: '申请管理',
-        role: 'spot-check-application-form',
-        children: [
-            {
-                path: '/index/spot-check-application-form/spot-check-application-form',
-                name: '申请管理'
-            }
-        ]
-    },
-    {
-        name: '抽取结果',
-        role: 'spot-check-result',
-        children: [
-            {
-                path: '/index/spot-check-result/spot-check-result',
-                name: '抽取结果'
             }
         ]
     }

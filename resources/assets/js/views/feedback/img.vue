@@ -7,7 +7,7 @@
  */
 <template>
 	<div>
-        <img :src="imgOk">
+        <img :src="scope.img" width="50">
 	</div>
 </template>
 
@@ -20,16 +20,6 @@ export default {
             default () {
                 return {}
             }
-        }
-    },
-    data () {
-        return {
-            imgOk: ''
-        }
-    },
-    mounted () {
-        if (this.scope.row.img !== null && this.scope.row.img !== '') {
-            this.imgOk = 'img/ok.png'
         }
     }
 }
