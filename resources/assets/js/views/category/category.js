@@ -1,5 +1,7 @@
 import child from './child-check-result.vue'
 import inputFile from '../../components/public/inputFile.vue'
+import Img from '../../components/public/img.vue'
+
 // 中间列表的数据
 export default {
     category: [
@@ -12,6 +14,7 @@ export default {
             protos: ['name', 'desc', 'ico', 'img'],
             widths: [50, 50, 50, 50],
             operateComponents: [{component: child, params: {}}],
+            colComponents: {img: Img, ico: Img},
             formRows: {
                 name: {
                     label: '分类名称',

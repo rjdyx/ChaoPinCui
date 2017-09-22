@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\Auth;
 class IQuery{
 
     // 单张图片上传
-	public function upload($request, $filename, $isThumb=false)
+	public function upload($request, $name, $isThumb=false)
 	{
+        $filename = $name.'s';
         if ($request->hasFile($filename)) {
             $file = $request->file($filename);
             $path = config('app.image_path').'/';
@@ -21,20 +22,17 @@ class IQuery{
             $check = $file->move($path, $filename);
             $filePath = $path.$filename; //原图路径加名称
             $newfilePath = $path.'SZGC_S_'.time().'.'. $Extension;//缩略图路径名称
-            $this->img_create_small($filePath, config('app.thumb_width'), config('app.thumb_height'), $newfilePath);  //生成缩略图
             $pic['p'] = $filePath;//原图
             if ($isThumb) {
-            	$pic['t'] = $newfilePath;//缩略图
-            	$this->destroyPic($request->$filename, $request->thumb);
-            }else {
-            	$this->destroyPic($request->$filename);
+                $this->img_create_small($filePath, config('app.thumb_width'), config('app.thumb_height'), $newfilePath);  //生成缩略图
+                $pic['t'] = $newfilePath;//缩略图
             }
+            $this->destroyPic($request, $name);
             return $pic;//返回原图 缩略图 的路径 数组
         } else {
-	        if ($request->$filename != 'del') {
-	            $pic['p']= $request->$filename;//原图
-	            if ($isThumb) $pic['t']= $request->thumb;//缩略图
-	        }
+            $pic['p'] = $request->$filename;//原图
+            if ($isThumb) $pic['t']= $request->thumb;//缩略图
+	        if ($request->$filename == 'del') $this->destroyPic($request, $name);
 	        return $pic;//返回原图 缩略图 的路径 数组
         }
 	}
@@ -106,12 +104,12 @@ class IQuery{
     }
 
     // 删除图片
-    public function destroyPic($name='', $thumb='')
+    public function destroyPic($request, $name)
     {
-    	if ($name != null && $name != '') {
-            $name = str_replace("\\","/",public_path().'/'.($name));
-            $thumb = str_replace("\\","/",public_path().'/'.($thumb));
-            if (is_file($name)) unlink($name);
+    	if (!empty($request->$name)) {
+            $img = str_replace("\\","/",public_path().'/'.($request->$name));
+            $thumb = str_replace("\\","/",public_path().'/'.($request->thumb));
+            if (is_file($img)) unlink($img);
             if (is_file($thumb)) unlink($thumb);
         }
     }
