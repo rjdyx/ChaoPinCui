@@ -61,7 +61,7 @@
                             if (res.data === 200) {
                                 this.$message('登录成功')
                                 this.SET_IS_LOGIN(true)
-                                this.$router.push('/')
+                                this.$router.push('/index/home')
                             } else {
                                 this.$message('账号或密码错误')
                             }

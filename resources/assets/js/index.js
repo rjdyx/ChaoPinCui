@@ -25,7 +25,11 @@ router.beforeEach(async (to, from, next) => {
             next()
         }
     } else {
-        next()
+        if (to.path === '/') {
+            next('/index/home')
+        } else {
+            next()
+        }
     }
 })
 
