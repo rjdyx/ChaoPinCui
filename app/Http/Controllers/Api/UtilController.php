@@ -75,6 +75,7 @@ class UtilController extends Controller
         if (empty($tname) || !count($ids)) {
             return response()->json('Parameter error', 500);
         }
+
         $model = 'App\Model\\'."$tname";
         if (!$model::destroy($ids)) return response()->json(0);
         return response()->json(1);

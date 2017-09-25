@@ -68,6 +68,11 @@ export default {
                                 let target = this.$deepClone(this.$store.state.basicModel.tableData)
                                 let result = this.$deleteArrayWith(target, select, 'id')
                                 this.SET_TABLE_DATA(result)
+                            } else {
+                                this.$message({
+                                    type: 'error',
+                                    message: '删除失败'
+                                })
                             }
                         })
                 }).catch((e) => {
