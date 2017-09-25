@@ -141,6 +141,9 @@ export default {
             this.ruleForm.age = v
         },
         submitForm () {
+            if (this.ruleForm.age === undefined) {
+                this.ruleForm.age = null
+            }
             let rule = true
             if (rule) {
                 let headers = {headers: {'Content-Type': 'multipart/form-data'}}
