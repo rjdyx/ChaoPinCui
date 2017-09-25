@@ -229,10 +229,14 @@
                 this.$emit('handleClose')
             },
             returnValue ({pro, val}) {
-                if (val.name !== undefined) {
-                    this.ruleForm[pro + 's'] = val
-                } else if (val === 'del') {
-                    this.ruleForm[pro + 's'] = 'del'
+                if (pro === 'img') {
+                    if (val.name !== undefined) {
+                        this.ruleForm[pro + 's'] = val
+                    } else if (val === 'del') {
+                        this.ruleForm[pro + 's'] = 'del'
+                    } else {
+                        this.ruleForm[pro] = val
+                    }
                 } else {
                     this.ruleForm[pro] = val
                 }

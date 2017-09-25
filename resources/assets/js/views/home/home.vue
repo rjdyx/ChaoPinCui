@@ -23,13 +23,13 @@
                     地址<el-input type="text" v-model="ruleForm.address"></el-input>
                 </el-form-item>
                 <el-form-item prop="sex">
-                    <el-radio class="radio" v-model="ruleForm.sex" label="0">未知</el-radio>
+                    <el-radio class="radio" v-model="ruleForm.sex" label="0">保密</el-radio>
                     <el-radio class="radio" v-model="ruleForm.sex" label="1">男</el-radio>
                     <el-radio class="radio" v-model="ruleForm.sex" label="2">女</el-radio>
                 </el-form-item>
                 <el-form-item prop="sex">
                     <el-date-picker
-                      v-model="value1"
+                      v-model="ruleForm.age"
                       type="date"
                       placeholder="出生年月日"
                       :picker-options="pickerOptions0">
@@ -80,7 +80,6 @@ export default {
                 phone: '',
                 address: ''
             },
-            value1: '',
             pickerOptions0: {
                 disabledDate (time) {
                     return time.getTime() > Date.now() - 8.64e7
@@ -96,12 +95,24 @@ export default {
             axios.get('auth').then((res) => {
                 if (res.data) {
                     this.ruleForm = res.data
-                    this.value1 = res.data.age
+                    this.ruleForm.sex =  res.data.sex.toString()
                 }
-                console.log(this.ruleForm)
             })
         },
         submitForm () {
+            this.ruleForm['_method'] = 'PUT'
+            let url = 'user/' + this.ruleForm.id
+            axios.post(this.$adminUrl(url), this.ruleForm)
+                .then((responce) => {
+                    if (responce.data) {
+                        this.$message({
+                            message: '操作数据成功',
+                            type: 'success'
+                        })
+                    } else {
+                        this.$message('操作数据失败')
+                    }
+                })
         }
     }
 }
