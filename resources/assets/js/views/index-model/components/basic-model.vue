@@ -290,6 +290,7 @@ export default {
         },
         search () {
             this.$emit('search', this.inputValue)
+            this.inputValue = ''
         },
         pageChange (currentPage) {
             this.$emit('pageChange', currentPage)

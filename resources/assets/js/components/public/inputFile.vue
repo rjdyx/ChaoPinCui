@@ -89,11 +89,9 @@ export default {
         }
     },
     mounted () {
-        if (this.row !== undefined) {
-            if (this.row.value !== null && this.isEdit) {
-                this.imageUrl = this.row.value
-                this.$emit('emit', {pro: this.pro, val: this.row.value})
-            }
+        if (this.row.value !== null && this.isEdit) {
+            this.imageUrl = this.row.value
+            this.$emit('emit', {pro: this.pro, val: this.row.value})
         }
     },
     watch: {

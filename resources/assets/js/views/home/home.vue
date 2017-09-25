@@ -111,7 +111,6 @@ export default {
             axios.get('auth').then((res) => {
                 if (res.data) {
                     this.ruleForm = res.data
-                    console.log(res.data.img)
                     this.userImg.value = res.data.img
                     this.id = res.data.id
                 }
@@ -142,7 +141,8 @@ export default {
             this.ruleForm.age = v
         },
         submitForm () {
-            if (1) {
+            let rule = true
+            if (rule) {
                 let headers = {headers: {'Content-Type': 'multipart/form-data'}}
                 let form = this.formDataCl(this.ruleForm)
                 form.append('_method', 'PUT')
