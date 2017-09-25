@@ -77,7 +77,7 @@ class UserController extends Controller
                 })
             ],
             'sex' => 'required',
-            'age' => 'nullable|Date',
+            'age' => 'nullable|date',
             'real_name' => 'nullable|max:30',
             'password' => 'nullable|max:100',
             'openid' => 'nullable|max:50',

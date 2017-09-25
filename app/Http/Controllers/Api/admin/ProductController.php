@@ -20,8 +20,9 @@ class ProductController extends Controller
     {
     	$datas = Product::join('categories','products.category_id','=','categories.id')
                 ->orderBy('products.created_at','desc')
-                ->select('products.*','categories.name as category_name')
-                ->paginate(config('app.page'));
+                ->select('products.*','categories.name as category_name');
+        $datas = IQuery::ofText($datas, $request->query_text, ['products.name']);
+        $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }
 

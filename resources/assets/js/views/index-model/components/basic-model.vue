@@ -99,7 +99,7 @@
             
 
             <!-- checkbox -->
-            <el-table-column v-if="showCheckbox" type="selection" width="50"></el-table-column> 
+            <el-table-column v-if="showCheckbox" type="selection" width="50" :selectable="checkboxDis"></el-table-column> 
 
             <el-table-column v-if="showDetail" type="expand">
                 <template scope="scope">
@@ -268,7 +268,16 @@ export default {
     },
     // 混合
     mixins: [computed],
+    mounted () {
+    },
     methods: {
+        checkboxDis (row, index) {
+            if (row.dels === undefined || row.dels !== null) {
+                return true
+            } else {
+                return false
+            }
+        },
         showPopNew () {
             this.isShowPopNew = true
         },

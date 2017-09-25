@@ -19,8 +19,13 @@ class CategoryChildController extends Controller
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = Category::orderBy('created_at','desc');
-        $datas = $datas->whereNotNull('pid')->paginate(config('app.page'));
+    	$datas = Category::leftjoin('products','categories.id','=','products.category_id')
+                ->orderBy('categories.created_at','desc')
+                ->distinct('categories.id')
+                ->whereNotNull('categories.pid')
+                ->select('categories.*', 'products.id as dels');
+        $datas = IQuery::ofText($datas, $request->query_text, 'categories.name');
+        $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }
 

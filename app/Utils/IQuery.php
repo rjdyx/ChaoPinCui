@@ -123,10 +123,10 @@ class IQuery{
     }
 
     //加入文本查询
-    public function ofText(&$query,$val,$text_params=['name'])
+    public function ofText(&$query, $val, $text_params=['name'])
     {
         if (isset($val)) {
-            $texts=  explode(' ',$val);
+            $texts =  explode(' ',$val);
             $query = $query->where(function ($query) use ($text_params, $texts){
                 foreach($text_params as $param){
                     $query->orWhere(function($query) use ($param, $texts){

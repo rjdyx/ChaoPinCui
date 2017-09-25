@@ -47,7 +47,7 @@ export default {
     },
     mounted () {
         this.select = this.scope.row.category_id
-        axios.get(this.$adminUrl('category'))
+        axios.get(this.$adminUrl('category_child'))
             .then((response) => {
                 if (response.status === 200) {
                     this.$set(this, 'categories', response.data.data)

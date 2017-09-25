@@ -25,7 +25,7 @@ export default {
     props:
     {
         pro: null,
-        row: null,
+        row: {},
         isEdit: false
     },
     data () {
@@ -89,11 +89,14 @@ export default {
         }
     },
     mounted () {
-        console.log(this.row.value)
-        if (this.row.value !== null && this.isEdit) {
-            this.imageUrl = this.row.value
-            this.$emit('emit', {pro: this.pro, val: this.row.value})
+        if (this.row !== undefined) {
+            if (this.row.value !== null && this.isEdit) {
+                this.imageUrl = this.row.value
+                this.$emit('emit', {pro: this.pro, val: this.row.value})
+            }
         }
+    },
+    watch: {
     }
 }
 </script>
