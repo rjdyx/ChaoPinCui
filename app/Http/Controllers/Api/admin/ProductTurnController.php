@@ -1,6 +1,6 @@
 <?php
 /**
- * controller: Turn
+ * controller: ProductTurn
  * autoer: guosenlin
  * date: 2017/09/15
 */
@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 use App\Model\Turn;
 use IQuery;
 
-class TurnController extends Controller
+class ProductTurnController extends Controller
 {
 	// 分页信息
     public function index(Request $request)
