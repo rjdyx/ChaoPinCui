@@ -17,7 +17,7 @@ export default {
             theads: ['产品名称', '分类', '描述', '图片', '地址', '经度', '纬度', '关注度', '好评率'],
             protos: ['name', 'category_name', 'desc', 'img', 'address', 'meridian', 'weft', 'heat', 'comment'],
             protosFilter: ['img', 'desc', 'heat', 'comment'],
-            widths: [30, 30, 50, 30, 50, 50, 50, 50, 50],
+            widths: [50, 50, 20, 80, 40, 40],
             showDetail: true,
             colComponents: {img: Img},
             isOperateMores: true,

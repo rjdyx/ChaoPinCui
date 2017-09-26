@@ -342,9 +342,12 @@ export default {
     #tabs {
         height: pxToRem(62);
     }
-
-    
-
+    tbody .cell div{
+        overflow: hidden; 
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+    }
     #operate {
         height: pxToRem(62);
         line-height: pxToRem(62);

@@ -26,6 +26,11 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/home', function () {
+    return view('home');
+});
+Route::get('phone','HomeController@phone');
+
 Route::get('logout','Auth\LoginController@logout'); //登出
 Auth::routes();
 

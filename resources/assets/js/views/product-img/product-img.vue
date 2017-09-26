@@ -14,7 +14,7 @@
             @multiSelect="multiSelect"
         >
         <el-row :gutter="20" slot="tabs-downside">
-            <el-col :span="6" v-for="(v, i) in theads" :key="i" class="parent-info">
+            <el-col :span="6" v-for="(v, i) in theads" :key="i" class="parent-info"  :title="protos[i]">
                 <span class="grid-content" >{{v}}: </span>
                 {{protos[i]}}
             </el-col>
@@ -142,6 +142,10 @@ export default {
     .parent-info{
         color:#999999;
         height: 40px;
+        overflow: hidden; 
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
     }
     .numbers {
         margin-top: 20px;
