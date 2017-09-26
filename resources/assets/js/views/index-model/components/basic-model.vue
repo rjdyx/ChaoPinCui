@@ -183,6 +183,23 @@
                             :scope="scope" 
                             :model="model"
                         ></custom-col-component>
+                        <!-- 右边自定义more -->
+                        <el-dropdown v-if="isOperateMores">
+                            <span class="el-dropdown-link">
+                                更多<i class="el-icon-caret-bottom el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item v-for="(operateBuntton, index) in operateMoreComponents">       
+                                    <component
+                                        :is="operateBuntton.component" 
+                                        :params="operateBuntton.params" 
+                                        :scope="scope" 
+                                        :model="model"
+                                        :key="index"
+                                    ></component>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
                     </template>
                 </template>
             </el-table-column>
@@ -259,6 +276,7 @@ export default {
             multipleSelection: [],
             // 默认搜索框的值
             inputValue: '',
+            operateMoreShow: false,
             isShowPopNew: false,
             isShowPopEdit: false,
             editScope: {row: {}},

@@ -145,6 +145,12 @@ export default {
         operateComponents () {
             return this.model.operateComponents
         },
+        isOperateMores () {
+            return this.model.isOperateMores
+        },
+        operateMoreComponents () {
+            return this.model.operateMoreComponents
+        },
         colComponents () {
             return this.model.colComponents
         }
