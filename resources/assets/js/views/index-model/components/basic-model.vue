@@ -290,10 +290,10 @@ export default {
     },
     methods: {
         checkboxDis (row, index) {
-            if (row.dels === undefined || row.dels === null) {
-                return true
-            } else {
+            if (row.dels !== undefined && row.dels !== null) {
                 return false
+            } else {
+                return true
             }
         },
         showPopNew () {
