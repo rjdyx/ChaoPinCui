@@ -20,14 +20,26 @@ class CategoryChildController extends Controller
     public function index(Request $request)
     {
         $pid = $request->id;
-    	$datas = Category::leftjoin('products','categories.id','=','products.category_id')
-                ->orderBy('categories.created_at','desc')
-                ->distinct('categories.id')
-                ->where('categories.pid','=',$pid)
-                ->select('categories.*', 'products.id as dels');
-        $datas = IQuery::ofText($datas, $request->query_text, 'categories.name');
+        $datas = Category::whereNotNull('pid')->where('pid','=',$pid)->orderBy('created_at','asc');    
+        $datas = IQuery::ofText($datas, $request->query_text, 'parent.name');
         $datas = $datas->paginate(config('app.page'));
+        $datas = $this->childIsExist($datas);
+
     	return response()->json($datas);
+    }
+
+    public function childIsExist($datas)
+    {
+        $lists = $datas;
+        foreach ($lists as $k => $list) {
+            $count = Product::where('category_id', $list->id)->count();
+            if ($count) {
+                $datas[$k]->dels = $count;
+            } else {
+                $datas[$k]->dels = null;
+            }
+        }
+        return $datas;
     }
 
     // 查看

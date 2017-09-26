@@ -12,20 +12,33 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Model\Category;
 use IQuery;
+use DB;
 
 class CategoryController extends Controller
 {
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = Category::leftjoin('categories as child', 'categories.id', '=', 'child.pid')
-                ->orderBy('categories.created_at','desc')
-                ->distinct('categories.id')
-                ->whereNull('categories.pid')
-                ->select('categories.*', 'child.id as dels');
-        $datas = IQuery::ofText($datas, $request->query_text, 'categories.name');
+        $datas = Category::whereNull('pid')->orderBy('created_at','asc');    
+        $datas = IQuery::ofText($datas, $request->query_text, 'parent.name');
         $datas = $datas->paginate(config('app.page'));
+        $datas = $this->childIsExist($datas);
+
     	return response()->json($datas);
+    }
+
+    public function childIsExist($datas)
+    {
+        $lists = $datas;
+        foreach ($lists as $k => $list) {
+            $count = Category::where('pid', $list->id)->count();
+            if ($count) {
+                $datas[$k]->dels = $count;
+            } else {
+                $datas[$k]->dels = null;
+            }
+        }
+        return $datas;
     }
 
     // 查看

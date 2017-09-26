@@ -14,11 +14,13 @@
                 <li><router-link to="/index/home">首页</router-link></li>
             </ul>
             <ul class="right">
-                <li></li>
                 <li>
                     <el-button @click="logout">退出</el-button>
                 </li>
             </ul>
+            <div style="float: right;margin-right: 30px;">
+                {{date}}
+            </div>
         </div>
     </div>
 </template>
@@ -91,7 +93,16 @@
     export default{
         name: 'MyHeader',
         data () {
-            return {}
+            return {
+                date: ''
+            }
+        },
+        mounted () {
+            let _this = this
+            setInterval(function(){
+                let myDate = new Date()
+                _this.date = myDate.toLocaleDateString() + '  ' + myDate.toLocaleTimeString()
+            }, 1000)
         },
         methods: {
             ...mapMutations([

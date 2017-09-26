@@ -290,7 +290,7 @@ export default {
     },
     methods: {
         checkboxDis (row, index) {
-            if (row.dels === undefined || row.dels !== null) {
+            if (row.dels === undefined || row.dels === null) {
                 return true
             } else {
                 return false
