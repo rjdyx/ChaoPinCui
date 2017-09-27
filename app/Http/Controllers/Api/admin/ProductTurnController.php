@@ -18,8 +18,8 @@ class ProductTurnController extends Controller
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = Turn::orderBy('created_at','desc')
-        $datas = IQuery::ofText($datas,$request->query_text);
+    	$datas = Turn::orderBy('created_at','desc');
+        $datas = IQuery::ofText($datas, $request->query_text);
         $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }

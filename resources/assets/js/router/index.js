@@ -41,6 +41,7 @@ const routes = [
                     'category/:model',
                     'log/:model',
                     'feedback/:model',
+                    'trues/:model',
                     'product/:model'
                 ],
                 component: middle,
