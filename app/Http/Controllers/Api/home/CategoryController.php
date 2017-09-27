@@ -43,6 +43,15 @@ class CategoryController extends Controller
 				->whereNull('products.deleted_at')
 				->select('products.*')
 				->paginate($num);
-		return $data;
+		return response()->json($data);
+	}
+
+	// 获取其它分类
+	public function getOther(Request $request)
+	{
+		$data = Category::whereNull('pid')
+				->where('id', '!=', $request->id)
+				->paginate(8);
+		return response()->json($data);
 	}
 }

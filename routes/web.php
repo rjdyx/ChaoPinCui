@@ -32,6 +32,8 @@ Route::get('/home', function () {
 Route::get('phone','HomeController@phone');
 
 Route::get('logout','Auth\LoginController@logout'); //登出
+Route::get('get/openid','HomeController@getOpenid'); //获取openid
+
 Auth::routes();
 
 // Api 接口
@@ -76,6 +78,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		Route::get('category/product', 'CategoryController@getProduct'); // 获取该类代表产品
 		Route::get('category/child', 'CategoryController@getChild'); // 获取该类下的二级分类
 		Route::get('category/recommend', 'CategoryController@getRecommend'); // 获取产品推荐
+		Route::get('category/other', 'CategoryController@getOther'); // 获取其它分类
 
 		/* 产品详情页 */
 		Route::get('product/details', 'ProductController@productInfo'); // 获取产品信息
