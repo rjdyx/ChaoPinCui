@@ -58,7 +58,7 @@ Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))
 /**
  * http请求过滤
  */
-
+import router from '../router/index.js'
 axios.defaults.headers.common = {
     'X-CSRF-TOKEN': Laravel.csrfToken,
     'X-Requested-With': 'XMLHttpRequest'
@@ -74,5 +74,13 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (response) {
     return response
 }, function (error) {
+    // 未登录
+    if (error.response.status === 401 || error.response.status === 403) {
+        window.Auth = null
+        router.replace({
+            path: '/login',
+            query: {}
+        })
+    }
     return Promise.reject(error)
 })

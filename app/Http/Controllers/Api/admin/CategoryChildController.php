@@ -19,9 +19,27 @@ class CategoryChildController extends Controller
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = Category::orderBy('created_at','desc');
-        $datas = $datas->whereNotNull('pid')->paginate(config('app.page'));
+        $pid = $request->id;
+        $datas = Category::whereNotNull('pid')->where('pid','=',$pid)->orderBy('created_at','asc');    
+        $datas = IQuery::ofText($datas, $request->query_text, 'parent.name');
+        $datas = $datas->paginate(config('app.page'));
+        $datas = $this->childIsExist($datas);
+
     	return response()->json($datas);
+    }
+
+    public function childIsExist($datas)
+    {
+        $lists = $datas;
+        foreach ($lists as $k => $list) {
+            $count = Product::where('category_id', $list->id)->count();
+            if ($count) {
+                $datas[$k]->dels = $count;
+            } else {
+                $datas[$k]->dels = null;
+            }
+        }
+        return $datas;
     }
 
     // 查看

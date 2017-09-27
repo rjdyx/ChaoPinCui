@@ -67,6 +67,10 @@ let TableStore = {
     // 此属性为一维数组时，可通过operateButtonPosition属性决定按钮的位置
     // 此属性为二维数组时，自动将第一个数组在左边显示，第二个在右边显示
     operateComponents: [{component: null, params: {}}],
+    // more 更多自定义
+    // 参数参考上面一个
+    isOperateMores: false,
+    operateMoreComponents: [{component: null, params: {}}],
     // 列替换对象
     // 比如需要自定义性别这一列，可写为{sex: sexComponent}
     // 属性名与protos属性数组里的值一致

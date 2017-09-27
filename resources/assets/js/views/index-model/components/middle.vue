@@ -35,16 +35,14 @@ import BasicModel from './basic-model'
 import user from '../../user/user'
 import feedback from '../../feedback/feedback'
 import log from '../../log/log'
-import expert from '../../expert/expert'
 import category from '../../category/category'
 import product from '../../product/product'
-import spotCheckApplicationForm from '../../spot-check-application-form/spot-check-application-form'
-import spotCheckResult from '../../spot-check-result/spot-check-result'
+import trues from '../../trues/trues'
 export default {
     name: 'Message',
     data () {
         let modelObj = {}
-        Object.assign(modelObj, user, log, feedback, category, product, expert, spotCheckApplicationForm, spotCheckResult)
+        Object.assign(modelObj, user, log, feedback, category, product, trues)
         return {
             modelObj: modelObj,
             model: {},

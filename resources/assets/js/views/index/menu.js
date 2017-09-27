@@ -37,6 +37,10 @@ export default [
                 name: '系统配置'
             },
             {
+                path: '/index/trues/trues',
+                name: '广告管理'
+            },
+            {
                 path: '/index/feedback/feedback',
                 name: '意见反馈'
             },

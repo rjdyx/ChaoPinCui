@@ -20,7 +20,7 @@
         </div>
     </div>
 </div>
-
+    <a href="{{url('phone')}}?phone=15088132183">获取验证码</a>
 <script>
     // $.ajax({url:'api/get/table', data:{tname:'users',whs:['type|=|0']}, success:function(data){
     //         console.log(data)

@@ -13,12 +13,18 @@ use Illuminate\Validation\Rule;
 use App\Model\Comment;
 use IQuery;
 
-class TurnController extends Controller
+class CommentController extends Controller
 {
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = Comment::orderBy('created_at','desc')->paginate(config('app.page'));
+        $id = $request->id;
+    	$datas = Comment::join('users','comments.user_id','=','users.id')
+                ->where('comments.product_id','=',$id)
+                ->orderBy('created_at','desc')
+                ->select('comments.*','users.name as user_name');
+        $datas = IQuery::ofText($datas, $request->query_text, 'comments.content');
+        $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }
 

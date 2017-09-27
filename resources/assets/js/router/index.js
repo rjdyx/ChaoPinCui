@@ -11,6 +11,7 @@ import system from '../views/system/system.vue'
 import middle from '../views/index-model/components/middle.vue'
 import spotCheckPage from '../views/spot-check-page/spot-check-page.vue'
 import productImg from '../views/product-img/product-img.vue'
+import productComment from '../views/product-comment/product-comment.vue'
 import categoryChild from '../views/category-child/category-child.vue'
 import productCustom from '../views/product-custom/product-custom.vue'
 import spotCheckResultPage from '../views/spot-check-result-page/spot-check-result-page.vue'
@@ -40,6 +41,7 @@ const routes = [
                     'category/:model',
                     'log/:model',
                     'feedback/:model',
+                    'trues/:model',
                     'product/:model'
                 ],
                 component: middle,
@@ -58,6 +60,11 @@ const routes = [
             {
                 path: 'product-custom/:id',
                 component: productCustom,
+                meta: { requiresAuth: true }
+            },
+            {
+                path: 'product-comment/:id',
+                component: productComment,
                 meta: { requiresAuth: true }
             },
             {

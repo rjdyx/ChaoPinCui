@@ -25,7 +25,7 @@ export default {
     props:
     {
         pro: null,
-        row: null,
+        row: {},
         isEdit: false
     },
     data () {
@@ -93,6 +93,8 @@ export default {
             this.imageUrl = this.row.value
             this.$emit('emit', {pro: this.pro, val: this.row.value})
         }
+    },
+    watch: {
     }
 }
 </script>

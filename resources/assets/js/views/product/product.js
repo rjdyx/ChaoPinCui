@@ -3,6 +3,7 @@ import CategorySelect from './category-select.vue'
 import Category from './category.vue'
 import ImgDetails from './img-check-result.vue'
 import CustomDetails from './custom-check-result.vue'
+import CommentDetails from './comment-check-result.vue'
 import inputFile from '../../components/public/inputFile.vue'
 import Img from '../../components/public/img.vue'
 
@@ -15,11 +16,13 @@ export default {
             database: 'Product',
             theads: ['产品名称', '分类', '描述', '图片', '地址', '经度', '纬度', '关注度', '好评率'],
             protos: ['name', 'category_name', 'desc', 'img', 'address', 'meridian', 'weft', 'heat', 'comment'],
-            protosFilter: ['img', 'thumb', 'weft', 'heat', 'comment'],
-            widths: [50, 50, 50, 50, 50, 50, 50, 50, 50],
+            protosFilter: ['img', 'desc', 'heat', 'comment'],
+            widths: [50, 50, 20, 80, 40, 40],
             showDetail: true,
             colComponents: {img: Img},
-            operateComponents: [[{component: ImgDetails, params: {}}], [{component: CustomDetails, params: {}}]],
+            isOperateMores: true,
+            operateMoreComponents: [{component: ImgDetails, params: {}}, {component: CustomDetails, params: {}}, {component: CommentDetails, params: {}}],
+            // operateComponents: [],
             formRows: {
                 name: {
                     label: '产品名称',

@@ -14,7 +14,7 @@
             @multiSelect="multiSelect"
         >
         <el-row :gutter="20" slot="tabs-downside">
-            <el-col :span="6" v-for="(v, i) in theads" :key="i" class="parent-info">
+            <el-col :span="6" v-for="(v, i) in theads" :key="i" class="parent-info"  :title="protos[i]">
                 <span class="grid-content" >{{v}}: </span>
                 {{protos[i]}}
             </el-col>
@@ -31,6 +31,7 @@ import BasicModel from '../index-model/components/basic-model'
 import Classification from '../expert/classification.vue'
 import DateFilter from 'components/form/date-filter'
 import inputFile from '../../components/public/inputFile.vue'
+import Img from '../../components/public/img.vue'
 export default {
     name: 'ImgCheckPage',
     data () {
@@ -40,11 +41,11 @@ export default {
                 tab: '图片管理',
                 url: 'img',
                 theads: ['名称', '描述', '图片', '排序'],
-                protos: ['name', 'desc', 'thumb', 'sort'],
+                protos: ['name', 'desc', 'img', 'sort'],
                 protosFilter: [],
-                widths: [50],
+                widths: [50, 50, 50, 50],
                 showDetail: true,
-                colComponents: {},
+                colComponents: {img: Img},
                 searchModelComponents: [{component: null, params: {}}],
                 topOperateComponents: [{component: null, params: {}}],
                 showTabs: false,
@@ -141,6 +142,10 @@ export default {
     .parent-info{
         color:#999999;
         height: 40px;
+        overflow: hidden; 
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
     }
     .numbers {
         margin-top: 20px;
