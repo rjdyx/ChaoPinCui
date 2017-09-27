@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use App\User;
+use App\Model\User;
 use App\System;
 use IQuery;
 use Redirect;
@@ -74,6 +74,8 @@ class WxController extends Controller
         $data['name'] = $request->name;
         $data['phone'] = $request->phone;
         $data['email'] = $request->email;
+        $data['type'] = 0;
+        $data['sex'] = 0;
         $data['password'] = bcrypt($request->password);
         $result = User::create($data);
         //注册成功 自动登录

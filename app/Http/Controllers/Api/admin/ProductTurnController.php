@@ -20,7 +20,7 @@ class ProductTurnController extends Controller
     {
     	$datas = Turn::leftjoin('products','turns.product_id','=','products.id')
                 ->orderBy('turns.created_at','desc')
-                ->select('turns.*','products.name');
+                ->select('turns.*','products.name as product_name');
         $datas = IQuery::ofText($datas, $request->query_text, 'products.name');
         $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
@@ -62,7 +62,7 @@ class ProductTurnController extends Controller
     {
     	$this->validate($request, [
             'state' => 'required',
-            'product_id' => 'required|exists:products',
+            'product_id' => 'required',
             'sort' => 'required|max:10',
             'url' => 'nullable|max:100',
         ]);
@@ -73,9 +73,9 @@ class ProductTurnController extends Controller
         	$model = Turn::find($id);
         }
 
-        $arr = ['name', 'content', 'product_id', 'sort', 'desc'];
+        $arr = ['state', 'url', 'product_id', 'sort'];
         $model->setRawAttributes($request->only($arr));
-        $model->img =  IQuery::upload($request,'img')['p'];
+        $model->img = IQuery::upload($request, 'img')['p'];
         
         if (!$model->save()) return 0;
         if ($id != -1) $model->id = $id;
