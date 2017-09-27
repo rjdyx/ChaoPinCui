@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Notifications\PhoneInfo;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -32,7 +34,9 @@ class HomeController extends Controller
         $key = '21484cb6e2b39';
         $secret = 'febbc128b60e6600222b5d1261df3020';
         $code=rand(1000,9999);  
-
+        $user = new User;
+        $user->notify(new PhoneInfo($phone));
+        return $code;
         $data = [
             'appkey'=>$key,
             'phone'=>$phone,

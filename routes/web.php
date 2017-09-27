@@ -60,8 +60,8 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		Route::resource('comment', 'CommentController'); // 评论管理
 	});
 
-	/********************* 前台 ***********************/
-	Route::group(['prefix' => 'home', 'namespace' => 'Home', 'middleware' => 'UserAuth:home'], function() {
+	/********************* 前台 不登录 ***********************/
+	Route::group(['prefix' => 'home', 'namespace' => 'Home'], function() {
 		/* 登录、注册 */
 		Route::get('wx/check','WxController@wxCheck');//微信解除绑定
 		Route::post('wx/login','WxController@bindWeiXin');// 微信绑定账户登录
@@ -83,6 +83,13 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		Route::get('product/nearbys', 'ProductController@productNearby'); // 获取当前产品附近产品信息
 		Route::get('product/lists', 'ProductController@productLists'); // 获取产品列表信息
 
+		/* 公司信息（关于我们） */
+		Route::get('company', 'SystemController@index');
+	});
+
+	/********************* 前台 须登录 ***********************/
+	Route::group(['prefix' => 'home', 'namespace' => 'Home', 'middleware' => 'UserAuth:home'], function() {
+
 		/* 个人中心、用户编辑页 */
 		Route::resource('user', 'UserController');
 
@@ -91,8 +98,5 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 
 		/* 意见反馈 */
 		Route::post('feedback', 'FeedbackController@store');
-
-		/* 公司信息（关于我们） */
-		Route::get('company', 'SystemController@index');
 	});
 });

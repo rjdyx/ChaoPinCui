@@ -22,6 +22,17 @@ class PhoneInfo extends Notification
     }
 
     /**
+     * Get the notification's delivery channels.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function via($notifiable)
+    {
+        return ['nexmo'];
+    }
+
+    /**
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
