@@ -21,7 +21,7 @@ class ProductController extends Controller
 	{
 		$info = Product::find($request->id);
 		$recommend = $this->productCustoms($request->id);
-		$comment = $this->getComment($request->id);
+		$comment = $this->productComment($request->id);
 		$res = ['info'=>$info, 'recommend'=>$recommend, 'comment'=>$comment];
 		return response()->json($res);
 	}
