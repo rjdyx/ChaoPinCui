@@ -22,7 +22,7 @@
                 </el-form-item>
                 <!-- 下拉框 -->
                 <el-form-item v-else-if="rows[pro].type === 'select'" :label="rows[pro].label" :prop="pro">
-                    <el-select v-model="ruleForm[pro]" :placeholder="rows[pro].placeholder" id="el-select">
+                    <el-select v-model="ruleForm[pro]" filterable :placeholder="rows[pro].placeholder" id="el-select">
                         <el-option 
                             v-for="(option, index) in rows[pro].options" 
                             :label="option[rows[pro].optionLabel]" 

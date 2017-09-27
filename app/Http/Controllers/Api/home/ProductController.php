@@ -35,7 +35,12 @@ class ProductController extends Controller
 	// 获取产品评论信息
 	public function productComment($id)
 	{
-		return Comment::where('product_id', $id)->get();
+		$data = Comment::where('product_id', $id)->get();
+		foreach ($data as $key => $value) {
+			$data[$key]->img = explode(',', $value->img);
+			$data[$key]->thumb = explode(',', $value->thumb);
+		}
+		return $data;
 	}
 
 	// 获取产品图片信息

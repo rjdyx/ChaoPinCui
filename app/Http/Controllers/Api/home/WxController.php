@@ -69,16 +69,15 @@ class WxController extends Controller
         if ($request->password != $request->repassword) return 100;
         if ($this->userCheckUnique('name', $request->name)) return 101;
         if ($this->userCheckUnique('email', $request->email)) return 102;
-        if ($this->userCheckUnique('phone', $request->email)) return 103;
+        if ($this->userCheckUnique('phone', $request->phone)) return 103;
         $data['openid'] = $request->openid;
-        $data['sex'] = $request->sex;
         $data['name'] = $request->name;
         $data['phone'] = $request->phone;
         $data['email'] = $request->email;
         $data['password'] = bcrypt($request->password);
         $result = User::create($data);
         //注册成功 自动登录
-        if ($result) return 500;
+        if (!$result) return 500;
         auth()->login($result);//自动登录;
         return 200;
     }   
