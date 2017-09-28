@@ -132,7 +132,7 @@ class WxController extends Controller
         }
         return [
             [$field => $login,'password' => $request->pass],
-            ['filed'=>$filed]
+            ['filed'=>$field]
         ];
     }
 
