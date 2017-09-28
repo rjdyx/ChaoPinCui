@@ -37,9 +37,10 @@ class ProductController extends Controller
 	public function productComment($id)
 	{
 		$data = Comment::join('users','comments.user_id','=','users.id')
+			->join('products','comments.product_id','=','products.id')
 			->where('comments.product_id', $id)
 			->orderBy('created_at','desc')
-			->select('comments.*','users.img as user_img')
+			->select('comments.*','users.img as user_img', 'users.name as user_name','products.comment as count_comment')
 			->get();
 		foreach ($data as $key => $value) {
 			$data[$key]->img = explode(',', $value->img);
