@@ -52,7 +52,7 @@ class WxController extends Controller
         if (!$this->guard()->attempt($user[0])) return 400;
 
         /****** 4.绑定登录 ******/
-        return $this->login($field, $user[0][$filed]);
+        return $this->login($filed, $user[0][$filed]);
     }
 
     //  登录、绑定
