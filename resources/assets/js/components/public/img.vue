@@ -27,20 +27,21 @@ export default {
             imgOk: ''
         }
     },
-    mounted () {
-        if (this.scope.row.img !== null && this.scope.row.img !== '') {
-            this.imgOk = 'img/ok.png'
-        } else {
-            this.imgOk = 'img/no.png'
-        }
-    },
-    watch: {
-        scope () {
+    methods: {
+        changeImg () {
             if (this.scope.row.img !== null && this.scope.row.img !== '') {
                 this.imgOk = 'img/ok.png'
             } else {
                 this.imgOk = 'img/no.png'
             }
+        }
+    },
+    mounted () {
+        this.changeImg()
+    },
+    watch: {
+        scope () {
+            this.changeImg()
         }
     }
 }

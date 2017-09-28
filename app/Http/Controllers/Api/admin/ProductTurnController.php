@@ -21,7 +21,7 @@ class ProductTurnController extends Controller
     	$datas = Turn::leftjoin('products','turns.product_id','=','products.id')
                 ->orderBy('turns.created_at','desc')
                 ->select('turns.*','products.name as product_name');
-        $datas = IQuery::ofText($datas, $request->query_text, 'products.name');
+        $datas = IQuery::ofText($datas, $request->query_text, 'turn', 'products.name');
         $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }
@@ -35,7 +35,11 @@ class ProductTurnController extends Controller
     // 单条删除
     public function destroy($id)
     {
-    	if (Turn::destroy($id)) return $id;
+    	if (Turn::destroy($id)){
+            IQuery::ofLog('turn', 4, 0);
+            return $id;
+        }
+        IQuery::ofLog('turn', 4, 1);
     	return 0;
     }
 
@@ -77,8 +81,12 @@ class ProductTurnController extends Controller
         $model->setRawAttributes($request->only($arr));
         $model->img = IQuery::upload($request, 'img')['p'];
         
-        if (!$model->save()) return 0;
+        if (!$model->save()) {
+            IQuery::logNewOrEdit($id, 'turn', 1);
+            return 0;
+        }
         if ($id != -1) $model->id = $id;
+        IQuery::logNewOrEdit($id, 'turn', 0);
         return $model->id;
     }
 }
