@@ -41,28 +41,24 @@ class WxController extends Controller
         /****** 1.登录状态 ******/
         if (Auth::user()) return 100;
 
+        $user = $this->credentials($request);
+        $filed = $user[1]['filed'];
+
         /****** 2.微信号是否被绑定 ******/
-        $user = User::where('openid',$request->openid)->first();
-        if (empty($user->id)) return 300;
+        $user = User::where('openid',$request->openid)->where($filed,'!=',$user[0][$filed])->first();
+        if (!empty($user->id)) return 300;
 
         /****** 3.用户密码验证 ******/
-        $user = $this->credentials($request);
-        if (!$this->guard()->attempt($user)) return 400;
+        if (!$this->guard()->attempt($user[0])) return 400;
 
         /****** 4.绑定登录 ******/
-        return $this->login($user);
+        return $this->login($field, $user[0][$filed]);
     }
 
     //  登录、绑定
-    public function login($user)
+    public function login($filed, $value)
     {   
-        foreach ($user as $key => $value) {
-            if ($key != 'password') {
-                $field = $key;
-                $v = $value;
-            }
-        }
-        $model = User::where($filed, $v);
+        $model = User::where($filed, $value);
         $model->openid = $request->openid;
         if (!$model->save()) return 500;
         auth()->login($model);
@@ -135,8 +131,8 @@ class WxController extends Controller
             $field=$field1;
         }
         return [
-            $field => $login,
-            'password' => $request->pass,
+            [$field => $login,'password' => $request->pass],
+            ['filed'=>$filed]
         ];
     }
 
