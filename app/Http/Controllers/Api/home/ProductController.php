@@ -20,7 +20,11 @@ class ProductController extends Controller
 	// 产品基础信息
 	public function productInfo(Request $request)
 	{
-		$info = Product::find($request->id);
+		$info = Product::join('categories','products.category_id','=','categories.id')
+			->join('categories as parent','categories.pid','=','parent.id')
+			->where('products.id','=',$request->id)
+			->select('products.*','parent.name as parent_name','categories.name as category_name')
+			->first();
 		$recommend = $this->productCustoms($request->id);
 		$comment = $this->productComment($request->id);
 		$res = ['info'=>$info, 'recommend'=>$recommend, 'comment'=>$comment];
