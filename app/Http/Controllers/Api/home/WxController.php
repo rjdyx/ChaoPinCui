@@ -61,7 +61,7 @@ class WxController extends Controller
         $model = User::where($filed, $value)->first();
         $model->openid = $request->openid;
         if (!$model->save()) return 500;
-        auth()->login($model);
+        // auth()->login($model);
         return $model;
         // return 200;
     }
