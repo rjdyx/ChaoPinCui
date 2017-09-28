@@ -14,7 +14,7 @@ use Session;
 
 class WxController extends Controller
 {
-	// use AuthenticatesUsers;
+	use AuthenticatesUsers;
 
     /**
      *  100 : 已登录
@@ -45,23 +45,23 @@ class WxController extends Controller
         $filed = $user[1]['filed'];
 
         /****** 2.微信号是否被绑定 ******/
-        $user = User::where('openid',$request->openid)->where($filed,'!=',$user[0][$filed])->first();
-        if (!empty($user->id)) return 300;
+        $model = User::where('openid',$request->openid)->where($filed,'!=',$user[0][$filed])->first();
+        if (!empty($model->id)) return 300;
 
         /****** 3.用户密码验证 ******/
         if (!$this->guard()->attempt($user[0])) return 400;
 
         /****** 4.绑定登录 ******/
-        return $this->login($field, $user[0][$filed]);
+        return $this->login($request, $filed, $user[0][$filed]);
     }
 
     //  登录、绑定
-    public function login($filed, $value)
+    public function login($request, $filed, $value)
     {   
-        $model = User::where($filed, $value);
+        $model = User::where($filed, $value)->first();
         $model->openid = $request->openid;
         if (!$model->save()) return 500;
-        auth()->login($model);
+        // auth()->login($model);
         return $model;
         // return 200;
     }
@@ -73,6 +73,7 @@ class WxController extends Controller
         if ($this->userCheckUnique('name', $request->name)) return 101;
         if ($this->userCheckUnique('email', $request->email)) return 102;
         if ($this->userCheckUnique('phone', $request->phone)) return 103;
+        if ($this->userCheckUnique('openid', $request->openid)) return 104;
         $data['openid'] = $request->openid;
         $data['name'] = $request->name;
         $data['phone'] = $request->phone;
@@ -131,7 +132,7 @@ class WxController extends Controller
             $field=$field1;
         }
         return [
-            [$field => $login,'password' => $request->pass],
+            [$field => $login,'password' => $request->password],
             ['filed'=>$field]
         ];
     }
