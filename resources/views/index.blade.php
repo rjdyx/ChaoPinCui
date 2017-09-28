@@ -7,7 +7,7 @@
 
         <title>潮品萃后台管理</title>
 
-        @if(!env('APP_DEBUG'))
+        @if(env('APP_BUILD'))
             <link rel="stylesheet" href="{{ elixir('build/css/index.css') }}">
         @else
             <link rel="stylesheet" href="http://localhost:8080/build/css/index.css">
@@ -23,7 +23,7 @@
         <div id="app">
             <app></app>
         </div>
-        @if(env('APP_DEBUG'))
+        @if(!env('APP_BUILD'))
             <script src="http://localhost:8080/build/js/vendor-bundle.js"></script>
             <script src="http://localhost:8080/build/js/index.js"></script>
         @else

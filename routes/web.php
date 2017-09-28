@@ -29,8 +29,10 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('home');
 });
+
 Route::get('phone','HomeController@phone');
 Route::get('get/openid','HomeController@getOpenid'); //获取openid
+// Route::post('home','HomeController@store'); //测试无token提交
 
 Route::get('logout','Auth\LoginController@logout'); //登出
 
@@ -73,6 +75,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		/* 首页 */
 		Route::get('index/categorys', 'IndexController@getCategorys'); // 获取所有分类信息
 		Route::get('index/recommend', 'IndexController@getRecommend'); // 获取推荐产品信息
+		Route::get('index/turns', 'IndexController@getTurns'); // 获取轮播图
 
 		/*分类页 */
 		Route::get('category/product', 'CategoryController@getProduct'); // 获取该类代表产品
@@ -88,10 +91,10 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 
 		/* 公司信息（关于我们） */
 		Route::get('company', 'SystemController@index');
-	});
+	// });
 
 	/********************* 前台 须登录 ***********************/
-	Route::group(['prefix' => 'home', 'namespace' => 'Home', 'middleware' => 'UserAuth:home'], function() {
+	// Route::group(['prefix' => 'home', 'namespace' => 'Home', 'middleware' => 'UserAuth:home'], function() {
 
 		/* 个人中心、用户编辑页 */
 		Route::resource('user', 'UserController');

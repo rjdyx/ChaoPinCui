@@ -14,8 +14,7 @@ use Session;
 
 class WxController extends Controller
 {
-	use AuthenticatesUsers;
-
+	// use AuthenticatesUsers;
 
     /**
      *  100 : 已登录

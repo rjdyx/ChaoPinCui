@@ -21,6 +21,11 @@
     </div>
 </div>
     <a href="{{url('phone')}}?phone=15088132183">获取验证码</a>
+
+    <form action="/home" method="POST">
+        <input type="input">
+        <input type="submit" value="提交">
+    </form>
 <script>
     // $.ajax({url:'api/get/table', data:{tname:'users',whs:['type|=|0']}, success:function(data){
     //         console.log(data)
