@@ -73,6 +73,7 @@ class WxController extends Controller
         if ($this->userCheckUnique('name', $request->name)) return 101;
         if ($this->userCheckUnique('email', $request->email)) return 102;
         if ($this->userCheckUnique('phone', $request->phone)) return 103;
+        if ($this->userCheckUnique('openid', $request->openid)) return 104;
         $data['openid'] = $request->openid;
         $data['name'] = $request->name;
         $data['phone'] = $request->phone;
