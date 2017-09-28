@@ -9,7 +9,7 @@
     <div id="indexHome">
     <h1>系统设置</h1>
         <template>
-            <el-form :model="ruleForm" ref="ruleForm" id="pop-form">
+            <el-form :model="ruleForm" :rules="rulesValite" ref="ruleForm" id="pop-form">
                 <el-form-item label="网站名称" prop="name">
                     <el-input type="text" v-model="ruleForm.name"></el-input>
                 </el-form-item>
@@ -35,7 +35,7 @@
                 <inputFile v-if="showfile" :row="logoVal" pro="logo" @emit="returnValue" :isEdit="true"></inputFile>
             </el-form>
             <div slot="footer" class="formStore">
-                <el-button type="primary" @click="submitForm">保存</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
             </div>
         </template>
     </div>
@@ -65,6 +65,7 @@
 
 <script>
 import inputFile from 'components/public/inputFile.vue'
+import { cellphone } from 'utils/validate'
 export default {
     data () {
         return {
@@ -72,7 +73,15 @@ export default {
             ruleForm: {},
             logoVal: {},
             showfile: false,
-            flag: ''
+            flag: '',
+            rulesValite: {
+                name: [
+                    { required: true, message: '请输入网站名称', trigger: 'blur' },
+                    { max: 50, message: '长度在50个字符以内', trigger: 'blur'}
+                ],
+                email: [ { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur'} ],
+                phone: [ { validator: cellphone } ]
+            }
         }
     },
     mounted () {
@@ -112,27 +121,31 @@ export default {
             }
             return form
         },
-        submitForm () {
-            let headers = {headers: {'Content-Type': 'multipart/form-data'}}
-            let form = this.formDataCl(this.ruleForm)
-            var url
-            if (this.flag !== 'new') {
-                form.append('_method', 'PUT')
-                url = 'system/' + this.ruleForm.id
-            } else {
-                url = 'system'
-            }
-            axios.post(this.$adminUrl(url), form, headers)
-                .then((responce) => {
-                    if (responce.data) {
-                        this.$message({
-                            message: '操作数据成功',
-                            type: 'success'
-                        })
+        submitForm (formName) {
+            this.$refs[formName].validate(async (valid) => {
+                if (valid) {
+                    let headers = {headers: {'Content-Type': 'multipart/form-data'}}
+                    let form = this.formDataCl(this.ruleForm)
+                    var url
+                    if (this.flag !== 'new') {
+                        form.append('_method', 'PUT')
+                        url = 'system/' + this.ruleForm.id
                     } else {
-                        this.$message('操作数据失败')
+                        url = 'system'
                     }
-                })
+                    axios.post(this.$adminUrl(url), form, headers)
+                        .then((responce) => {
+                            if (responce.data) {
+                                this.$message({
+                                    message: '操作数据成功',
+                                    type: 'success'
+                                })
+                            } else {
+                                this.$message('操作数据失败')
+                            }
+                        })
+                }
+            })
         }
     },
     components: {

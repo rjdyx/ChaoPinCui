@@ -19,7 +19,7 @@ class CustomController extends Controller
     public function index(Request $request)
     {
     	$datas = Custom::orderBy('created_at','desc');
-        $datas = IQuery::ofText($datas,$request->query_text);
+        $datas = IQuery::ofText($datas,$request->query_text, 'custom');
         $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }

@@ -21,7 +21,7 @@ class ProductController extends Controller
     	$datas = Product::join('categories','products.category_id','=','categories.id')
                 ->orderBy('products.created_at','desc')
                 ->select('products.*','categories.name as category_name');
-        $datas = IQuery::ofText($datas, $request->query_text, ['products.name']);
+        $datas = IQuery::ofText($datas, $request->query_text, 'product' , ['products.name']);
         $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }
@@ -35,7 +35,11 @@ class ProductController extends Controller
     // 单条删除
     public function destroy($id)
     {
-        if (Product::destroy($id)) return $id;
+        if (Product::destroy($id)) {
+            IQuery::ofLog('product', 4, 0);
+            return $id;
+        }
+        IQuery::ofLog('product', 4, 1);
         return 0;
     }
 
@@ -81,7 +85,11 @@ class ProductController extends Controller
         $model->img = $res['p'];
         $model->thumb = $res['t'];
 
-        if ($model->save()) return 1;
+        if ($model->save()) {
+            IQuery::logNewOrEdit($id, 'product', 0);
+            return 1;
+        }
+        IQuery::logNewOrEdit($id, 'product', 1);
         return 0;
     }
 }

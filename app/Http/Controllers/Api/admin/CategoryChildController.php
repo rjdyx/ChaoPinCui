@@ -21,7 +21,7 @@ class CategoryChildController extends Controller
     {
         $pid = $request->id;
         $datas = Category::whereNotNull('pid')->where('pid','=',$pid)->orderBy('created_at','asc');    
-        $datas = IQuery::ofText($datas, $request->query_text, 'parent.name');
+        $datas = IQuery::ofText($datas, $request->query_text, 'category_child', ['categories.name']);
         $datas = $datas->paginate(config('app.page'));
         $datas = $this->childIsExist($datas);
 
@@ -53,7 +53,11 @@ class CategoryChildController extends Controller
     {
         $childs = Product::where('category_id',$id)->get();
         if (count($childs)) return -1;
-    	if (Category::destroy($id)) return $id;
+    	if (Category::destroy($id)) {
+            IQuery::ofLog('category_child', 4, 0);
+            return $id;
+        }
+        IQuery::ofLog('category_child', 4, 1);
     	return 0;
     }
 
@@ -103,8 +107,10 @@ class CategoryChildController extends Controller
             if ($id != -1) {
                 $model->id = $id;
             }
+            IQuery::logNewOrEdit($id, 'category_child', 0);
             return $model->id;
         }
+        IQuery::logNewOrEdit($id, 'category_child', 1);
         return 0;
     }
 }

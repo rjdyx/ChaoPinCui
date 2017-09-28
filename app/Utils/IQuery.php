@@ -7,6 +7,8 @@
 namespace App\Utils;
 
 use Illuminate\Support\Facades\Auth;
+use App\Model\Log;
+use Illuminate\Support\Facades\Lang;
 
 class IQuery{
 
@@ -123,7 +125,7 @@ class IQuery{
     }
 
     //加入文本查询
-    public function ofText(&$query, $val, $text_params=['name'])
+    public function ofText(&$query, $val, $m, $text_params=['name'])
     {
         if (isset($val)) {
             $texts =  explode(' ',$val);
@@ -136,7 +138,30 @@ class IQuery{
                     });
                 }
             });
+            $this->ofLog($m, 6, 0);
         }
         return $query;
-    } 
+    }
+
+    // 新增或编辑操作日志存储
+    public function logNewOrEdit ($id, $m, $s) {
+        if ($id != -1) {
+            $this->ofLog($m, 3, $s);
+        } else {
+            $this->ofLog($m, 2, $s);
+        }
+    }
+
+    // 日志操作$m为操作模块，$c为操作内容，$s为操作状态
+    public function ofLog($m, $c, $s) {
+        $comment = Lang::get('log.comment');
+        $model = Lang::get('log.model');
+        $state = Lang::get('log.state');
+        $log = new Log;
+        $log->name = $model[$m];
+        $log->operate = $comment[$c].$state[$s];
+        $log->ip = $_SERVER["REMOTE_ADDR"];
+        $log->user_id = Auth::user()->id;
+        $log->save();
+    }
 }

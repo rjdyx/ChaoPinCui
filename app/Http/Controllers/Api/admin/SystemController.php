@@ -62,8 +62,12 @@ class SystemController extends Controller
         $model->setRawAttributes($request->only($arr));
         $model->logo = IQuery::singleImg($request,'logo');
 
-        if (!$model->save()) return 0;
+        if (!$model->save()) {
+            IQuery::logNewOrEdit($id, 'system', 1);
+            return 0;
+        }
         if ($id != -1) $model->id = $id;
+        IQuery::logNewOrEdit($id, 'system', 0);
         return $model->id;
     }
 }
