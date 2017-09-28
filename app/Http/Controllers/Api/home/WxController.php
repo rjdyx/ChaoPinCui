@@ -47,7 +47,7 @@ class WxController extends Controller
         /****** 2.微信号是否被绑定 ******/
         $model = User::where('openid',$request->openid)->where($filed,'!=',$user[0][$filed])->first();
         if (!empty($model->id)) return 300;
-        return $user[0];
+
         /****** 3.用户密码验证 ******/
         if (!$this->guard()->attempt($user[0])) return 400;
 
@@ -131,7 +131,7 @@ class WxController extends Controller
             $field=$field1;
         }
         return [
-            [$field => $login,'password' => $request->pass],
+            [$field => $login,'password' => $request->password],
             ['filed'=>$field]
         ];
     }
