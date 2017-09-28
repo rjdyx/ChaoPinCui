@@ -21,7 +21,7 @@ class ProductTurnController extends Controller
     	$datas = Turn::leftjoin('products','turns.product_id','=','products.id')
                 ->orderBy('turns.created_at','desc')
                 ->select('turns.*','products.name as product_name');
-        $datas = IQuery::ofText($datas, $request->query_text, 'turn', 'products.name');
+        $datas = IQuery::ofText($datas, $request->query_text, 'turn', ['products.name']);
         $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }

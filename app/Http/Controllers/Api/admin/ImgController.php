@@ -19,7 +19,7 @@ class ImgController extends Controller
     public function index(Request $request)
     {
     	$datas = Img::orderBy('created_at','desc');
-        $datas = IQuery::ofText($datas, $request->query_text, '');
+        $datas = IQuery::ofText($datas, $request->query_text, 'img');
         $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }
@@ -33,7 +33,11 @@ class ImgController extends Controller
     // 单条删除
     public function destroy($id)
     {
-    	if (Img::destroy($id)) return $id;
+    	if (Img::destroy($id)) {
+            IQuery::ofLog('img', 4, 0);
+            return $id;
+        }
+        IQuery::ofLog('img', 4, 1);
     	return 0;
     }
 
@@ -76,8 +80,12 @@ class ImgController extends Controller
         $model->img = $res['p'];
         $model->thumb = $res['t'];
 
-        if (!$model->save()) return 0;
+        if (!$model->save()) {
+            IQuery::logNewOrEdit($id, 'img', 1);
+            return 0;
+        }
         if ($id != -1) $model->id = $id;
+        IQuery::logNewOrEdit($id, 'img', 0);
         return $model->id;
     }
 }

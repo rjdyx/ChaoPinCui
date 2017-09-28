@@ -37,7 +37,11 @@ class CommentController extends Controller
     // 单条删除
     public function destroy($id)
     {
-    	if (Comment::destroy($id)) return $id;
+    	if (Comment::destroy($id)) {
+            IQuery::ofLog('comment', 4, 0);
+            return $id;
+        }
+        IQuery::ofLog('comment', 4, 1);
     	return 0;
     }
 
@@ -81,7 +85,9 @@ class CommentController extends Controller
         $model->img = $res['ps'];
         $model->thumb = $res['ts'];
         
-        if (!$model->save()) return 0;
+        if (!$model->save()) {
+            return 0;
+        }
         if ($id != -1) $model->id = $id;
         return $model->id;
     }
