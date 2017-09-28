@@ -15,7 +15,7 @@ export default {
             showDetail: true,
             widths: [50, 50, 50, 50],
             colComponents: {img: Img},
-            searchPlaceholder: '请输入用户名搜索',
+            searchPlaceholder: '请输入链接产品搜索',
             formRows: {
                 product_id: {
                     label: '产品',

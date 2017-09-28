@@ -11,6 +11,7 @@
             class="basic-model"
             ref="basicModel"
             :modelParam="model"
+            @search="search"
             @multiSelect="multiSelect"
         >
         <el-row :gutter="20" slot="tabs-downside">
@@ -39,6 +40,7 @@ export default {
                 key: 'custom',
                 tab: '产品参数管理',
                 url: 'custom',
+                database: 'Custom',
                 theads: ['名称', '内容', '排序'],
                 protos: ['name', 'content', 'sort'],
                 protosFilter: [],
@@ -112,10 +114,37 @@ export default {
             'SET_NUM',
             'SET_PAGINATOR',
             'SET_NAVBARNAME',
+            'SET_SELECT_DATA',
+            'SET_INPUTVALUE',
             'SET_SUBNAVBARNAME'
         ]),
+        getTableData (currentPage = 1, inputValue = '') {
+            let url = this.model.url
+            this.loading = true
+            axios.get(this.$adminUrl(url), {params: {params: this.model.urlParams, page: currentPage, query_text: inputValue, id: this.id}})
+                .then((response) => {
+                    if (response.status === 200) {
+                        if (response.data.data.length !== 0) {
+                            this.SET_TABLE_DATA(response.data.data)
+                            this.SET_TOTAL_NUM(response.data.total)
+                            this.SET_NUM(response.data.last_page)
+                            this.SET_PAGINATOR(response.data)
+                        } else {
+                            this.SET_TABLE_DATA(response.data.data)
+                            this.SET_TOTAL_NUM(0)
+                            this.SET_NUM(0)
+                            this.SET_PAGINATOR(0)
+                        }
+                    }
+                    this.loading = false
+                })
+        },
         multiSelect (val) {
             this.SET_SELECT_DATA(val)
+        },
+        search (inputValue) {
+            this.SET_INPUTVALUE(inputValue)
+            this.getTableData(1, inputValue)
         },
         back () {
             this.$router.back()

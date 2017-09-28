@@ -33,7 +33,11 @@ class CustomController extends Controller
     // 单条删除
     public function destroy($id)
     {
-    	if (Custom::destroy($id)) return $id;
+    	if (Custom::destroy($id)) {
+            IQuery::ofLog('custom', 4, 0);
+            return $id;
+        }
+        IQuery::ofLog('custom', 4, 1);
     	return 0;
     }
 
@@ -73,8 +77,12 @@ class CustomController extends Controller
         $arr = ['name', 'content', 'product_id', 'sort'];
         $model->setRawAttributes($request->only($arr));
 
-        if (!$model->save()) return 0;
+        if (!$model->save()) {
+            IQuery::logNewOrEdit($id, 'custom', 1);
+            return 0;
+        }
         if ($id != -1) $model->id = $id;
+        IQuery::logNewOrEdit($id, 'custom', 0);
         return $model->id;
     }
 }
