@@ -36,7 +36,11 @@ class ProductController extends Controller
 	// 获取产品评论信息
 	public function productComment($id)
 	{
-		$data = Comment::where('product_id', $id)->get();
+		$data = Comment::join('users','comments.user_id','=','users.id')
+			->where('comments.product_id', $id)
+			->orderBy('created_at','desc')
+			->select('comments.*','users.img as user_img')
+			->get();
 		foreach ($data as $key => $value) {
 			$data[$key]->img = explode(',', $value->img);
 			$data[$key]->thumb = explode(',', $value->thumb);
