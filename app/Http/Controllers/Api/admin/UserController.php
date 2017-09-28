@@ -19,7 +19,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
     	$datas = User::orderBy('created_at','desc');
-        $datas = IQuery::ofText($datas,$request->query_text);
+        $datas = IQuery::ofText($datas,$request->query_text,'user');
         $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }
@@ -35,7 +35,11 @@ class UserController extends Controller
     {
         $img = User::find($id)->img;
         IQuery::delImg($img);
-    	if (User::destroy($id)) return $id;
+    	if (User::destroy($id)) {
+            IQuery::ofLog('user', 4, 0);
+            return $id;
+        }
+        IQuery::ofLog('user', 4, 1);
     	return 0;
     }
 
@@ -85,22 +89,24 @@ class UserController extends Controller
         ]);
         if ($id == -1) {
         	$model = new User;
-        	$arr = ['name','real_name','sex','age','email','phone','type','address'];
         } else {
         	$model = User::find($id);
-        	$arr = ['real_name','sex','age','email','phone','type','address'];
         }
-
+        $arr = ['name','real_name','sex','age','email','phone','type','address'];
         $model->setRawAttributes($request->only($arr));
         if ($id == -1) {
             $model->password = bcrypt('000000');
         }
         $model->img = IQuery::singleImg($request,'img');
         
-        if (!$model->save()) return 0;
+        if (!$model->save()) {
+            IQuery::logNewOrEdit($id, 'user', 1);
+            return 0;
+        }
         if ($id != -1) {
             $model->id = $id;
         }
+        IQuery::logNewOrEdit($id, 'user', 0);
         return [
             'id'=>$model->id,
             'img'=>$model->img

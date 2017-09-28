@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Session;
+use IQuery;
 
 class LoginController extends Controller
 {
@@ -46,6 +47,7 @@ class LoginController extends Controller
         $this->validateLogin($request);//字段验证
         $credentials = $this->credentials($request);//判断登陆方式（用户名、邮箱、手机号）
         if ($this->guard()->attempt($credentials, $request->has('remember'))) { //登陆
+            IQuery::ofLog('login', 0, 0);
             return $this->sendLoginResponse($request); //登陆成功
         }
         $this->incrementLoginAttempts($request); //登陆失败
@@ -88,6 +90,7 @@ class LoginController extends Controller
     //登出
     public function logout()
     {
+        IQuery::ofLog('logout', 1, 0);
         $this->guard()->logout();
         return 200;
     }

@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use DB;
+use IQuery;
 
 class UtilController extends Controller
 {
@@ -73,11 +74,13 @@ class UtilController extends Controller
         $ids = $request->ids;
 
         if (empty($tname) || !count($ids)) {
+            IQuery::ofLog(strtolower($tname), 5, 1);
             return response()->json('Parameter error', 500);
         }
 
         $model = 'App\Model\\'."$tname";
         if (!$model::destroy($ids)) return response()->json(0);
+        IQuery::ofLog(strtolower($tname), 5, 0);
         return response()->json(1);
     }
 }

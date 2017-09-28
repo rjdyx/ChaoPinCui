@@ -20,7 +20,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $datas = Category::whereNull('pid')->orderBy('created_at','asc');    
-        $datas = IQuery::ofText($datas, $request->query_text, 'parent.name');
+        $datas = IQuery::ofText($datas, $request->query_text, 'category', ['categories.name']);
         $datas = $datas->paginate(config('app.page'));
         $datas = $this->childIsExist($datas);
 
@@ -52,7 +52,11 @@ class CategoryController extends Controller
     {
         $childs = Category::where('pid',$id)->get();
         if (count($childs)) return -1;
-    	if (Category::destroy($id)) return $id;
+    	if (Category::destroy($id)) {
+            IQuery::ofLog('category', 4, 0);
+            return $id;
+        }
+        IQuery::ofLog('category', 4, 1);
     	return 0;
     }
 
@@ -103,8 +107,10 @@ class CategoryController extends Controller
             if ($id != -1) {
                 $model->id = $id;
             }
+            IQuery::logNewOrEdit($id, 'category', 0);
             return $model->id;
         }
+        IQuery::logNewOrEdit($id, 'category', 1);
         return 0;
     }
 }

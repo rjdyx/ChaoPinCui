@@ -23,7 +23,7 @@ class CommentController extends Controller
                 ->where('comments.product_id','=',$id)
                 ->orderBy('created_at','desc')
                 ->select('comments.*','users.name as user_name');
-        $datas = IQuery::ofText($datas, $request->query_text, 'comments.content');
+        $datas = IQuery::ofText($datas, $request->query_text, 'comment', ['comments.content']);
         $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }

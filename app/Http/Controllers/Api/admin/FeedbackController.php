@@ -20,7 +20,7 @@ class FeedbackController extends Controller
     {
     	$datas = Feedback::join('users','feedbacks.user_id','=','users.id')->whereNull('users.deleted_at')
                 ->orderBy('created_at','desc')->select('feedbacks.*','users.name as user_name');
-                $datas = IQuery::ofText($datas,$request->query_text,$text_params=['users.name']);
+                $datas = IQuery::ofText($datas,$request->query_text,'feedback', ['users.name']);
                 $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }
@@ -34,7 +34,11 @@ class FeedbackController extends Controller
     // 单条删除
     public function destroy($id)
     {
-    	if (Feedback::destroy($id)) return $id;
+    	if (Feedback::destroy($id)) {
+            IQuery::ofLog('feedback', 4, 0);
+            return $id;
+        }
+        IQuery::ofLog('feedback', 4, 1);
     	return 0;
     }
 

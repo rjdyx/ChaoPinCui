@@ -19,7 +19,7 @@ class ImgController extends Controller
     public function index(Request $request)
     {
     	$datas = Img::orderBy('created_at','desc');
-        $datas = IQuery::ofText($datas, $request->query_text);
+        $datas = IQuery::ofText($datas, $request->query_text, '');
         $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
     }
