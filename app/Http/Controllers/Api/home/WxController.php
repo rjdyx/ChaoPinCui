@@ -30,7 +30,7 @@ class WxController extends Controller
     {
         if (empty($request->openid)) return 500;
         $user = User::where('openid', $request->openid)->first();
-        if (isset($user->id)) return 400;
+        if (!isset($user->id) && empty($user->id)) return 400;
         return $user;
         // return 200;
     }
