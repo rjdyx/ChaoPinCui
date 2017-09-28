@@ -31,7 +31,8 @@ class WxController extends Controller
         if (empty($request->openid)) return 500;
         $user = User::where('openid', $request->openid)->first();
         if (isset($user->id)) return 400;
-        return 200;
+        return $user;
+        // return 200;
     }
     
     //微信绑定账户
@@ -41,7 +42,7 @@ class WxController extends Controller
         if (Auth::user()) return 100;
 
         /****** 2.微信号是否被绑定 ******/
-        $user = User::where('name',$request->openid)->first();
+        $user = User::where('openid',$request->openid)->first();
         if (empty($user->id)) return 300;
 
         /****** 3.用户密码验证 ******/
@@ -49,17 +50,24 @@ class WxController extends Controller
         if (!$this->guard()->attempt($user)) return 400;
 
         /****** 4.绑定登录 ******/
-        return $this->login($request);
+        return $this->login($user);
     }
 
     //  登录、绑定
-    public function login($request)
+    public function login($user)
     {   
-        $user = User::where('email', $request->email);
-        $user->openid = $request->openid;
-        if (!$user->save()) return 500;
-        auth()->login($user);
-        return 200;
+        foreach ($user as $key => $value) {
+            if ($key != 'password') {
+                $field = $key;
+                $v = $value;
+            }
+        }
+        $model = User::where($filed, $v);
+        $model->openid = $request->openid;
+        if (!$model->save()) return 500;
+        auth()->login($model);
+        return $model;
+        // return 200;
     }
 
     //微信号快速注册
@@ -80,7 +88,8 @@ class WxController extends Controller
         //注册成功 自动登录
         if (!$result) return 500;
         auth()->login($result);//自动登录;
-        return 200;
+        return $result;
+        // return 200;
     }   
 
     public function userCheckUnique($file, $value)
@@ -91,10 +100,10 @@ class WxController extends Controller
     }
 
     //微信解除绑定
-    public function bindWeiXinRelieve()
+    public function bindWeiXinRelieve(Request $request)
     {
-    	if (!Auth::user()) return 404;  // 未登录
-    	$user = User::find(Auth::user()->id);
+    	// if (!Auth::user()) return 404;  // 未登录
+    	$user = User::find($request->user_id);
     	$user->openid = null;
     	if (!$user->save()) return 500;
     	$this->guard()->logout();

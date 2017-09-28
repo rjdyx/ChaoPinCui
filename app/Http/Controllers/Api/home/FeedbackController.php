@@ -28,11 +28,10 @@ class FeedbackController extends Controller
         	$model = Feedback::find($id);
         }
 
-        $arr = ['content'];
+        $arr = ['content', 'user_id'];
         $model->setRawAttributes($request->only($arr));
         $res = IQuery::uploads($request, 'img');
         $model->img = $res['ps'];
-        $model->user_id = Auth::user()->id;
         
         if (!$model->save()) return 0;
         if ($id != -1) $model->id = $id;

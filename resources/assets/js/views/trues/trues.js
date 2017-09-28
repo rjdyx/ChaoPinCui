@@ -12,6 +12,7 @@ export default {
             theads: ['链接产品', '链接', '状态', '图片', '排序'],
             protos: ['product_name', 'url', 'state', 'img', 'sort'],
             protosFilter: ['url'],
+            showDetail: true,
             widths: [50, 50, 50, 50],
             colComponents: {img: Img},
             searchPlaceholder: '请输入用户名搜索',
@@ -49,8 +50,7 @@ export default {
                 },
                 img: {
                     label: '图片',
-                    rules: [{required: false, message: '请上传图片', trigger: 'blur'}],
-                    value: '',
+                    rules: [{required: false, message: '请上传图片'}],
                     component: inputFile,
                     placeholder: '请上传图片'
                 }

@@ -19,7 +19,7 @@ class CollectController extends Controller
     public function index(Request $request)
     {
     	$datas = Collect::join('products','collects.product_id','=','products.id')
-            ->where('collects.user_id', '=', Auth::user()->id)
+            ->where('collects.user_id', '=', $request->user_id)
             ->orderBy('collects.created_at','desc')
             ->select('products.*', 'collects.id as collect_id')
             ->get();

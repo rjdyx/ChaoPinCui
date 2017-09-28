@@ -19,7 +19,7 @@ class CommentController extends Controller
     public function index(Request $request)
     {
     	$datas = Comment::join('products','comments.product_id','=','products.id')
-            ->where('comments.user_id', '=', Auth::user()->id)
+            ->where('comments.user_id', '=', $request->user_id)
             ->orderBy('comments.created_at','desc')
             ->select('comments.*',
                 'products.thumb as product_thumb',
@@ -55,12 +55,11 @@ class CommentController extends Controller
             $model = Comment::find($id);
         }
 
-        $arr = ['content', 'product_id', 'level'];
+        $arr = ['content', 'product_id', 'level', 'user_id'];
         $model->setRawAttributes($request->only($arr));
         $res = IQuery::uploads($request, 'img', true);
         $model->img = $res['ps'];
         $model->thumb = $res['ts'];
-        $model->user_id = Auth::user()->id;
         
         if (!$model->save()) return 0;
         if ($id != -1) $model->id = $id;

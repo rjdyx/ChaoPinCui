@@ -91,10 +91,10 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 
 		/* 公司信息（关于我们） */
 		Route::get('company', 'SystemController@index');
-	// });
+	});
 
 	/********************* 前台 须登录 ***********************/
-	// Route::group(['prefix' => 'home', 'namespace' => 'Home', 'middleware' => 'UserAuth:home'], function() {
+	Route::group(['prefix' => 'home', 'namespace' => 'Home', 'middleware' => 'UserAuth:home'], function() {
 
 		/* 个人中心、用户编辑页 */
 		Route::resource('user', 'UserController');

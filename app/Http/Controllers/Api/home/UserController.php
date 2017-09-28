@@ -18,7 +18,8 @@ class UserController extends Controller
 	// 用户信息
     public function index(Request $request)
     {
-        return response()->json(Auth::user());
+        $user = $request->user_id;
+        return response()->json($user);
     }
 
     // 编辑

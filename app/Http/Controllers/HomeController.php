@@ -8,35 +8,22 @@ use App\User;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    private $appid = 'wx64f95ab001bb8dd2'; // 小程序appid
+    private $secret = '9697804b07c0596aee40c7f35e327d19'; //密匙
+    private $grant_type = 'authorization_code'; //固定值
+
     public function __construct()
     {
         // $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('home');
-    }
-
     //获取Openid
     public function getOpenid(Request $request)
     {
-        $appid = 'wx64f95ab001bb8dd2';
-        $secret = '9697804b07c0596aee40c7f35e327d19';
-        $grant_type = 'authorization_code';
         $js_code = $request->js_code;
         $post_data = array();
-        $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.$appid.'&secret='.$secret.'&js_code='.$js_code.'&grant_type='.$grant_type;
+        $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=';
+        $url .= $this->appid.'&secret='.$this->secret.'&js_code='.$js_code.'&grant_type='.$this->grant_type;
         $postdata = http_build_query($post_data);  
         $options = array(  
             'http' => array(  
@@ -98,6 +85,7 @@ class HomeController extends Controller
         //$url='http://api.sms.cn/sms/?ac=send&uid=haoyunyun&pwd=ccd843e373206a246826181ab48ed1ee&template=384859&mobile='.$iphone.'&content={"code":"'.$code.'"}';   
         return $this->curlPost($url, $data);                
      }  
+
     /*curlpost传值*/  
     public function curlPost($api, $data, $timeout = 30){    
         $ch = curl_init();
@@ -121,4 +109,6 @@ class HomeController extends Controller
         curl_close( $ch );
         return $response;  
     } 
+
+
 }
