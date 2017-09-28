@@ -73,6 +73,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		/* 首页 */
 		Route::get('index/categorys', 'IndexController@getCategorys'); // 获取所有分类信息
 		Route::get('index/recommend', 'IndexController@getRecommend'); // 获取推荐产品信息
+		Route::get('index/turns', 'IndexController@getTurns'); // 获取轮播图
 
 		/*分类页 */
 		Route::get('category/product', 'CategoryController@getProduct'); // 获取该类代表产品

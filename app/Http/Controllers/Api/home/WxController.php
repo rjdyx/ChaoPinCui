@@ -16,7 +16,6 @@ class WxController extends Controller
 {
 	// use AuthenticatesUsers;
 
-
     /**
      *  100 : 已登录
      *  300 ：已被绑定
