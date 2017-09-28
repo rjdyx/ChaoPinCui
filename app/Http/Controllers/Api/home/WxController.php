@@ -58,7 +58,7 @@ class WxController extends Controller
     //  登录、绑定
     public function login($request, $filed, $value)
     {   
-        $model = User::where($filed, $value);
+        $model = User::where($filed, $value)->first();
         $model->openid = $request->openid;
         if (!$model->save()) return 500;
         auth()->login($model);
