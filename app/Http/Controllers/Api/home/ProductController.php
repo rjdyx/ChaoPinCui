@@ -16,6 +16,7 @@ use DB;
 
 class ProductController extends Controller
 {
+
 	// 产品基础信息
 	public function productInfo(Request $request)
 	{
@@ -72,9 +73,40 @@ class ProductController extends Controller
 	{
 		$type = $request->type; // 产品类型（推荐、附近）
 		$cid = $request->category_id; // 分类id
-		if ($type == 'recommend') {
-			$data = $this->getRecommend($cid);
+		$lon = $request->lon;
+		$lat = $request->lat;
+
+		if (empty($type)) { //普通分类
+			$data = $this->getCategoryProduct($cid, $lon, $lat);
+		} else if ($type == 'recommend') { //推荐
+			$data = $this->getCategoryProduct($cid, $lon, $lat);
+		} else if ($type == 'nearby'){ //附近
+			$data = $this->getCategoryProduct(false, $lon, $lat);
 		}
+		return response()->json($data);
+	}
+
+	//获取普通分类的列表产品/附近
+	public function getCategoryProduct($cid, $lon, $lat)
+	{
+		$distance = ACOS(SIN(($lat * 3.1415) / 180 ) * SIN(('weft' * 3.1415) / 180 ) +COS(($lat * 3.1415) / 180 ) * COS(('weft' * 3.1415) / 180 ) * COS(($lon * 3.1415) / 180 - ('meridian' * 3.1415) / 180 ) ) * 6380;
+		$data = new Product;
+		if ($cid) {
+			$data = $data->where('category_id', $cid);
+		}
+		$data = $data->select(DB::raw($distance.' as dis, products.*'))
+			->orderBy('dis', 'desc')
+			->get();
+		return $data;
+	}
+
+	//推荐列表信息
+	public  function recommendList($cid)
+	{
+		$data = Product::join('categories','products.category_id','=','categories.id')
+			->where('categories.pid','=',$cid)
+			->orderBy('products.heat','desc')
+			->get();
 		return $data;
 	}
 
