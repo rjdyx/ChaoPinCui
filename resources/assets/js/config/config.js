@@ -60,8 +60,8 @@ Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))
  */
 import router from '../router/index.js'
 axios.defaults.headers.common = {
-    'X-CSRF-TOKEN': Laravel.csrfToken,
-    'X-Requested-With': 'XMLHttpRequest'
+    // 'X-CSRF-TOKEN': Laravel.csrfToken,
+    // 'X-Requested-With': 'XMLHttpRequest'
 }
 
 // axios
