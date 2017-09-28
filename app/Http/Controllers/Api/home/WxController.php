@@ -52,11 +52,11 @@ class WxController extends Controller
         if (!$this->guard()->attempt($user[0])) return 400;
 
         /****** 4.绑定登录 ******/
-        return $this->login($filed, $user[0][$filed]);
+        return $this->login($request, $filed, $user[0][$filed]);
     }
 
     //  登录、绑定
-    public function login($filed, $value)
+    public function login($request, $filed, $value)
     {   
         $model = User::where($filed, $value);
         $model->openid = $request->openid;
