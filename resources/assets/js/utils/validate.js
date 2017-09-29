@@ -57,3 +57,33 @@ exports.count = (rule, value, callback) => {
         callback()
     }
 }
+
+/**
+ * 输入正整数
+ */
+exports.count = (rule, value, callback) => {
+    if (value === 'error') {
+        callback(new Error('人数超出现有专家总人数!'))
+    } else {
+        callback()
+    }
+}
+
+/**
+ * 输入正整数
+ */
+exports.reInteger = (rule, value, callback, source, options) => {
+    if (value !== '' && value !== undefined && value !== null) {
+        if (/^\d+$/.test(value)) {
+            if (value === '0') {
+                callback(new Error('请输入大于0整数'))
+            } else {
+                callback()
+            }
+        } else {
+            callback(new Error('请输入整数'))
+        }
+    } else {
+        callback()
+    }
+}

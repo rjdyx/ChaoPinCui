@@ -35,6 +35,8 @@ class ProductTurnController extends Controller
     // 单条删除
     public function destroy($id)
     {
+        $img = Turn::find($id)->img;
+        IQuery::delImg($img);
     	if (Turn::destroy($id)){
             IQuery::ofLog('turn', 4, 0);
             return $id;
@@ -79,7 +81,7 @@ class ProductTurnController extends Controller
 
         $arr = ['state', 'url', 'product_id', 'sort'];
         $model->setRawAttributes($request->only($arr));
-        $model->img = IQuery::upload($request, 'img')['p'];
+        $model->img = IQuery::singleImg($request,'img');
         
         if (!$model->save()) {
             IQuery::logNewOrEdit($id, 'turn', 1);
@@ -87,6 +89,10 @@ class ProductTurnController extends Controller
         }
         if ($id != -1) $model->id = $id;
         IQuery::logNewOrEdit($id, 'turn', 0);
-        return $model->id;
+        return [
+            'id'=>$model->id,
+            'img'=>$model->img,
+            'product_id'=>$model->product_id
+        ];
     }
 }

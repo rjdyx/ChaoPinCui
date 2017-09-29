@@ -28,6 +28,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
+import { reInteger } from 'utils/validate'
 import BasicModel from '../index-model/components/basic-model'
 import Classification from '../expert/classification.vue'
 import DateFilter from 'components/form/date-filter'
@@ -74,7 +75,8 @@ export default {
                     sort: {
                         label: '排序',
                         rules: [
-                            { required: true, trigger: 'blur' }
+                            { required: true, message: '请输入排序' },
+                            { validator: reInteger }
                         ],
                         value: '',
                         type: 'input',
@@ -82,7 +84,7 @@ export default {
                     },
                     img: {
                         label: '图片',
-                        rules: [],
+                        rules: [{required: true, message: '请上传图片'}],
                         value: '',
                         component: inputFile,
                         placeholder: ''

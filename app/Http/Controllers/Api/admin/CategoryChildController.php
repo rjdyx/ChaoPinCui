@@ -100,15 +100,18 @@ class CategoryChildController extends Controller
 
         $arr = ['name','desc','pid'];
         $model->setRawAttributes($request->only($arr));
-        $model->ico = IQuery::upload($request,'ico')['p'];
-        $model->img = IQuery::upload($request,'img')['p'];
-
+        $model->ico = IQuery::singleImg($request,'ico');
+        $model->img = IQuery::singleImg($request,'img');
         if ($model->save()) {
             if ($id != -1) {
                 $model->id = $id;
             }
             IQuery::logNewOrEdit($id, 'category_child', 0);
-            return $model->id;
+            return [
+                'id'=>$model->id,
+                'img'=>$model->img,
+                'ico'=>$model->ico
+            ];
         }
         IQuery::logNewOrEdit($id, 'category_child', 1);
         return 0;

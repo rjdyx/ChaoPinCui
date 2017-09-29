@@ -73,7 +73,6 @@ class ImgController extends Controller
         } else {
         	$model = Img::find($id);
         }
-
         $arr = ['name', 'product_id', 'sort', 'desc'];
         $model->setRawAttributes($request->only($arr));
         $res = IQuery::upload($request,'img', true);
@@ -86,6 +85,9 @@ class ImgController extends Controller
         }
         if ($id != -1) $model->id = $id;
         IQuery::logNewOrEdit($id, 'img', 0);
-        return $model->id;
+        return [
+            'id'=>$model->id,
+            'img'=>$model->img
+        ];
     }
 }
