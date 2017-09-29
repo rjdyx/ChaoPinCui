@@ -43,7 +43,7 @@ class IQuery{
     public function uploads($request, $filenames='imgs', $isThumb=false)
     {         
         $res = ['ps'=>'', 'ts'=>''];
-        $files = $request->file($pics);
+        $files = $request->file($filenames);
         if (!empty($files) && count($files) && is_array($files)) {
             foreach ($files as $file) {
                 $data = $this->uploadOrs($file, $minState, $isThumb);

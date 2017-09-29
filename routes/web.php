@@ -104,7 +104,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		Route::resource('collect', 'CollectController');
 
 		/* 我的评论 */
-		Route::resource('comment', 'CollectController');
+		Route::resource('comment', 'CommentController');
 
 		/* 意见反馈 */
 		Route::post('feedback', 'FeedbackController@store');

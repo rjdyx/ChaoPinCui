@@ -41,7 +41,7 @@ class CommentController extends Controller
     }
 
     // 新建、编辑 保存方法
-    private function storeOrUpdate(Request $request, $id = -1)
+    public function storeOrUpdate(Request $request, $id = -1)
     {
         $this->validate($request, [
             'content' => 'required|max:2000',
@@ -55,12 +55,8 @@ class CommentController extends Controller
             $model = Comment::find($id);
         }
 
-        $model->content = $request->content;
-        $model->product_id = $request->product_id;
-        $model->level = $request->level;
-        $model->user_id = $request->user_id;
-        // $arr = ['content', 'product_id', 'level', 'user_id'];
-        // $model->setRawAttributes($request->only($arr));
+        $arr = ['content', 'product_id', 'level', 'user_id'];
+        $model->setRawAttributes($request->only($arr));
         $res = IQuery::uploads($request, 'img', true);
         $model->img = $res['ps'];
         $model->thumb = $res['ts'];
