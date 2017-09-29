@@ -41,7 +41,7 @@ class CommentController extends Controller
     }
 
     // 新建、编辑 保存方法
-    private function storeOrUpdate(Request $request, $id = -1)
+    public function storeOrUpdate(Request $request, $id = -1)
     {
         $this->validate($request, [
             'content' => 'required|max:2000',

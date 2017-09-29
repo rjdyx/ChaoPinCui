@@ -32,29 +32,31 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => ['required','max:30',
-                Rule::unique('users')->ignore($id)->where(function($query) use ($id) {
-                    $query->whereNull('deleted_at');
-                })
-            ],
-            'email' => ['required','max:50',
-                Rule::unique('users')->ignore($id)->where(function($query) use ($id) {
-                    $query->whereNull('deleted_at');
-                })
-            ],
-            'phone' => ['required','max:20',
-                Rule::unique('users')->ignore($id)->where(function($query) use ($id) {
-                    $query->whereNull('deleted_at');
-                })
-            ],
+            // 'name' => ['required','max:30',
+            //     Rule::unique('users')->ignore($id)->where(function($query) use ($id) {
+            //         $query->whereNull('deleted_at');
+            //     })
+            // ],
+            // 'email' => ['required','max:50',
+            //     Rule::unique('users')->ignore($id)->where(function($query) use ($id) {
+            //         $query->whereNull('deleted_at');
+            //     })
+            // ],
+            // 'phone' => ['required','max:20',
+            //     Rule::unique('users')->ignore($id)->where(function($query) use ($id) {
+            //         $query->whereNull('deleted_at');
+            //     })
+            // ],
             'sex' => 'required',
-            'age' => 'nullable|datetime',
+            'age' => 'nullable',
             'real_name' => 'nullable|max:30',
             'password' => 'nullable|max:100',
             'address' => 'nullable|max:100'
         ]);
-
         $model = User::find($id);
+        if ($this->unquired($request,'name', $id)) return 101;
+        if ($this->unquired($request,'email', $id)) return 102;
+        if ($this->unquired($request,'phone', $id)) return 103;
         $arr = ['name','real_name','sex','age','email','phone','address'];
         $model->setRawAttributes($request->only($arr));
         $model->img = IQuery::upload($request,'img')['p'];
@@ -65,4 +67,12 @@ class UserController extends Controller
         return 0;
     }
 
+    public function unquired($request, $filed, $id)
+    {
+        $res = User::where($filed, $request->$filed)
+                ->where('id','!=',$id)
+                ->first();
+        if (isset($res->id)) return true;
+        return false;
+    }
 }

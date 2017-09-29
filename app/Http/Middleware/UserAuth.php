@@ -21,7 +21,7 @@ class UserAuth
     {
         // 微信登录状态判断
         if (isset($request->openid)) {
-            $user = User::where('openid',$request->openid)->first();
+            $user = User::where('openid', $request->openid)->first();
             if (!isset($user->id)) {
                 return response()->json($this->res['401'], 401);
             }
