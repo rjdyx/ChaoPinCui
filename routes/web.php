@@ -100,6 +100,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		Route::resource('user', 'UserController');
 
 		/* 我的收藏 */
+		Route::get('collect/user', 'CollectController@userCollect'); // 收藏或取消
 		Route::resource('collect', 'CollectController');
 
 		/* 我的评论 */
