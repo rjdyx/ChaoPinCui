@@ -102,9 +102,9 @@ class WxController extends Controller
     	// if (!Auth::user()) return 404;  // 未登录
     	$user = User::find($request->user_id);
     	$user->openid = null;
-    	if (!$user->save()) return 500;
-    	$this->guard()->logout();
-    	return 200;
+    	if (!$user->save()) return 1;
+    	// $this->guard()->logout();
+    	return 0;
     }
 
     // 唯一随机字符串
