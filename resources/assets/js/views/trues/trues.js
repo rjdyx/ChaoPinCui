@@ -1,7 +1,10 @@
 // 中间列表的数据
+import { reInteger } from 'utils/validate'
 import Img from '../../components/public/img.vue'
+import State from './state.vue'
 import inputFile from 'components/public/inputFile.vue'
 import productSelect from './product-select.vue'
+import productIndex from './product-index'
 export default {
     trues: [
         {
@@ -14,7 +17,7 @@ export default {
             protosFilter: ['url'],
             showDetail: true,
             widths: [50, 50, 50, 50],
-            colComponents: {img: Img},
+            colComponents: {img: Img, product_name: productIndex, state: State},
             searchPlaceholder: '请输入链接产品搜索',
             formRows: {
                 product_id: {
@@ -32,7 +35,10 @@ export default {
                 },
                 sort: {
                     label: '排序',
-                    rules: [{required: true, message: '请输入正整数', trigger: 'blur'}],
+                    rules: [
+                        {required: true, message: '请输入排序'},
+                        {validator: reInteger}
+                    ],
                     value: '100',
                     type: 'input',
                     placeholder: '请输入正整数'
@@ -50,9 +56,9 @@ export default {
                 },
                 img: {
                     label: '图片',
-                    rules: [{required: false, message: '请上传图片'}],
+                    rules: [{required: true, message: '请上传图片'}],
                     component: inputFile,
-                    placeholder: '请上传图片'
+                    placeholder: ''
                 }
             }
         }

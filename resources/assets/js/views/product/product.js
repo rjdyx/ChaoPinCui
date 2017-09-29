@@ -19,7 +19,7 @@ export default {
             protosFilter: ['img', 'desc', 'heat', 'comment'],
             widths: [50, 50, 20, 80, 40, 40],
             showDetail: true,
-            colComponents: {img: Img},
+            colComponents: {img: Img, category_name: Category},
             isOperateMores: true,
             operateMoreComponents: [{component: ImgDetails, params: {}}, {component: CustomDetails, params: {}}, {component: CommentDetails, params: {}}],
             // operateComponents: [],

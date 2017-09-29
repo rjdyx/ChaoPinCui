@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Lang;
 class IQuery{
 
     // 单张图片上传
-	public function upload($request, $name, $isThumb=false)
+	public function upload($request, $name='img',$isThumb = false)
 	{
         $filename = $name.'s';
+        $pic=array();
         if ($request->hasFile($filename)) {
             $file = $request->file($filename);
             $path = config('app.image_path').'/';
@@ -23,20 +24,29 @@ class IQuery{
             $filename = 'SZGC_'.time().'.'. $Extension;
             $check = $file->move($path, $filename);
             $filePath = $path.$filename; //原图路径加名称
-            $newfilePath = $path.'SZGC_S_'.time().'.'. $Extension;//缩略图路径名称
-            $pic['p'] = $filePath;//原图
+            $pic['p']= $filePath;//原图
             if ($isThumb) {
-                $this->img_create_small($filePath, config('app.thumb_width'), config('app.thumb_height'), $newfilePath);  //生成缩略图
-                $pic['t'] = $newfilePath;//缩略图
+                $newfilePath = $path.'SZGC_S_'.time().'.'. $Extension;//缩略图路径名称
+                $this->img_create_small($filePath,config('app.thumb_width'),config('app.thumb_height'),$newfilePath);  //生成缩略图
+                $pic['t']= $newfilePath;//缩略图
             }
             $this->destroyPic($request, $name);
-            return $pic;//返回原图 缩略图 的路径 数组
         } else {
-            $pic['p'] = $request->$filename;//原图
-            if ($isThumb) $pic['t']= $request->thumb;//缩略图
-	        if ($request->$filename == 'del') $this->destroyPic($request, $name);
-	        return $pic;//返回原图 缩略图 的路径 数组
+            if (isset($filename)) {
+                if ($request->$filename != 'del') {
+                    $pic['p']= $request->$name;//原图
+                    $pic['t']= $request->thumb;//缩略图
+                } else {
+                    $this->destroyPic($request, $name);
+                    $pic['p']= '';
+                    $pic['t']= '';
+                }
+            } else {
+                $pic['p']= $request->$name;//原图
+                $pic['t']= $request->thumb;//缩略图
+            }
         }
+        return $pic;//返回原图 缩略图 的路径 数组
 	}
 
     // 多图片异步上传
@@ -86,7 +96,7 @@ class IQuery{
             $file = $request->file($imgs);
             $path = config('app.image_path').'/';
             $Extension = $file->getClientOriginalExtension();
-            $filename = 'SZGC_'.time().'.'. $Extension;
+            $filename = 'SZGC_'.rand(1000,9999).time().'.'. $Extension;
             $check = $file->move($path, $filename);
             $filePath = $path.$filename; //原图路径加名称
             $pic= $filePath;//原图

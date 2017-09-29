@@ -30,6 +30,8 @@ import BasicModel from '../index-model/components/basic-model'
 import Classification from '../expert/classification.vue'
 import DateFilter from 'components/form/date-filter'
 import inputFile from '../../components/public/inputFile.vue'
+import Img from '../../components/public/img.vue'
+import Ico from './ico.vue'
 export default {
     name: 'CustomCheckPage',
     data () {
@@ -48,6 +50,7 @@ export default {
                 searchModelComponents: [{component: null, params: {}}],
                 topOperateComponents: [{component: null, params: {}}],
                 showTabs: false,
+                colComponents: {img: Img, ico: Ico},
                 formRows: {
                     name: {
                         label: '子类名称',

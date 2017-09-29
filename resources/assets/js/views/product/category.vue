@@ -13,7 +13,7 @@
 
 <script>
 export default {
-    name: 'Sex',
+    name: 'Category',
     props: {
         scope: {
             type: Object,
@@ -24,7 +24,8 @@ export default {
     },
     data () {
         return {
-            select: ''
+            select: '',
+            flag: ''
         }
     },
     mounted () {
@@ -37,13 +38,14 @@ export default {
     },
     methods: {
         update () {
-            axios.get(this.$adminUrl('category'))
+            axios.get(this.$adminUrl('category/' + this.scope.row.category_id))
                 .then((response) => {
                     if (response.status === 200) {
-                        for (let category of response.data.data) {
-                            if (category.id === this.scope.row.category_id) {
-                                this.select = category.name
-                            }
+                        if (response.data.name !== undefined) {
+                            this.select = response.data.name
+                            this.flag = response.data.name
+                        } else {
+                            this.select = this.flag
                         }
                     }
                 })

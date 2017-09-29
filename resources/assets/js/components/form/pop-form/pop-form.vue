@@ -133,6 +133,7 @@
                 dialogTableVisible: true,
                 ruleForm: {},
                 rules: {},
+                defaultImg: '',
                 title: this.isEdit ? '编辑' : '新增'
             }
         },
@@ -147,6 +148,15 @@
                     ruleForm[pro] = ''
                 } else {
                     ruleForm[pro] = this.scope.row[pro]
+                }
+            }
+            // 编辑继续传值
+            if (this.isEdit) {
+                for (let i in this.scope.row) {
+                    ruleForm[i] = this.scope.row[i]
+                }
+                if (ruleForm.img !== undefined) {
+                    this.defaultImg = ruleForm.img
                 }
             }
             if (JSON.stringify(rules) !== '{}') {
@@ -186,7 +196,7 @@
                                     if (responce.data) {
                                         let tmp = await this.$ACT_ADDEDACTIVE({vm: this, id: this.ruleForm.id, obj: this.ruleForm, res: responce})
                                         let newOne = this.$deepClone(tmp ? tmp : this.ruleForm)
-                                        newOne.id = typeof (responce.data) === 'object' ? responce.data.id : responce.data
+                                        newOne = this.$changeObj(newOne, responce.data)
                                         this.PUSH_TABLE_DATA(newOne)
                                         this.$message({
                                             message: '新增成功',
@@ -204,7 +214,7 @@
                                     if (responce.data) {
                                         let tmp = await this.$ACT_EDITEDACTIVE({vm: this, id: this.ruleForm.id, obj: this.ruleForm, res: responce})
                                         let newOne = this.$deepClone(tmp ? tmp : this.ruleForm)
-                                        newOne.id = typeof (responce.data) === 'object' ? responce.data.id : responce.data
+                                        newOne = this.$changeObj(newOne, responce.data)
                                         this.UPDATE_TABLE_DATA({index: this.scope.$index, newOne: newOne})
                                         this.$message({
                                             message: '修改成功',
@@ -229,11 +239,17 @@
                 this.$emit('handleClose')
             },
             returnValue ({pro, val}) {
-                if (pro === 'img') {
+                if (pro === 'img' || pro === 'ico') {
                     if (val.name !== undefined) {
                         this.ruleForm[pro + 's'] = val
+                        if (this.url === 'turn' || this.url === 'img') {
+                            this.ruleForm[pro] = this.defaultImg
+                        }
                     } else if (val === 'del') {
                         this.ruleForm[pro + 's'] = 'del'
+                        if (this.url === 'turn' || this.url === 'img') {
+                            this.ruleForm[pro] = ''
+                        }
                     } else {
                         this.ruleForm[pro] = val
                     }
