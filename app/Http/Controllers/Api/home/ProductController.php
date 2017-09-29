@@ -102,12 +102,13 @@ class ProductController extends Controller
 	public function getCategoryProduct($cid, $lon, $lat, $name='')
 	{
 		$distance = ACOS(SIN(($lat * 3.1415) / 180 ) * SIN(('weft' * 3.1415) / 180 ) +COS(($lat * 3.1415) / 180 ) * COS(('weft' * 3.1415) / 180 ) * COS(($lon * 3.1415) / 180 - ('meridian' * 3.1415) / 180 ) ) * 6380;
-		$data = new Product;
-		if ($cid) {
-			$data = $data->where('category_id', $cid);
+		$data = Product::join('categories','products.category_id','=','categories.id');
+		if ($cid && $name == '') {
+			$data = $data->where('product.category_id', $cid);
 		}
-		if ($name != '') {
-			$data = $data->where('products.name','like','%'.$name.'%');
+		if ($name != '' ) {
+			$data = $data->where('products.name','like','%'.$name.'%')
+			        ->where('categories.pid','=',$cid);
 		}
 		$data = $data->select(DB::raw($distance.' as dis, products.*'))
 			->orderBy('dis', 'desc')
