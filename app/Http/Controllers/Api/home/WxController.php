@@ -84,7 +84,7 @@ class WxController extends Controller
         $result = User::create($data);
         //注册成功 自动登录
         if (!$result) return 500;
-        auth()->login($result);//自动登录;
+        // auth()->login($result);//自动登录;
         return $result;
         // return 200;
     }   
