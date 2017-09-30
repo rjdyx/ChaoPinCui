@@ -35,6 +35,7 @@ Route::get('get/openid','HomeController@getOpenid'); //获取openid
 // Route::post('home','HomeController@store'); //测试无token提交
 
 Route::get('logout','Auth\LoginController@logout'); //登出
+Route::post('reset/password','Auth\LoginController@resetPassword');//修改密码
 
 Auth::routes();
 

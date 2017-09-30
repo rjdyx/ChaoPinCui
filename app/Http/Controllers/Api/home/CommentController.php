@@ -23,7 +23,7 @@ class CommentController extends Controller
             ->orderBy('comments.created_at','desc')
             ->select('comments.*',
                 'products.thumb as product_thumb',
-                'user.img as user_img','user.name as user_name'
+                'users.img as user_img','users.name as user_name'
             )->get();
     	return response()->json($datas);
     }

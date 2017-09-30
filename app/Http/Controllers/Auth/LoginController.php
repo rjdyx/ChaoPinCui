@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Session;
 use IQuery;
+use App\Model\User;
 
 class LoginController extends Controller
 {
@@ -38,8 +39,28 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout', 'login');
+        $this->middleware('guest')->except('logout', 'login', 'resetPassword');
     }
+
+    // 重置密码
+    public function resetPassword(Request $request)
+    {
+        $user_id = $request->user_id;
+        $orin_pass = $request->orin_pass;
+        $now_pass = $request->now_pass;
+        $now_pass_rep = $request->now_pass_rep;
+        if (empty($user_id) || empty($orin_pass) || empty($now_pass) || empty($now_pass_rep)) return 100; // 参数错误
+
+        if ($now_pass_rep != $now_pass) return 101; // 两次密码不一致
+        $user = User::find($user_id);
+        $credentials = ['name'=>$user->name,'password'=>$now_pass];
+        if (!$this->guard()->attempt($credentials)) return 102; //原始密码错误
+
+        //重设密码
+        $user->password = bcrypt($now_pass);
+        if ($user->save()) return 200; //重置成功
+        return 500; // 重置失败
+    }   
 
     // 登录
     public function Login(Request $request)
