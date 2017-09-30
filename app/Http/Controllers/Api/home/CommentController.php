@@ -19,6 +19,7 @@ class CommentController extends Controller
     public function index(Request $request)
     {
     	$datas = Comment::join('products','comments.product_id','=','products.id')
+            ->join('users','comments.user_id','=','users.id')
             ->where('comments.user_id', '=', $request->user_id)
             ->orderBy('comments.created_at','desc')
             ->select('comments.*',
