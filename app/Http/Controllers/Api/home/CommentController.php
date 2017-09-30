@@ -23,7 +23,7 @@ class CommentController extends Controller
             ->where('comments.user_id', '=', $request->user_id)
             ->orderBy('comments.created_at','desc')
             ->select('comments.*',
-                'products.thumb as product_thumb',
+                'products.thumb as product_thumb','products.name as product_name',
                 'users.img as user_img','users.name as user_name'
             )->get();
     	return response()->json($datas);
