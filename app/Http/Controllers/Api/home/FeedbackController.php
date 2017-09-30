@@ -28,13 +28,17 @@ class FeedbackController extends Controller
         	$model = Feedback::find($id);
         }
 
-        $arr = ['content', 'user_id'];
+        $arr = ['content', 'user_id', 'img'];
         $model->setRawAttributes($request->only($arr));
-        $res = IQuery::uploads($request, 'img');
-        $model->img = $res['ps'];
         
         if (!$model->save()) return 0;
         if ($id != -1) $model->id = $id;
         return $model->id;
+    }
+
+    //上传图片
+    public function uploadImg(Request $request)
+    {
+        return IQuery::uploads($request, 'img');
     }
 }

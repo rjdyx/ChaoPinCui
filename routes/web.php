@@ -98,6 +98,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 	// Route::group(['prefix' => 'home', 'namespace' => 'Home', 'middleware' => 'UserAuth:home'], function() {
 
 		/* 个人中心、用户编辑页 */
+		Route::post('user/img', 'UserController@uploadImg');
 		Route::resource('user', 'UserController');
 
 		/* 我的收藏 */
@@ -105,9 +106,11 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		Route::resource('collect', 'CollectController');
 
 		/* 我的评论 */
+		Route::post('comment/img', 'CommentController@uploadImg');
 		Route::resource('comment', 'CommentController');
 
 		/* 意见反馈 */
+		Route::post('feedback/img', 'FeedbackController@uploadImg');
 		Route::post('feedback', 'FeedbackController@store');
 	});
 });

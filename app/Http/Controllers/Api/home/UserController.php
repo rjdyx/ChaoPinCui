@@ -57,14 +57,19 @@ class UserController extends Controller
         if ($this->unquired($request,'name', $id)) return 101;
         if ($this->unquired($request,'email', $id)) return 102;
         if ($this->unquired($request,'phone', $id)) return 103;
-        $arr = ['name','real_name','sex','age','email','phone','address'];
+        $arr = ['name','real_name','sex','age','email','phone','address', 'img'];
         $model->setRawAttributes($request->only($arr));
-        $model->img = IQuery::upload($request,'img')['p'];
         $model->type = 0;
         if ($request->password) $model->password = bcrypt($request->password);
         
         if ($model->save()) return $id;
         return 0;
+    }
+
+    //上传图片
+    public function uploadImg(Request $request)
+    {
+        return IQuery::uploads($request, 'img');
     }
 
     public function unquired($request, $filed, $id)

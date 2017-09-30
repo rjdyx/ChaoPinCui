@@ -56,14 +56,17 @@ class CommentController extends Controller
             $model = Comment::find($id);
         }
 
-        $arr = ['content', 'product_id', 'level', 'user_id'];
+        $arr = ['content', 'product_id', 'level', 'user_id', 'img', 'thumb'];
         $model->setRawAttributes($request->only($arr));
-        $res = IQuery::uploads($request, 'img', true);
-        $model->img = $res['ps'];
-        $model->thumb = $res['ts'];
         
         if (!$model->save()) return 0;
         if ($id != -1) $model->id = $id;
         return $model->id;
+    }
+
+    //上传图片
+    public function uploadImg(Request $request)
+    {
+        return IQuery::uploads($request, 'img', true);
     }
 }
