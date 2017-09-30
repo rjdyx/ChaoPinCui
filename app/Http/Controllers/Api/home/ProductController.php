@@ -10,6 +10,7 @@ use App\Model\Category;
 use App\Model\Custom;
 use App\Model\Comment;
 use App\Model\Product;
+use App\Model\Collect;
 use App\Model\Img;
 use IQuery;
 use DB;
@@ -25,6 +26,9 @@ class ProductController extends Controller
 			->where('products.id','=',$request->id)
 			->select('products.*','parent.name as parent_name','categories.name as category_name')
 			->first();
+		$model = Collect::find($request->id);
+		$isCollect = isset($model->id)?1:0;
+		$info->is_collect = $isCollect;
 		$recommend = $this->productCustoms($request->id);
 		$comment = $this->productComment($request->id);
 		$res = ['info'=>$info, 'recommend'=>$recommend, 'comment'=>$comment];
