@@ -67,7 +67,6 @@ class CommentController extends Controller
     //上传图片
     public function uploadImg(Request $request)
     {
-        return $request->file('img').'|gsl';
         return IQuery::uploads($request, 'img', true);
     }
 }
