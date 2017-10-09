@@ -59,12 +59,6 @@ class UserController extends Controller
             'password' => 'nullable|max:100',
             'address' => 'nullable|max:100'
         ]);
-
-        if ($request->hasFile('img')) {
-            return 888;
-        } else {
-            return 777;
-        }
         $id = $request->id;
         $model = User::find($id);
         if ($this->unquired($request,'name', $id)) return 101;
@@ -74,7 +68,7 @@ class UserController extends Controller
         $model->setRawAttributes($request->only($arr));
         $model->type = 0;
         if ($request->password) $model->password = bcrypt($request->password);
-        
+        $model->img = IQuery::singleImg($request,'img');
         if ($model->save()) return $id;
         return 0;
     }
