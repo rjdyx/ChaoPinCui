@@ -59,7 +59,12 @@ class UserController extends Controller
             'password' => 'nullable|max:100',
             'address' => 'nullable|max:100'
         ]);
-        return $_FILES['img']['name'];
+
+        if ($request->hasFile('img')) {
+            return 888;
+        } else {
+            return 777;
+        }
         $id = $request->id;
         $model = User::find($id);
         if ($this->unquired($request,'name', $id)) return 101;
