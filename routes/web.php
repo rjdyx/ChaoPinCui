@@ -100,6 +100,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 
 		/* 个人中心、用户编辑页 */
 		Route::post('user/img', 'UserController@uploadImg');
+		Route::post('user/setUpdate', 'UserController@setUpdate');
 		Route::resource('user', 'UserController');
 
 		/* 我的收藏 */
