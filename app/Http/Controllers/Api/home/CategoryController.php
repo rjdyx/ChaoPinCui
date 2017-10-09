@@ -54,4 +54,13 @@ class CategoryController extends Controller
 				->paginate(8);
 		return response()->json($data);
 	}
+
+	// 获取随机分类
+	public function getRand(Request $request)
+	{
+		$data = Category::whereNull('pid')
+				->inRandomOrder()
+				->paginate(6);
+		return response()->json($data);
+	}
 }

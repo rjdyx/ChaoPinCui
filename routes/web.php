@@ -35,6 +35,7 @@ Route::get('get/openid','HomeController@getOpenid'); //获取openid
 // Route::post('home','HomeController@store'); //测试无token提交
 
 Route::get('logout','Auth\LoginController@logout'); //登出
+Route::post('reset/password','Auth\LoginController@resetPassword');//修改密码
 
 Auth::routes();
 
@@ -82,6 +83,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		Route::get('category/child', 'CategoryController@getChild'); // 获取该类下的二级分类
 		Route::get('category/recommend', 'CategoryController@getRecommend'); // 获取产品推荐
 		Route::get('category/other', 'CategoryController@getOther'); // 获取其它分类
+		Route::get('category/rand', 'CategoryController@getRand'); // 获取随机分类
 
 		/* 产品详情页 */
 		Route::get('product/details', 'ProductController@productInfo'); // 获取产品信息
@@ -97,6 +99,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 	// Route::group(['prefix' => 'home', 'namespace' => 'Home', 'middleware' => 'UserAuth:home'], function() {
 
 		/* 个人中心、用户编辑页 */
+		Route::post('user/img', 'UserController@uploadImg');
 		Route::resource('user', 'UserController');
 
 		/* 我的收藏 */
@@ -104,9 +107,11 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		Route::resource('collect', 'CollectController');
 
 		/* 我的评论 */
+		Route::post('comment/img', 'CommentController@uploadImg');
 		Route::resource('comment', 'CommentController');
 
 		/* 意见反馈 */
+		Route::post('feedback/img', 'FeedbackController@uploadImg');
 		Route::post('feedback', 'FeedbackController@store');
 	});
 });
