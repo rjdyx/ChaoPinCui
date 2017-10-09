@@ -28,29 +28,6 @@ class UserController extends Controller
     	return User::find($id);
     }
 
-    // 编辑保存
-    public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'sex' => 'required',
-            'age' => 'nullable',
-            'real_name' => 'nullable|max:30',
-            'password' => 'nullable|max:100',
-            'address' => 'nullable|max:100'
-        ]);
-        $model = User::find($id);
-        if ($this->unquired($request,'name', $id)) return 101;
-        if ($this->unquired($request,'email', $id)) return 102;
-        if ($this->unquired($request,'phone', $id)) return 103;
-        $arr = ['name','real_name','sex','age','email','phone','address','img'];
-        $model->setRawAttributes($request->only($arr));
-        $model->type = 0;
-        if ($request->password) $model->password = bcrypt($request->password);
-        
-        if ($model->save()) return $id;
-        return 0;
-    }
-
     public function setUpdate(Request $request) {
         $this->validate($request, [
             'sex' => 'required',
@@ -71,12 +48,6 @@ class UserController extends Controller
         $model->img = IQuery::singleImg($request,'img');
         if ($model->save()) return $id;
         return 0;
-    }
-
-    //上传图片
-    public function uploadImg(Request $request)
-    {
-        return IQuery::uploads($request, 'img');
     }
 
     public function unquired($request, $filed, $id)
