@@ -56,7 +56,7 @@ class CommentController extends Controller
             $model = Comment::find($id);
         }
 
-        $arr = ['content', 'product_id', 'level', 'user_id', 'img', 'thumb'];
+        $arr = ['content', 'product_id', 'level', 'user_id', 'img'];
         $model->setRawAttributes($request->only($arr));
         
         if (!$model->save()) return 0;
@@ -67,6 +67,16 @@ class CommentController extends Controller
     //上传图片
     public function uploadImg(Request $request)
     {
-        return IQuery::uploads($request, 'img', true);
+        $img = 'img';
+        if ($request->hasFile($img)) {
+            $file = $request->file($img);
+            $path = config('app.image_path').'/';
+            $Extension = $file->getClientOriginalExtension();
+            $filename = 'SZGC_'.rand(1000,9999).time().'.'. $Extension;
+            $check = $file->move($path, $filename);
+            $filePath = $path.$filename; //原图路径加名称
+            $pic= $filePath;//原图
+            return $pic;
+        }
     }
 }
