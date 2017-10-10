@@ -38,12 +38,13 @@ class UserController extends Controller
         ]);
         $id = $request->id;
         $model = User::find($id);
+        $type = $model->type;
         if ($this->unquired($request,'name', $id)) return 101;
         if ($this->unquired($request,'email', $id)) return 102;
         if ($this->unquired($request,'phone', $id)) return 103;
         $arr = ['name','real_name','sex','age','email','phone','address','img'];
         $model->setRawAttributes($request->only($arr));
-        if ($model->type!=1) {
+        if ($type!=1) {
             $model->type = 0;
         }
         if ($request->password) $model->password = bcrypt($request->password);
