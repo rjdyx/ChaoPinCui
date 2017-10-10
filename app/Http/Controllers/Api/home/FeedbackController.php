@@ -40,7 +40,7 @@ class FeedbackController extends Controller
     public function uploadImg(Request $request)
     {
         $img = 'img';
-        $pic = IQuery::setImg($request,$img,'feedback','FEED_');
+        $pic = IQuery::setImg($request,$img,'feedback/','FEED_');
         return $pic;
     }
 }

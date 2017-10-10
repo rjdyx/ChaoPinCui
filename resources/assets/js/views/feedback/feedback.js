@@ -1,5 +1,5 @@
 // 中间列表的数据
-import Img from './img.vue'
+import Img from '../../components/public/img.vue'
 export default {
     feedback: [
         {
