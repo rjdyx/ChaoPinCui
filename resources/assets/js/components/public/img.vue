@@ -29,6 +29,7 @@ export default {
     },
     methods: {
         changeImg () {
+            console.log(777)
             if (this.scope.row.img !== null && this.scope.row.img !== '') {
                 this.imgOk = 'img/ok.png'
             } else {
