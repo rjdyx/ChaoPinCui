@@ -57,7 +57,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		Route::resource('log', 'LogController'); // 操作日志管理
 		Route::resource('category', 'CategoryController'); // 分类管理
 		Route::resource('turn', 'ProductTurnController'); // 轮播图管理
-		Route::resource('feedback', 'FeedBackController'); // 用户反馈
+		Route::resource('feedback', 'FeedbackController'); // 用户反馈
 		Route::resource('category_child', 'CategoryChildController'); // 分类子类管理
 		Route::resource('product', 'ProductController'); // 产品管理
 		Route::resource('img', 'ImgController'); // 图片管理
