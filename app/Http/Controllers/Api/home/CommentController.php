@@ -70,9 +70,9 @@ class CommentController extends Controller
         $img = 'img';
         if ($request->hasFile($img)) {
             $file = $request->file($img);
-            $path = config('app.image_path').'/';
+            $path = 'comment/';
             $Extension = $file->getClientOriginalExtension();
-            $filename = 'SZGC_'.rand(1000,9999).time().'.'. $Extension;
+            $filename = 'COM_'.rand(1000,9999).time().'.'. $Extension;
             $check = $file->move($path, $filename);
             $filePath = $path.$filename; //原图路径加名称
             $pic= $filePath;//原图
