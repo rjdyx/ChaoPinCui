@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 use App\Model\Feedback;
 use IQuery;
 
-class FeedbackController extends Controller
+class FeedBackController extends Controller
 {
 	// 分页信息
     public function index(Request $request)
