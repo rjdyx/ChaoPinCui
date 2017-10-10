@@ -68,7 +68,7 @@ class CommentController extends Controller
     public function uploadImg(Request $request)
     {
         $img = 'img';
-        $pic = IQuery::setImg($img,'comment','COM_');
+        $pic = IQuery::setImg($request,$img,'comment','COM_');
         return $pic;
     }
 }

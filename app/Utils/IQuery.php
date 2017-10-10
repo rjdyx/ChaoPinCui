@@ -176,7 +176,7 @@ class IQuery{
     }
 
     // 前端图片存储
-    public function setImg($name, $con, $pre) {
+    public function setImg($request, $name, $con, $pre) {
         if ($request->hasFile($name)) {
             $file = $request->file($name);
             $path = $con;
