@@ -68,15 +68,7 @@ class CommentController extends Controller
     public function uploadImg(Request $request)
     {
         $img = 'img';
-        if ($request->hasFile($img)) {
-            $file = $request->file($img);
-            $path = 'comment/';
-            $Extension = $file->getClientOriginalExtension();
-            $filename = 'COM_'.rand(1000,9999).time().'.'. $Extension;
-            $check = $file->move($path, $filename);
-            $filePath = $path.$filename; //原图路径加名称
-            $pic= $filePath;//原图
-            return $pic;
-        }
+        $pic = IQuery::setImg($img,'comment','COM_');
+        return $pic;
     }
 }

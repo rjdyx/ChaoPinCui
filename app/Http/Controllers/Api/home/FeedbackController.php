@@ -18,7 +18,6 @@ class FeedbackController extends Controller
 	// 新建、编辑 保存方法
     public function store(Request $request, $id = -1)
     {
-        return '888';
     	$this->validate($request, [
             'content' => 'required'
         ]);
@@ -40,6 +39,8 @@ class FeedbackController extends Controller
     //上传图片
     public function uploadImg(Request $request)
     {
-        return IQuery::uploads($request, 'img');
+        $img = 'img';
+        $pic = IQuery::setImg($img,'feedback','FEED_');
+        return $pic;
     }
 }
