@@ -65,7 +65,6 @@ class UserController extends Controller
     // 重置密码
     public function resetPassword(Request $request)
     {
-        return 666;
         $user_id = $request->user_id;
         $orin_pass = $request->orin_pass;
         $now_pass = $request->now_pass;
