@@ -69,7 +69,7 @@ class UserController extends Controller
         $user_id = $request->user_id;
         $orin_pass = $request->orin_pass;
         $now_pass = $request->now_pass;
-        if (empty($user_id) return 100; // 参数错误
+        if (empty($user_id)) return 100; // 参数错误
 
         $user = User::find($user_id);
         if (!\Hash::check($orin_pass,$user->password)) {
