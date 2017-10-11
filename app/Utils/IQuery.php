@@ -188,4 +188,13 @@ class IQuery{
             return $pic;
         }
     }
+
+    // 删除多图片
+    public function delMosImg($imgs) {
+        $imgArr = explode(',', $imgs);
+        foreach($imgArr as $img) {
+            $img = str_replace("\\","/",public_path().'/'.($img));
+            if (is_file($img)) unlink($img);
+        }
+    }
 }

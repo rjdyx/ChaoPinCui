@@ -34,6 +34,8 @@ class FeedbackController extends Controller
     // 单条删除
     public function destroy($id)
     {
+        $feedback = Feedback::find($id);
+        IQuery::delMosImg($feedback->img);
     	if (Feedback::destroy($id)) {
             IQuery::ofLog('feedback', 4, 0);
             return $id;
