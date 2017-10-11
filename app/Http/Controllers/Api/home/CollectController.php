@@ -31,7 +31,7 @@ class CollectController extends Controller
     public function userCollect(Request $request)
     {
         $type = $request->type;
-        if ($type)return $this->collect($request);
+        if ($type=='true') return $this->collect($request);
         return $this->collectCancell($request);    
     }
 
