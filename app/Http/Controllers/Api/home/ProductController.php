@@ -21,12 +21,12 @@ class ProductController extends Controller
 	// 产品基础信息
 	public function productInfo(Request $request)
 	{
-		$info = Product::join('categories','products.category_id','=','categories.id')
-			->join('categories as parent','categories.pid','=','parent.id')
+		$info = Product::join('categories','products.category_id','=','categories.id')->where('categories.deleted_at')
+			->join('categories as parent','categories.pid','=','parent.id')->where('parent.deleted_at')
 			->where('products.id','=',$request->id)
 			->select('products.*','parent.name as parent_name','categories.name as category_name')
 			->first();
-		$model = Collect::find($request->id);
+		$model = Collect::where('product_id',$request->id)->where('user_id', $request->user_id);
 		$isCollect = isset($model->id)?1:0;
 		$info->is_collect = $isCollect;
 		$recommend = $this->productCustoms($request->id);
