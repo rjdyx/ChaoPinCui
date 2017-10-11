@@ -26,7 +26,7 @@ class ProductController extends Controller
 			->where('products.id','=',$request->id)
 			->select('products.*','parent.name as parent_name','categories.name as category_name')
 			->first();
-		$model = Collect::where('product_id',$request->id)->where('user_id', $request->user_id);
+		$model = Collect::where('product_id',$request->id)->where('user_id', $request->user_id)->first();
 		$isCollect = isset($model->id)?1:0;
 		$info->is_collect = $isCollect;
 		$recommend = $this->productCustoms($request->id);
