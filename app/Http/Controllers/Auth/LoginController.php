@@ -48,15 +48,16 @@ class LoginController extends Controller
         $user_id = $request->user_id;
         $orin_pass = $request->orin_pass;
         $now_pass = $request->now_pass;
-        $now_pass_rep = $request->now_pass_rep;
         if (empty($user_id) return 100; // 参数错误
 
         $user = User::find($user_id);
+        if (!\Hash::check($old_password,$user->password)) {
+           return 102;
+        }
         $credentials = ['name'=>$user->name,'password'=>$now_pass];
-        if (!$this->guard()->attempt($credentials)) return 102; //原始密码错误
-
+        
         //重设密码
-        $user->password = bcrypt($now_pass);
+        $user->password = bcrypt($new_password);
         if ($user->save()) return 200; //重置成功
         return 500; // 重置失败
     }   
