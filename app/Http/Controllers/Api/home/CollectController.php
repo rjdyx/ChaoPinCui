@@ -40,21 +40,11 @@ class CollectController extends Controller
     {
         $user_id = $request->user_id;
         $product_id = $request->product_id;
-        //获取软删除模型
-        $cts = Collect::onlyTrashed()->where('product_id', $product_id)
-            ->where('user_id', $user_id)->first();
-
-        // 判断是否以前收藏过    
-        if (isset($cts->id)) {
-            if ($cts->restore()) return $cts->id; //恢复软删除
-            return 0;
-        } else {
-            $model = new Collect;
-            $model->user_id = $user_id;
-            $model->product_id = $product_id;
-            if ($model->save()) return $model->id;
-            return 0;
-        }
+        $model = new Collect;
+        $model->user_id = $user_id;
+        $model->product_id = $product_id;
+        if ($model->save()) return $model->id;
+        return 0;
     }
 
     // 取消收藏
