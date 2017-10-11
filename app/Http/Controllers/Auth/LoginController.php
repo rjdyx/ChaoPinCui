@@ -51,13 +51,12 @@ class LoginController extends Controller
         if (empty($user_id) return 100; // 参数错误
 
         $user = User::find($user_id);
-        if (!\Hash::check($old_password,$user->password)) {
+        if (!\Hash::check($orin_pass,$user->password)) {
            return 102;
         }
-        $credentials = ['name'=>$user->name,'password'=>$now_pass];
         
         //重设密码
-        $user->password = bcrypt($new_password);
+        $user->password = bcrypt($now_pass);
         if ($user->save()) return 200; //重置成功
         return 500; // 重置失败
     }   
