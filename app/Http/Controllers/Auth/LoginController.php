@@ -49,9 +49,8 @@ class LoginController extends Controller
         $orin_pass = $request->orin_pass;
         $now_pass = $request->now_pass;
         $now_pass_rep = $request->now_pass_rep;
-        if (empty($user_id) || empty($orin_pass) || empty($now_pass) || empty($now_pass_rep)) return 100; // 参数错误
+        if (empty($user_id) return 100; // 参数错误
 
-        if ($now_pass_rep != $now_pass) return 101; // 两次密码不一致
         $user = User::find($user_id);
         $credentials = ['name'=>$user->name,'password'=>$now_pass];
         if (!$this->guard()->attempt($credentials)) return 102; //原始密码错误
