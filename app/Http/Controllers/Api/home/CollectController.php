@@ -62,16 +62,7 @@ class CollectController extends Controller
     {
         $user_id = $request->user_id;
         $product_id = $request->product_id;
-        $model = Collect::where('product_id', $product_id)
-            ->where('user_id', $user_id)
-            ->first();
-        return $this->destroy($model->id);   
-    }
-
-    // 单条删除
-    public function destroy($id)
-    {
-    	if (Collect::destroy($id)) return $id;
-    	return 0;
+        $model = Collect::where('product_id', $product_id)->where('user_id', $user_id)->first();
+        return Collect::destroy($model->id);  
     }
 }
