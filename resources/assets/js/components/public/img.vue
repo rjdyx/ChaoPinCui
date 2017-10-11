@@ -37,11 +37,11 @@ export default {
         }
     },
     mounted () {
-        // this.changeImg()
+        this.changeImg()
     },
     watch: {
         scope () {
-            // this.changeImg()
+            this.changeImg()
         }
     }
 }
