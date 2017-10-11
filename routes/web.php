@@ -35,7 +35,6 @@ Route::get('get/openid','HomeController@getOpenid'); //获取openid
 // Route::post('home','HomeController@store'); //测试无token提交
 
 Route::get('logout','Auth\LoginController@logout'); //登出
-Route::post('reset/password','Auth\LoginController@resetPassword');//修改密码
 
 Auth::routes();
 
@@ -101,6 +100,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		/* 个人中心、用户编辑页 */
 		Route::post('user/img', 'UserController@uploadImg');
 		Route::post('user/setUpdate', 'UserController@setUpdate');
+		Route::post('user/password','UserController@resetPassword');//修改密码
 		Route::resource('user', 'UserController');
 
 		/* 我的收藏 */

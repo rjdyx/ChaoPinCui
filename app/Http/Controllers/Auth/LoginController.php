@@ -42,26 +42,6 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout', 'login', 'resetPassword');
     }
 
-    // 重置密码
-    public function resetPassword(Request $request)
-    {
-        return 666;
-        $user_id = $request->user_id;
-        $orin_pass = $request->orin_pass;
-        $now_pass = $request->now_pass;
-        if (empty($user_id) return 100; // 参数错误
-
-        $user = User::find($user_id);
-        if (!\Hash::check($orin_pass,$user->password)) {
-           return 102;
-        }
-        
-        //重设密码
-        $user->password = bcrypt($now_pass);
-        if ($user->save()) return 200; //重置成功
-        return 500; // 重置失败
-    }   
-
     // 登录
     public function Login(Request $request)
     {
