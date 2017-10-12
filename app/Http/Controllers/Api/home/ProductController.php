@@ -131,7 +131,7 @@ class ProductController extends Controller
 		}
 		$data = $data->select(DB::raw($distance.' as dis, products.*'))
 			->orderBy('dis', 'desc')
-			->paginate(2);
+			->paginate(5);
 		return $data;
 	}
 
