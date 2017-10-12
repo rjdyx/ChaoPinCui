@@ -86,6 +86,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 
 		/* 产品详情页 */
 		Route::get('product/details', 'ProductController@productInfo'); // 获取产品信息
+		Route::get('product/reload', 'ProductController@getReload'); // 获取评论加载信息
 		Route::get('product/imgs', 'ProductController@productImgs'); // 获取产品图片信息
 		Route::get('product/nearbys', 'ProductController@productNearby'); // 获取当前产品附近产品信息
 		Route::get('product/lists', 'ProductController@productLists'); // 获取产品列表信息
