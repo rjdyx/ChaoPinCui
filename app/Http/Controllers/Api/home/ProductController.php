@@ -44,7 +44,7 @@ class ProductController extends Controller
 	// 获取产品评论信息
 	public function productComment($id)
 	{
-		return $this->getInfoData($request->id);
+		return $this->getInfoData($id);
 	}
 
 	// 获取加载下信息
