@@ -100,6 +100,11 @@ class ProductController extends Controller
 		$lon = $request->lon;
 		$lat = $request->lat;
 		$name = $request->name;
+		$page = $request->page;
+        $page = isset($page) ? $page : '';
+        if($page != '') {
+            $request->merge(['page'=>$page]);
+        }
 		if (empty($type)) { //普通分类
 			$data = $this->getCategoryProduct($cid, $lon, $lat);
 		} else if ($type == 'recommend') { //推荐
