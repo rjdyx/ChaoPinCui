@@ -7,7 +7,7 @@
  */
 <template>
 	<div>
-        <img v-if="imgArr" v-for="itImg in imgArr" :src="itImg" width="40" height="40">
+        <img v-if="imgArr" v-for="itImg in imgArr" :src="itImg" width="40" height="40" style="margin-right:5px">
 	</div>
 </template>
 
