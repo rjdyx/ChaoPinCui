@@ -49,7 +49,7 @@ class ProductController extends Controller
 			->where('comments.product_id', $id)
 			->orderBy('created_at','desc')
 			->select('comments.*','users.img as user_img', 'users.name as user_name','products.comment as count_comment')
-			->get();
+			->paginate(10);
 		// foreach ($data as $key => $value) {
 		// 	$data[$key]->img = explode(',', $value->img);
 		// }
