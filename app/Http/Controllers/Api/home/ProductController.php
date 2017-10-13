@@ -123,7 +123,7 @@ class ProductController extends Controller
 		$distance = ACOS(SIN(($lat * 3.1415) / 180 ) * SIN(('weft' * 3.1415) / 180 ) +COS(($lat * 3.1415) / 180 ) * COS(('weft' * 3.1415) / 180 ) * COS(($lon * 3.1415) / 180 - ('meridian' * 3.1415) / 180 ) ) * 6380;
 		$data = Product::join('categories','products.category_id','=','categories.id')->whereNull('categories.deleted_at');
 		if ($cid && $name == '') {
-			$data = $data->where('products.category_id', $cid);
+			$data = $data->where('categories.pid', $cid);
 		}
 		if ($name != '' ) {
 			$data = $data->where('products.name','like','%'.$name.'%')
