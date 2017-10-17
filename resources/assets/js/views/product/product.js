@@ -1,4 +1,5 @@
 // 中间列表的数据
+import { reInteger,cestNumber } from 'utils/validate'
 import CategorySelect from './category-select.vue'
 import Category from './category.vue'
 import ImgDetails from './img-check-result.vue'
@@ -14,15 +15,14 @@ export default {
             tab: '产品',
             url: 'product',
             database: 'Product',
-            theads: ['产品名称', '分类', '描述', '图片', '地址', '经度', '纬度', '星级', '关注度', '好评率'],
-            protos: ['name', 'category_name', 'desc', 'img', 'address', 'meridian', 'weft', 'star_rate' 'heat', 'comment'],
+            theads: ['产品名称', '分类', '描述', '图片', '地址', '经度', '纬度', '星级22', '关注度', '好评率'],
+            protos: ['name', 'category_name', 'desc', 'img', 'address', 'meridian', 'weft', 'star_rate', 'heat', 'comment'],
             protosFilter: ['img', 'desc', 'heat', 'comment'],
-            widths: [50, 50, 20, 80, 40, 40],
+            widths: [50, 50, 50, 50, 50, 50],
             showDetail: true,
             colComponents: {img: Img, category_name: Category},
             isOperateMores: true,
             operateMoreComponents: [{component: ImgDetails, params: {}}, {component: CustomDetails, params: {}}, {component: CommentDetails, params: {}}],
-            // operateComponents: [],
             formRows: {
                 name: {
                     label: '产品名称',
@@ -81,7 +81,9 @@ export default {
                 star_rate: {
                     label: '星级',
                     rules: [
-                        { max: 5, message: '长度在 30 个字符以内', trigger: 'blur' }
+                        { required: true, message: '星级', trigger: 'blur' },
+                        { validator: reInteger },
+                        { validator: cestNumber, max: 5, min: 1 }
                     ],
                     value: '',
                     type: 'input',

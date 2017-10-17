@@ -87,3 +87,25 @@ exports.reInteger = (rule, value, callback, source, options) => {
         callback()
     }
 }
+
+/**
+ * 验证数字最大最小值
+ */
+exports.cestNumber = (rule, value, callback, source, options) => {
+    if (value !== '' && value !== undefined) {
+        if (value>rule.max) {
+            callback(new Error('数字不能大于' + rule.max))
+        } else if (value<rule.min) {
+            callback(new Error('数字不能小于于' + rule.min))
+        } else {
+            callback()
+        }
+    }
+}
+
+/**
+ * 验证数字最小值
+ */
+exports.minNumber = (rule, value, callback, source, options) => {
+    console.log(666)
+}
