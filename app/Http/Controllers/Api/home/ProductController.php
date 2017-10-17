@@ -83,7 +83,7 @@ class ProductController extends Controller
 		$pt = Product::find($id);
 
 		$res = Product::where('category_id', $pt->category_id)
-			->select(DB::raw('products.*'))
+			->select('products.*')
 			->orderBy('desc')
 			->paginate(6);
 		return $res;
@@ -94,34 +94,37 @@ class ProductController extends Controller
 	{
 		$type = $request->type; // 产品类型（推荐、附近）
 		$cid = $request->category_id; // 分类id
+		$pid = $request->parent_id; // 父分类id
+		$id = $request->id; // 产品id
 		$name = $request->name;
 		$page = $request->page;
         $page = isset($page) ? $page : '';
         if($page != '') {
             $request->merge(['page'=>$page]);
         }
-		if (empty($type)) { //普通分类
-			$data = $this->getCategoryProduct($cid);
-		} else if ($type == 'recommend') { //推荐
-			$data = $this->getCategoryProduct($cid);
-		} else if ($type == 'nearby') { //附近
-			$data = $this->getCategoryProduct(false);
-		} else if ($type == 'search') { //搜索
-			$data = $this->getCategoryProduct($cid, $name);
-		}
+		// if (empty($type)) { //普通分类
+		// 	$data = $this->getCategoryProduct($cid);
+		// } else if ($type == 'recommend') { //推荐
+		// 	$data = $this->getCategoryProduct($cid);
+		// } else if ($type == 'nearby') { //附近
+		// 	$data = $this->getCategoryProduct($id, $cid ,$pid);
+		// } else if ($type == 'search') { //搜索
+		// 	$data = $this->getCategoryProduct($cid, $name);
+		// }
+		$data = $this->getCategoryProduct($id, $cid, $pid, $type, $name);
 		return response()->json($data);
 	}
 
 	//获取普通分类的列表产品/附近
-	public function getCategoryProduct($cid, $name='')
+	public function getCategoryProduct($id, $cid, $pid, $type, $name='')
 	{
 		$data = Product::join('categories','products.category_id','=','categories.id')->whereNull('categories.deleted_at')
 		               ->whereNotNull('categories.pid')
-		               ->join('categories as category', 'category.id', '=', 'categories.pid')->whereNull('category.deleted_at')
-		               ->whereNull('category.deleted_at');
+		               ->join('categories as parent', 'parent.id', '=', 'categories.pid')->whereNull('parent.deleted_at')
+		               ->whereNull('parent.pid');
 
-		if ($cid && $name == '') {
-			$data = $data->where('products.category_id', $cid);
+		if ($type == 'nearby') {
+			$data = $data->where('parents.id', $pid);
 		}
 		if ($name != '' ) {
 			$data = $data->where('products.name','like','%'.$name.'%')
