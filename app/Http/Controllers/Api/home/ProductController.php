@@ -117,7 +117,7 @@ class ProductController extends Controller
 	{
 		$data = Product::join('categories','products.category_id','=','categories.id')->whereNull('categories.deleted_at')
 		               ->whereNotNull('categories.pid')
-		               ->join('categories as caregory', 'caregory.id', '=', 'categories.pid')->whereNull('category.deleted_at')
+		               ->join('categories as category', 'caregory.id', '=', 'categories.pid')->whereNull('category.deleted_at')
 		               ->whereNull('category.deleted_at');
 
 		if ($cid && $name == '') {
