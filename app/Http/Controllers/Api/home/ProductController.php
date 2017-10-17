@@ -129,7 +129,7 @@ class ProductController extends Controller
 			$data = $data->where('products.category_id', $cid);
 		} else if ($type == 'search') {
 			$data = $data->where('products.name','like','%'.$name.'%')
-			        ->where('categories.pid','=',$cid);
+			        ->where('categories.pid','=',$id);
 		}
 		$data = $data->select('products.*')
 			  ->orderBy('desc')
