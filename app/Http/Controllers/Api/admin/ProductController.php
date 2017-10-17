@@ -66,6 +66,7 @@ class ProductController extends Controller
     {
     	$this->validate($request, [
             'name' => 'required','max:50',
+            'star_rate' => 'required',
             'category_id' => 'required|exists:categories,id',
             'desc' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:100',
@@ -79,7 +80,7 @@ class ProductController extends Controller
         	$model = Product::find($id);
         }
 
-        $arr = ['name', 'desc', 'category_id', 'address', 'meridian', 'weft'];
+        $arr = ['name', 'desc', 'category_id', 'address', 'meridian', 'star_rate', 'weft'];
         $model->setRawAttributes($request->only($arr));
         $res = IQuery::upload($request,'img', true);
         $model->img = $res['p'];

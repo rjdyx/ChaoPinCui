@@ -15,7 +15,7 @@ export default {
             tab: '产品',
             url: 'product',
             database: 'Product',
-            theads: ['产品名称', '分类', '描述', '图片', '地址', '经度', '纬度', '星级22', '关注度', '好评率'],
+            theads: ['产品名称', '分类', '描述', '图片', '地址', '经度', '纬度', '星级', '关注度', '好评率'],
             protos: ['name', 'category_name', 'desc', 'img', 'address', 'meridian', 'weft', 'star_rate', 'heat', 'comment'],
             protosFilter: ['img', 'desc', 'heat', 'comment'],
             widths: [50, 50, 50, 50, 50, 50],
@@ -81,7 +81,7 @@ export default {
                 star_rate: {
                     label: '星级',
                     rules: [
-                        { required: true, message: '星级', trigger: 'blur' },
+                        { required: true, message: '请输入星级', trigger: 'blur' },
                         { validator: reInteger },
                         { validator: cestNumber, max: 5, min: 1 }
                     ],
