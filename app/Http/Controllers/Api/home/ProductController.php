@@ -24,7 +24,7 @@ class ProductController extends Controller
 		$info = Product::join('categories','products.category_id','=','categories.id')->where('categories.deleted_at')
 			->join('categories as parent','categories.pid','=','parent.id')->where('parent.deleted_at')
 			->where('products.id','=',$request->id)
-			->select('products.*','parent.name as parent_name','categories.name as category_name')
+			->select('products.*','parent.name as parent_name','categories.name as category_name', 'categories.id as cate_id')
 			->first();
 		$model = Collect::where('product_id',$request->id)->where('user_id', $request->user_id)->first();
 		$isCollect = isset($model->id)?1:0;
