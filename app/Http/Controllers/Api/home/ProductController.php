@@ -125,15 +125,15 @@ class ProductController extends Controller
 
 		if ($type == 'nearby') {
 			$data = $data->where('parent.id', $pid);
-		} else if ($type = 'category') {
+		} else if ($type == 'category') {
 			$data = $data->where('products.category_id', $cid);
-		} else if ($type == 'search')
+		} else if ($type == 'search') {
 			$data = $data->where('products.name','like','%'.$name.'%')
 			        ->where('categories.pid','=',$cid);
 		}
 		$data = $data->select('products.*')
-			->orderBy('desc')
-			->paginate(5);
+			  ->orderBy('desc')
+			  ->paginate(5);
 		return $data;
 	}
 
