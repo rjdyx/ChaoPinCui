@@ -125,6 +125,8 @@ class ProductController extends Controller
 
 		if ($type == 'nearby') {
 			$data = $data->where('parent.id', $pid);
+		} else if ($type = 'category') {
+			$data = $data->where('products.category_id', $cid);
 		}
 		if ($name != '' ) {
 			$data = $data->where('products.name','like','%'.$name.'%')
