@@ -124,7 +124,7 @@ class ProductController extends Controller
 		               ->whereNull('parent.pid');
 
 		if ($type == 'nearby') {
-			$data = $data->where('parents.id', $pid);
+			$data = $data->where('parent.id', $pid);
 		}
 		if ($name != '' ) {
 			$data = $data->where('products.name','like','%'.$name.'%')
