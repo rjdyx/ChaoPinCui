@@ -126,6 +126,8 @@ class ProductController extends Controller
 		} else if ($type == 'search') {
 			$data = $data->where('products.name','like','%'.$name.'%')
 			        ->where('categories.pid','=',$id);
+		} else if ($type == 'recommend') {
+			$data = $data->where('categories.pid','=',$id);
 		}
 		$data = $data->select('products.*')
 			  ->orderBy('desc')
