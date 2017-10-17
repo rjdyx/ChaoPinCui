@@ -58,7 +58,7 @@ class CommentController extends Controller
         $isUserName = $request->isUserName;
         $arr = ['content', 'product_id', 'level', 'user_id', 'img'];
         $model->setRawAttributes($request->only($arr));
-        if ($isUserName == 0) {
+        if ($isUserName == 1) {
             $model->anony = '游客'.time().rand(0,1000);
         }
         
