@@ -115,7 +115,11 @@ class ProductController extends Controller
 	//获取普通分类的列表产品/附近
 	public function getCategoryProduct($cid, $name='')
 	{
-		$data = Product::join('categories','products.category_id','=','categories.id')->whereNull('categories.deleted_at');
+		$data = Product::join('categories','products.category_id','=','categories.id')->whereNull('categories.deleted_at')
+		               ->whereNotNull('categories.pid')
+		               ->join('categories as caregory', 'caregory.id', '=', 'categories.pid')->whereNull('category.deleted_at')
+		               ->whereNull('category.deleted_at');
+
 		if ($cid && $name == '') {
 			$data = $data->where('products.category_id', $cid);
 		}
