@@ -128,10 +128,10 @@ class ProductController extends Controller
 		} else if ($type = 'category') {
 			$data = $data->where('products.category_id', $cid);
 		}
-		if ($name != '' ) {
-			$data = $data->where('products.name','like','%'.$name.'%')
-			        ->where('categories.pid','=',$cid);
-		}
+		// if ($name != '' ) {
+		// 	$data = $data->where('products.name','like','%'.$name.'%')
+		// 	        ->where('categories.pid','=',$cid);
+		// }
 		$data = $data->select('products.*')
 			->orderBy('desc')
 			->paginate(5);
