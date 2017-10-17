@@ -55,9 +55,12 @@ class CommentController extends Controller
         } else {
             $model = Comment::find($id);
         }
-
+        $isUserName = $request->isUserName;
         $arr = ['content', 'product_id', 'level', 'user_id', 'img'];
         $model->setRawAttributes($request->only($arr));
+        if ($isUserName == 0) {
+            $model->anony = '游客'.time().rand(0,1000);
+        }
         
         if (!$model->save()) return 0;
         if ($id != -1) $model->id = $id;

@@ -98,15 +98,6 @@ class ProductController extends Controller
         if($page != '') {
             $request->merge(['page'=>$page]);
         }
-		// if (empty($type)) { //普通分类
-		// 	$data = $this->getCategoryProduct($cid);
-		// } else if ($type == 'recommend') { //推荐
-		// 	$data = $this->getCategoryProduct($cid);
-		// } else if ($type == 'nearby') { //附近
-		// 	$data = $this->getCategoryProduct($id, $cid ,$pid);
-		// } else if ($type == 'search') { //搜索
-		// 	$data = $this->getCategoryProduct($cid, $name);
-		// }
 		$data = $this->getCategoryProduct($id, $cid, $pid, $type, $name);
 		return response()->json($data);
 	}
