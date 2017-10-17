@@ -30,8 +30,8 @@ class ProductController extends Controller
 		$isCollect = isset($model->id)?1:0;
 		$info->is_collect = $isCollect;
 		$recommend = $this->productCustoms($request->id);
-		$comment = $this->productComment($request->id);
-		$res = ['info'=>$info, 'recommend'=>$recommend, 'comment'=>$comment];
+		$comment = $this->getInfoData($request->id);
+		$res = ['info'=>$info, 'recommend'=>$recommend, 'comment'=>$comment[0], 'totalComment'=>$comment[1]];
 		return response()->json($res);
 	}
 
@@ -41,12 +41,6 @@ class ProductController extends Controller
 		return Custom::where('product_id', $id)->get();
 	}
 
-	// 获取产品评论信息
-	public function productComment($id)
-	{
-		return $this->getInfoData($id);
-	}
-
 	// 获取加载下信息
 	public function getReload(Request $request) {
 		$page = $request->page;
@@ -54,18 +48,20 @@ class ProductController extends Controller
         if($page != '') {
             $request->merge(['page'=>$page]);
         }
-        return $this->getInfoData($request->id);
+        $data = $this->getInfoData($request->id);
+        return $data[0];
 	}
 
-	// 数据查询
+	// 获取产品评论信息
 	public function getInfoData($id) {
 		$data = Comment::join('users','comments.user_id','=','users.id')->whereNull('users.deleted_at')
 			->join('products','comments.product_id','=','products.id')->whereNull('products.deleted_at')
 			->where('comments.product_id', $id)
 			->orderBy('created_at','desc')
-			->select('comments.*','users.img as user_img', 'users.name as user_name','products.comment as count_comment')
-			->paginate(10);
-		return $data;
+			->select('comments.*','users.img as user_img', 'users.name as user_name','products.comment as count_comment');
+	    $totalComment = $data->sum('comments.level');
+		$dataComment = $data ->paginate(10);
+		return [$dataComment, $totalComment];
 	}
 
 	// 获取产品图片信息
