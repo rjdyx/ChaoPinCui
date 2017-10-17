@@ -14,8 +14,8 @@ export default {
             tab: '产品',
             url: 'product',
             database: 'Product',
-            theads: ['产品名称', '分类', '描述', '图片', '地址', '经度', '纬度', '关注度', '好评率'],
-            protos: ['name', 'category_name', 'desc', 'img', 'address', 'meridian', 'weft', 'heat', 'comment'],
+            theads: ['产品名称', '分类', '描述', '图片', '地址', '经度', '纬度', '星级', '关注度', '好评率'],
+            protos: ['name', 'category_name', 'desc', 'img', 'address', 'meridian', 'weft', 'star_rate' 'heat', 'comment'],
             protosFilter: ['img', 'desc', 'heat', 'comment'],
             widths: [50, 50, 20, 80, 40, 40],
             showDetail: true,
@@ -77,6 +77,15 @@ export default {
                     value: '',
                     type: 'input',
                     placeholder: ''
+                },
+                star_rate: {
+                    label: '星级',
+                    rules: [
+                        { max: 5, message: '长度在 30 个字符以内', trigger: 'blur' }
+                    ],
+                    value: '',
+                    type: 'input',
+                    placeholder: '最大输入5，最小输入1'
                 },
                 img: {
                     label: '图片',
