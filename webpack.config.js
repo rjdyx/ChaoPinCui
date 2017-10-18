@@ -3,6 +3,7 @@ const env = require('./env.js');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const projectRoot = path.resolve(__dirname, './');
 
@@ -20,7 +21,7 @@ let config = {
     },
     output: {
         path: projectRoot + '/public/build',
-        publicPath: (process.env.NODE_ENV == 'development' ? 'http://localhost:8080/build/' : '/build/'),
+        publicPath: (process.env.NODE_ENV == 'development' ? env.app_url + '/build/' : '/build/'),
         filename: 'js/[name].js',
         chunkFilename: 'js/[id].[name].js'
     },
@@ -29,29 +30,54 @@ let config = {
         loaders: [
             {
                 test: /\.vue$/,
-                loader: 'vue'
+                loader: 'vue-loader',
+                // vue-loader 配置
+                options: {
+                    loaders: {
+                        // 用 babel-loader 加载所有没有 'lang' 属性的 <script>
+                        // 将vue里面的css和sass抽离出来组成一个独立的css文件
+                        css: ExtractTextPlugin.extract({
+                            fallback: 'style-loader',
+                            use: ['css-loader']
+                        }),
+                        scss: ExtractTextPlugin.extract({
+                            fallback: 'vue-style-loader',
+                            use: ['css-loader!sass-loader']
+                        }),
+                        sass: ExtractTextPlugin.extract({
+                            fallback: 'vue-style-loader',
+                            use: ['css-loader!sass-loader']
+                        })
+                    }
+                }
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader']
+                })
             },
             {
                 test: /\.json$/,
-                loader: 'json'
+                loader: 'json-loader'
             },
-            {
-                test: /iview.src.*?js$/,
-                loader: 'babel'
-            },
+            // {
+            //     test: /iview.src.*?js$/,
+            //     loader: 'babel-loader'
+            // },
             {
                 test: /\.js$/,
-                loader: 'babel',
-                include: projectRoot,
+                loader: 'babel-loader',
+                // include: projectRoot,
                 exclude: /node_modules/
             },
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader?sourceMap')
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'sass-loader']
+                })
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
@@ -69,9 +95,7 @@ let config = {
     // 配置应用层的模块（要被打包的模块）解析
     resolve: {
         // 这样就无需写后缀
-        extensions: ['', '.js', '.vue'],
-        // 解决当出现 Node.js 模块依赖查找失败的情况
-        fallback: [path.join(__dirname, '../node_modules')],
+        extensions: ['.js', '.vue'],
         // 路径别名
         alias: {
             'projectRoot': projectRoot,
@@ -85,27 +109,10 @@ let config = {
         }
     },
 
-    // vue-loader 配置
-    vue: {
-        // ... 其他 vue 选项
-        loaders: {
-            // 用 babel-loader 加载所有没有 "lang" 属性的 <script>
-            js: 'babel',
-            // 将vue里面的css、sass和less抽离出来组成一个独立的css文件
-            css: ExtractTextPlugin.extract('vue-style-loader', 'css-loader'),
-            sass: ExtractTextPlugin.extract('vue-style-loader', 'css-loader!sass-loader')
-        },
-        postcss: [
-            require('autoprefixer')({
-                browsers: ['last 2 versions']
-            })
-        ]
-    },
-
     // 插件项
     plugins: [
         // 把css抽离成单独的文件
-        new ExtractTextPlugin('css/[name].css', { allChunks: true }),
+        new ExtractTextPlugin({filename: 'css/[name].css', allChunks: true}),
         // 将类库文件进行分开打包,便于缓存
         new webpack.optimize.CommonsChunkPlugin({
           name: 'vendor',
@@ -127,7 +134,9 @@ let config = {
     ],
 
     node: {
-      fs: "empty"
+      fs: "empty",
+      module: 'empty',
+      child_process: 'empty'
     }
 }
 
@@ -160,11 +169,7 @@ if(process.env.NODE_ENV == 'development') {
                 'process.env.NODE.ENV': "development"
             }),
             // minify JS
-            new webpack.optimize.UglifyJsPlugin({
-              compress: {
-                warnings: false
-              }
-            })
+            new UglifyJSPlugin()
         ]
     })
 }
