@@ -10,7 +10,7 @@
  * 
  */
 <template>
-    <div class="middle">
+    <div class="middleInner">
         <!-- 导航条模块 -->
         <el-breadcrumb separator="/" id="nav">
             <el-breadcrumb-item>{{navbarName}}</el-breadcrumb-item>
@@ -333,71 +333,79 @@ export default {
 
 <style lang="sass" scoped>
     @import "../../../../sass/function";
-    #nav {
-        height: pxToRem(62);
-        line-height: pxToRem(62);
-        font-size: pxToRem(20);
-    }
+    .middleInner{
+        width:100%;
+        height:100%;
+        overflow-y: auto;
+        padding-right:1rem;
+        box-sizing:border-box;
+         #nav {
+            height: pxToRem(62);
+            line-height: pxToRem(62);
+            font-size: pxToRem(20);
+        }
 
-    #tabs {
-        height: pxToRem(62);
-    }
-    tbody .cell div{
-        overflow: hidden; 
-        text-overflow:ellipsis;
-        white-space: nowrap;
-        cursor: pointer;
-    }
-    #operate {
-        height: pxToRem(62);
-        line-height: pxToRem(62);
-        margin-top: pxToRem(10);
+        #tabs {
+            height: pxToRem(62);
+        }
+        tbody .cell div{
+            overflow: hidden; 
+            text-overflow:ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        #operate {
+            height: pxToRem(62);
+            line-height: pxToRem(62);
+            margin-top: pxToRem(10);
 
-        #btns {
-            float: right;
-
-            .operateBtns {
-                display: inline-block;
-                margin: 0 pxToRem(10);
-            }
-
-            .rightBtn {
+            #btns {
                 float: right;
-                margin-right: 10px;
+
+                .operateBtns {
+                    display: inline-block;
+                    margin: 0 pxToRem(10);
+                }
+
+                .rightBtn {
+                    float: right;
+                    margin-right: 10px;
+                }
+
+                .rightBtn:nth-child(1) {
+                    margin-right: 0px;
+                }
             }
 
-            .rightBtn:nth-child(1) {
-                margin-right: 0px;
+            #inputs {
+                float: left;
             }
         }
 
-        #inputs {
+        .line-operate {
             float: left;
-        }
-    }
-
-    .line-operate {
-        float: left;
-        margin-right: 10px;
-    }
-
-    .footer {
-        width: 99.9%;
-        height: 50px;
-        border: 1px solid #dfe6ec;
-        border-top: none;
-
-        .record {
-            float: right;
-            padding: 16px 26px;
-            font-size: 13px;
+            margin-right: 10px;
         }
 
-        .pager {
-            display: inline-block;
-            float: right;
-            vertical-align: middle;
-            padding-top: 12px;
+        .footer {
+            width: 99.9%;
+            height: 50px;
+            border: 1px solid #dfe6ec;
+            border-top: none;
+
+            .record {
+                float: right;
+                padding: 16px 26px;
+                font-size: 13px;
+            }
+
+            .pager {
+                display: inline-block;
+                float: right;
+                vertical-align: middle;
+                padding-top: 12px;
+            }
         }
     }
+       
 </style>

@@ -6,60 +6,95 @@
  * 
  */
 <template>
-    <div id="indexHome">
-    <h1>系统设置</h1>
-        <template>
-            <el-form :model="ruleForm" :rules="rulesValite" ref="ruleForm" id="pop-form">
-                <el-form-item label="网站名称" prop="name">
-                    <el-input type="text" v-model="ruleForm.name"></el-input>
-                </el-form-item>
-                <el-form-item label="关键字" prop="keywords">
-                    <el-input type="text" v-model="ruleForm.keywords"></el-input>
-                </el-form-item>
-                <el-form-item label="备案号" prop="icp">
-                    <el-input type="text" v-model="ruleForm.icp"></el-input>
-                </el-form-item>
-                <el-form-item label="copyright" prop="copy">
-                    <el-input type="text" v-model="ruleForm.copy"></el-input>
-                </el-form-item>
-                <el-form-item label="地址" prop="address">
-                    <el-input type="text" v-model="ruleForm.address"></el-input>
-                </el-form-item>
-                <el-form-item label="邮箱" prop="email">
-                    <el-input type="text" v-model="ruleForm.email"></el-input>
-                </el-form-item>
-                <el-form-item label="手机" prop="phone">
-                    <el-input type="text" v-model="ruleForm.phone"></el-input>
-                </el-form-item>
-                <div>logo图片</div>
-                <inputFile v-if="showfile" :row="logoVal" pro="logo" @emit="returnValue" :isEdit="true"></inputFile>
-            </el-form>
-            <div slot="footer" class="formStore">
-                <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-            </div>
-        </template>
+    <div id="system">
+        <div class="systemInner">
+            <!-- <h1>系统设置</h1> -->
+            <!-- <h1>个人信息与编辑</h1> -->
+            <!-- 导航条模块 -->
+            <el-breadcrumb separator="/" id="nav">
+                <el-breadcrumb-item>系统管理</el-breadcrumb-item>
+                <el-breadcrumb-item>系统配置</el-breadcrumb-item>
+            </el-breadcrumb>
+
+            <slot name="tabs-upside"></slot>
+
+            <!-- tab栏 --> 
+            <el-tabs v-model="activeName" id="tabs" type="card">
+                <el-tab-pane label="系统配置" name="info"></el-tab-pane>
+            </el-tabs>
+            <template>
+                <el-form :model="ruleForm" :rules="rulesValite" ref="ruleForm" id="pop-form">
+                    <el-form-item label="网站名称" prop="name">
+                        <el-input type="text" v-model="ruleForm.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="关键字" prop="keywords">
+                        <el-input type="text" v-model="ruleForm.keywords"></el-input>
+                    </el-form-item>
+                    <el-form-item label="备案号" prop="icp">
+                        <el-input type="text" v-model="ruleForm.icp"></el-input>
+                    </el-form-item>
+                    <el-form-item label="copyright" prop="copy">
+                        <el-input type="text" v-model="ruleForm.copy"></el-input>
+                    </el-form-item>
+                    <el-form-item label="地址" prop="address">
+                        <el-input type="text" v-model="ruleForm.address"></el-input>
+                    </el-form-item>
+                    <el-form-item label="邮箱" prop="email">
+                        <el-input type="text" v-model="ruleForm.email"></el-input>
+                    </el-form-item>
+                    <el-form-item label="手机" prop="phone">
+                        <el-input type="text" v-model="ruleForm.phone"></el-input>
+                    </el-form-item>
+                    <div>logo图片</div>
+                    <inputFile v-if="showfile" :row="logoVal" pro="logo" @emit="returnValue" :isEdit="true"></inputFile>
+                </el-form>
+                <div slot="footer" class="formStore">
+                    <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+                </div>
+            </template>
+        </div>
     </div>
 </template>
 
-<style scoped>
-    #indexHome {
-        position: absolute;
-        top: 6rem;
-        left: 11rem;
-        padding: 20px;
-    }
-    .el-form-item__label{
-        color: #666 !important;
-    }
-    .formStore {
-        text-align: center;
-        button{
-            width: 50%;
+<style lang="sass" scoped>
+    @import "../../../sass/function";
+    #system{
+        height: 100%;
+        overflow:hidden;
+        padding: 3rem 0rem 0rem 1.5625rem;
+        box-sizing:border-box;
+        #nav {
+            height: pxToRem(62);
+            line-height: pxToRem(62);
+            font-size: pxToRem(20);
         }
-    }
-    #pop-form {
-        margin: auto;
-        width: 618px;
+        .systemInner {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding-right:1rem;
+            box-sizing:border-box;
+        }
+        h1{
+            margin-bottom: 20px;
+        }
+        .el-form-item__label{
+            color: #666 !important;
+        }
+        .formStore {
+            text-align: center;
+            margin-bottom:50px;
+            button{
+                width: 50%;
+            }
+        }
+        .userForm{
+            width: 100%;
+        }
+        #pop-form {
+            width: 618px;
+            margin-left:0px;
+        }
     }
 </style>
 
@@ -81,7 +116,8 @@ export default {
                 ],
                 email: [ { type: 'email', message: '请输入正确的邮箱格式', trigger: 'blur'} ],
                 phone: [ { validator: cellphone } ]
-            }
+            },
+            activeName: 'info'
         }
     },
     mounted () {

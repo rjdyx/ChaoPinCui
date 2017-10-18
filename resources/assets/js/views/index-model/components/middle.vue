@@ -7,7 +7,7 @@
  * 
  */
 <template>
-    <div>
+    <div id="middle">
         <basic-model
             ref="basicModel"
             :modelParam="model"
@@ -153,7 +153,7 @@ export default {
 <style scoped>
     #flash {
         position: absolute;
-        top: 16px;
+        top: 70px;
         right: 26px;
     }
 </style>

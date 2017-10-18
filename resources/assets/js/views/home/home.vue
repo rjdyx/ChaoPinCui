@@ -7,75 +7,109 @@
  */
 <template>
     <div id="indexHome">
-        <h1>个人信息与编辑</h1>
-        <template>
-            <el-form :model="ruleForm" ref="ruleForm" id="pop-form">
-                <el-form-item label="头像" prop="img">
-                    <inputFile v-if="showfile" :row="userImg"pro="img" @emit="returnValue" :isEdit="true"></inputFile>
-                </el-form-item>
-                <el-form-item label="用户名" prop="name">
-                    <el-input type="text" v-model="ruleForm.name"></el-input>
-                </el-form-item>
-                <el-form-item label="邮箱" prop="email">
-                    <el-input type="text" v-model="ruleForm.email"></el-input>
-                </el-form-item>
-                <el-form-item label="手机号" prop="phone">
-                    <el-input type="text" v-model="ruleForm.phone"></el-input>
-                </el-form-item>
-                <el-form-item label="地址" prop="address">
-                    <el-input type="text" v-model="ruleForm.address"></el-input>
-                </el-form-item>
-                <el-form-item label="性别" prop="sex">
-                    <el-radio-group v-model="ruleForm.sex">
-                        <el-radio-button :label="0">保密</el-radio-button>
-                        <el-radio-button :label="1">男</el-radio-button>
-                        <el-radio-button :label="2">女</el-radio-button>
-                    </el-radio-group>
-                </el-form-item>
+        <div class="indexHomeInner">
+            <!-- <h1>个人信息与编辑</h1> -->
+            <!-- 导航条模块 -->
+            <el-breadcrumb separator="/" id="nav">
+                <el-breadcrumb-item>首页</el-breadcrumb-item>
+                <el-breadcrumb-item>个人信息</el-breadcrumb-item>
+            </el-breadcrumb>
 
-                <el-form-item label="出生日期" prop="age">
-                    <el-form-item prop="age">
-                        <el-date-picker
-                          v-model="ruleForm.age"
-                          type="date"
-                          placeholder="出生年月日"
-                          :picker-options="pickerOptions0"
-                          @change="GMTToStr">
-                        </el-date-picker>
-                    </el-form-item>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="formStore">
-                <el-button type="primary" @click="submitForm">保存</el-button>
+            <slot name="tabs-upside"></slot>
+
+            <!-- tab栏 --> 
+            <el-tabs v-model="activeName" id="tabs" type="card">
+                <el-tab-pane label="个人信息与编辑" name="info"></el-tab-pane>
+            </el-tabs>
+            <div class="userForm">
+                <template>
+                    <el-form :model="ruleForm" ref="ruleForm" id="pop-form">
+                        <el-form-item label="头像" prop="img">
+                            <inputFile v-if="showfile" :row="userImg"pro="img" @emit="returnValue" :isEdit="true"></inputFile>
+                        </el-form-item>
+                        <el-form-item label="用户名" prop="name">
+                            <el-input type="text" v-model="ruleForm.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="邮箱" prop="email">
+                            <el-input type="text" v-model="ruleForm.email"></el-input>
+                        </el-form-item>
+                        <el-form-item label="手机号" prop="phone">
+                            <el-input type="text" v-model="ruleForm.phone"></el-input>
+                        </el-form-item>
+                        <el-form-item label="地址" prop="address">
+                            <el-input type="text" v-model="ruleForm.address"></el-input>
+                        </el-form-item>
+                        <el-form-item label="性别" prop="sex">
+                            <el-radio-group v-model="ruleForm.sex">
+                                <el-radio-button :label="0">保密</el-radio-button>
+                                <el-radio-button :label="1">男</el-radio-button>
+                                <el-radio-button :label="2">女</el-radio-button>
+                            </el-radio-group>
+                        </el-form-item>
+
+                        <el-form-item label="出生日期" prop="age">
+                            <el-form-item prop="age">
+                                <el-date-picker
+                                  v-model="ruleForm.age"
+                                  type="date"
+                                  placeholder="出生年月日"
+                                  :picker-options="pickerOptions0"
+                                  @change="GMTToStr">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="formStore">
+                        <el-button type="primary" @click="submitForm">保存</el-button>
+                    </div>
+                </template>  
             </div>
-        </template>
+            
+        </div>
     </div>
 </template>
 
-<style scoped>
-
-    #indexHome {
-        position: absolute;
-        top: 6rem;
-        left: 11rem;
-        padding: 20px;
-    }
-    h1{
-        margin-bottom: 20px;
-    }
-    .el-form-item__label{
-        color: #666 !important;
-    }
-    .formStore {
-        text-align: center;
-        button{
-            width: 50%;
+<style lang="sass" scoped>
+    @import "../../../sass/function";
+    #indexHome{
+        height: 100%;
+        overflow:hidden;
+        padding: 3rem 0rem 0rem 1.5625rem;
+        box-sizing:border-box;
+        #nav {
+            height: pxToRem(62);
+            line-height: pxToRem(62);
+            font-size: pxToRem(20);
+        }
+        .indexHomeInner {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding-right:1rem;
+            box-sizing:border-box;
+        }
+        h1{
+            margin-bottom: 20px;
+        }
+        .el-form-item__label{
+            color: #666 !important;
+        }
+        .formStore {
+            text-align: center;
+            margin-bottom:50px;
+            button{
+                width: 50%;
+            }
+        }
+        .userForm{
+            width: 100%;
+        }
+        #pop-form {
+            width: 618px;
+            margin-left:0px;
         }
     }
-    #pop-form {
-        margin: auto;
-        width: 618px;
-    }
+        
 </style>
 
 <script>
@@ -100,7 +134,8 @@ export default {
                 disabledDate (time) {
                     return time.getTime() > Date.now() - 8.64e7
                 }
-            }
+            },
+            activeName: 'info'
         }
     },
     mounted () {
