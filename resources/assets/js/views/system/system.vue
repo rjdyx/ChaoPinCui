@@ -70,6 +70,7 @@
         }
         .systemInner {
             width: 100%;
+            min-width: 800px;
             height: 100%;
             overflow-y: auto;
             padding-right:1rem;
