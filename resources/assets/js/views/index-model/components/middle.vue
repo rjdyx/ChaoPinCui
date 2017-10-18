@@ -81,6 +81,7 @@ export default {
         this.SET_EDITEDACTIVE(this.model.editedActive)
         this.SET_DELETEACTIVE(this.model.deleteActive)
         this.getTableData()
+        this.all()
     },
     methods: {
         ...mapMutations([
@@ -142,6 +143,12 @@ export default {
         flash () {
             this.loading = true
             this.getTableData(this.$store.state.basicModel.currentPage, this.$store.state.basicModel.inputValue)
+        },
+        all () {
+            axios.get(this.$adminUrl('category/all'))
+            .then(res => {
+                console.dir(res)
+            })
         }
     },
     components: {

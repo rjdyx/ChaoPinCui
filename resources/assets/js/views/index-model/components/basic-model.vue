@@ -142,12 +142,7 @@
                             :prop="protosShort[index]"
                             :isEdit="isEdit"
                         ></component>
-                        <component
-                            v-else
-                            :is="value"
-                            :scope="scope.row"
-                            :prop="protosShort[index]"
-                        ></component>
+                        <div v-else>{{scope.row[protosShort[index]]}}</div>
                     </template>
                 </el-table-column>
             </template>
@@ -247,7 +242,6 @@ import MultiDelete from './multi-delete'
 import CustomComponent from './custom-component'
 import CustomColComponent from './custom-col-component'
 import PopForm from 'components/form/pop-form/pop-form'
-import Value from 'components/public/value'
 export default {
     name: 'BasicModel',
     props: {
@@ -282,7 +276,6 @@ export default {
             isShowPopNew: false,
             isShowPopEdit: false,
             editScope: {row: {}},
-            value: Value,
             isEdit: false
         }
     },

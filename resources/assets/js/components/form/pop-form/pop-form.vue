@@ -185,6 +185,7 @@
                 return form
             },
             submitForm (formName) {
+                console.dir(this.ruleForm)
                 let headers = {headers: {'Content-Type': 'multipart/form-data'}}
                 let form = this.formDataCl()
                 this.$refs[formName].validate(async (valid) => {
@@ -243,7 +244,7 @@
                     if (val.name !== undefined) {
                         this.ruleForm[pro + 's'] = val
                         if (this.url === 'turn' || this.url === 'img') {
-                            this.ruleForm[pro] = this.defaultImg
+                            this.ruleForm[pro] = this.defaultImg ? this.defaultImg : val.name
                         }
                     } else if (val === 'del') {
                         this.ruleForm[pro + 's'] = 'del'

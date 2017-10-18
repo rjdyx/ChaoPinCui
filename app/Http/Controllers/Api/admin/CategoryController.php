@@ -117,4 +117,8 @@ class CategoryController extends Controller
         IQuery::logNewOrEdit($id, 'category', 1);
         return 0;
     }
+
+    public function all(Request $request) {
+        return Category::whereNotNull('pid')->get();
+    }
 }

@@ -81,7 +81,7 @@ export default {
                 star_rate: {
                     label: '星级',
                     rules: [
-                        { required: true, message: '请输入星级', trigger: 'blur' },
+                        { required: true, message: '请输入星级' },
                         { validator: reInteger },
                         { validator: cestNumber, max: 5, min: 1 }
                     ],

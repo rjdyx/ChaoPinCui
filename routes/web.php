@@ -54,6 +54,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		Route::resource('user', 'UserController'); // 用户管理
 		Route::resource('system', 'SystemController'); // 系统管理
 		Route::resource('log', 'LogController'); // 操作日志管理
+		Route::get('category/all', 'CategoryController@all'); // 分类管理
 		Route::resource('category', 'CategoryController'); // 分类管理
 		Route::resource('turn', 'ProductTurnController'); // 轮播图管理
 		Route::resource('feedback', 'FeedbackController'); // 用户反馈
