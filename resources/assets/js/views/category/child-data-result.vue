@@ -21,7 +21,7 @@ export default {
     },
     mounted () {
         let url = 'api/get/table'
-        let params = {tname: 'categories', pid: this.scope.row.id}
+        let params = {tname: 'categories', pid: this.scope.id}
         axios.get(url, params).then((res) => {
             if (res.data.length > 0) {
                 return true

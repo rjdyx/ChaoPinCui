@@ -7,7 +7,7 @@
  */
 <template>
 	<div>
-		{{scope.row.type === 1?'管理员':'普通用户'}}
+		{{scope.type === 1?'管理员':'普通用户'}}
 	</div>
 </template>
 

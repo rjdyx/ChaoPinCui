@@ -80,7 +80,7 @@ const routes = [
         component: login
     },
     {
-        path: '/404',
+        path: '/*',
         name: 'notFound',
         component: notFound
     }

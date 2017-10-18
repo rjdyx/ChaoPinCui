@@ -7,7 +7,7 @@
  */
 <template>
 	<div>
-		{{this.select}}
+		{{this.scope.category_name}}
 	</div>
 </template>
 
@@ -29,7 +29,7 @@ export default {
         }
     },
     mounted () {
-        this.update()
+        // this.update()
     },
     watch: {
         scope () {
@@ -38,8 +38,9 @@ export default {
     },
     methods: {
         update () {
-            axios.get(this.$adminUrl('category/' + this.scope.row.category_id))
+            axios.get(this.$adminUrl('category/' + this.scope.category_id))
                 .then((response) => {
+                    console.dir(response)
                     if (response.status === 200) {
                         if (response.data.name !== undefined) {
                             this.select = response.data.name

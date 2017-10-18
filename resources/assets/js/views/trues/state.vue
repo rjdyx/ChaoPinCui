@@ -7,7 +7,7 @@
  */
 <template>
 	<div>
-        {{scope.row.state !== 0 ? '开启':'关闭'}}
+        {{scope.state !== 0 ? '开启':'关闭'}}
 	</div>
 </template>
 

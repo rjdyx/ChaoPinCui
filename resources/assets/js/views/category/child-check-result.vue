@@ -39,7 +39,7 @@ export default {
         ]),
         SpotCheck () {
             this.SET_TABLE_DATA([])
-            this.$router.push('/index/category-child/' + this.scope.row.id)
+            this.$router.push('/index/category-child/' + this.scope.id)
         }
     }
 }
