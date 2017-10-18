@@ -8,11 +8,17 @@
  */
 <template>
     <div>
-        404
+        你所访问的页面不存在
+        <el-button @click="back">返回</el-button>
     </div>
 </template>
 <script>
     export default{
-        name: 'NotFound'
+        name: 'NotFound',
+        methods: {
+        	back () {
+        		this.$router.go(-1)
+        	}
+        }
     }
 </script>
