@@ -29,7 +29,7 @@ export default {
     },
     methods: {
         changeImg () {
-            if (this.scope.row.ico !== null && this.scope.row.ico !== '') {
+            if (this.scope.ico !== null && this.scope.ico !== '') {
                 this.imgOk = 'img/ok.png'
             } else {
                 this.imgOk = 'img/no.png'

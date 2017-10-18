@@ -29,7 +29,7 @@ export default {
     },
     methods: {
         changeImg () {
-            if (this.scope.row.img !== null && this.scope.row.img !== '') {
+            if (this.scope.img !== null && this.scope.img !== '') {
                 this.imgOk = 'img/ok.png'
             } else {
                 this.imgOk = 'img/no.png'

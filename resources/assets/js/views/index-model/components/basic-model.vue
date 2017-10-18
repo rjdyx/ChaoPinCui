@@ -8,6 +8,8 @@
  * @author 苏锐佳 
  * @date 2017/06/08
  * 
+ * 修改
+ * (1)所有的动态组件component绑定的属性scope修改为scope.row (2017.10.18 suzhihao)
  */
 <template>
     <div class="middle">
@@ -111,7 +113,7 @@
                                 <component
                                     v-if="colComponents[protos[index]]"
                                     :is="colComponents[protos[index]]"
-                                    :scope="scope"
+                                    :scope="scope.row"
                                     :prop="protos[index]"
                                 ></component>
                             </el-form-item>
@@ -136,14 +138,14 @@
                         <component
                             v-if="colComponents[protosShort[index]]"
                             :is="colComponents[protosShort[index]]"
-                            :scope="scope"
+                            :scope="scope.row"
                             :prop="protosShort[index]"
                             :isEdit="isEdit"
                         ></component>
                         <component
                             v-else
                             :is="value"
-                            :scope="scope"
+                            :scope="scope.row"
                             :prop="protosShort[index]"
                         ></component>
                     </template>
@@ -159,7 +161,7 @@
                         <custom-col-component
                             class="line-operate"
                             :components="operateComponents" 
-                            :scope="scope" 
+                            :scope="scope.row" 
                             :model="model"
                         ></custom-col-component>
                         <el-button 
@@ -172,7 +174,7 @@
                         <delete
                             class="line-operate"
                             v-if="showDelete" 
-                            :scope="scope" 
+                            :scope="scope.row" 
                             :model="model"
                         ></delete>
                         <!-- 右边自定义操作按钮 -->
@@ -180,7 +182,7 @@
                             class="line-operate"
                             position="right"
                             :components="operateComponents" 
-                            :scope="scope" 
+                            :scope="scope.row" 
                             :model="model"
                         ></custom-col-component>
                         <!-- 右边自定义more -->
@@ -189,11 +191,11 @@
                                 更多<i class="el-icon-caret-bottom el-icon--right"></i>
                             </span>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item v-for="(operateBuntton, index) in operateMoreComponents">       
+                                <el-dropdown-item v-for="(operateBuntton, index) in operateMoreComponents" :key="index">       
                                     <component
                                         :is="operateBuntton.component" 
                                         :params="operateBuntton.params" 
-                                        :scope="scope" 
+                                        :scope="scope.row" 
                                         :model="model"
                                         :key="index"
                                     ></component>

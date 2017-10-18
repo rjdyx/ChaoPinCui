@@ -30,7 +30,7 @@ export default {
     },
     methods: {
         changeName () {
-            let id = this.scope.row.product_id
+            let id = this.scope.product_id
             axios.get('api/admin/product/' + id).then((response) => {
                 if (response.status === 200) {
                     if (response.data.name !== undefined) {

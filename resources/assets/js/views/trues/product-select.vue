@@ -46,7 +46,7 @@ export default {
         }
     },
     mounted () {
-        this.select = this.scope.row.product_id
+        this.select = this.scope.product_id
         let params = {tname: 'products'}
         axios.get('api/get/tables', {params: params}).then((response) => {
             if (response.status === 200) {

@@ -7,7 +7,7 @@
  */
 <template>
 	<div>
-		{{scope.row[prop]}}
+		{{scope[prop]}}
 	</div>
 </template>
 

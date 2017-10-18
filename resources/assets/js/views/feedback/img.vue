@@ -29,8 +29,8 @@ export default {
     },
     methods: {
         changeImg () {
-            if (this.scope.row.img !== null && this.scope.row.img !== '') {
-                this.imgArr = this.scope.row.img.split(',')
+            if (this.scope.img !== null && this.scope.img !== '') {
+                this.imgArr = this.scope.img.split(',')
             }
         }
     },

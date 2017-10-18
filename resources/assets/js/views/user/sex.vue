@@ -29,9 +29,9 @@ export default {
     },
     methods: {
         getRow () {
-            if (this.scope.row.sex === 0) {
+            if (this.scope.sex === 0) {
                 this.sex = '保密'
-            } else if (this.scope.row.sex === 1) {
+            } else if (this.scope.sex === 1) {
                 this.sex = '男'
             } else {
                 this.sex = '女'
