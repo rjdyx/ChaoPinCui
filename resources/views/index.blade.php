@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
     <head>
         <meta charset="utf-8">
@@ -31,8 +31,8 @@
             <script src="{{ elixir('build/js/index.js') }}"></script>
         @endif
     </body>
-</html>
-<!-- <!DOCTYPE html>
+</html> -->
+<!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
     <head>
         <meta charset="utf-8">
@@ -65,4 +65,4 @@
             <script src="{{ elixir('build/js/index.js') }}"></script>
         @endif
     </body>
-</html> -->
+</html>
