@@ -5,7 +5,7 @@
  * 
  */
 <template>
-    <div>
+    <div id="middle">
         <basic-model
             class="basic-model"
             ref="basicModel"
@@ -188,9 +188,9 @@ export default {
         margin-top: 6rem;
     }
 
-    #back {
+    #middle #back {
         position: absolute;
-        top: 16px;
+        top: 70px;
         right: 26px;
     }
 </style>
