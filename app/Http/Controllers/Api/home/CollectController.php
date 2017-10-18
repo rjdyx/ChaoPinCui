@@ -19,10 +19,12 @@ class CollectController extends Controller
 	// 全部收藏信息
     public function index(Request $request)
     {
-    	$datas = Collect::join('products','collects.product_id','=','products.id')
+    	$datas = Collect::join('products','collects.product_id','=','products.id')->whereNull('products.deleted_at')
+            ->join('comments','products.id','=','comments.product_id')->whereNull('comments.deleted_at')
             ->where('collects.user_id', '=', $request->user_id)
             ->orderBy('collects.created_at','desc')
-            ->select('products.*', 'collects.id as collect_id')
+            ->select('products.id', 'products.name', 'products.desc', 'products.img', 'collects.id as collect_id', DB::raw('sum(comments.level) as total, count(comments.level) as num'))
+            ->groupBy('products.id', 'products.name', 'products.desc', 'products.img', 'collect_id')
             ->get();
     	return response()->json($datas);
     }
