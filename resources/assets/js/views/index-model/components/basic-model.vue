@@ -10,6 +10,7 @@
  * 
  * 修改
  * (1)所有的动态组件component绑定的属性scope修改为scope.row (2017.10.18 suzhihao)
+ * (2)新增setOption方法用于下拉框异步赋值给option(2017.10.19 suzhihao)
  */
 <template>
     <div class="middleInner">
@@ -169,7 +170,7 @@
                         <delete
                             class="line-operate"
                             v-if="showDelete" 
-                            :scope="scope.row" 
+                            :scope="scope" 
                             :model="model"
                         ></delete>
                         <!-- 右边自定义操作按钮 -->
@@ -292,6 +293,7 @@ export default {
             }
         },
         showPopNew () {
+            this.setOption()
             this.isShowPopNew = true
         },
         handleSelectionChange (val) {
@@ -313,7 +315,19 @@ export default {
                 this.model.formRows[pro].value = scope.row[pro]
             }
             this.$set(this, 'editScope', scope)
+            this.setOption()
             this.isShowPopEdit = true
+        },
+        // 获取当前表单行的options
+        setOption () {
+            for (let pro in this.model.formRows) {
+                if (this.model.formRows[pro].options && this.model.formRows[pro].options.length === 0) {
+                    this.$store.dispatch('GET_ALL_DATAS', pro.split('_')[0])
+                    .then(data => {
+                        this.model.formRows[pro].options = data
+                    })
+                }
+            }
         }
     },
     components: {

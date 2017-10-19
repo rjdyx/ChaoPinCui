@@ -26,9 +26,9 @@ let TableStore = {
     // 是否显示tab栏
     showTabs: true,
     // 是否显示搜索框模块，默认显示
-    showSearchModel: true,
     // 是否显示新建按钮，默认显示
     showNewBuild: true,
+    showSearchModel: true,
     // 是否显示导出表格按钮，默认显示
     showOutputExcel: true,
     // 是否显示checkbox列，默认显示
