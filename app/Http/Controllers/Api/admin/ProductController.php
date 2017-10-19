@@ -25,7 +25,7 @@ class ProductController extends Controller
                 ->orderBy('products.created_at','desc')
                 ->select('products.id','products.category_id','products.name','products.desc','products.img','products.thumb',
                          'products.address','products.meridian','products.weft','products.heat','products.star_rate',
-                         'categories.name as category_name', DB::raw('avg(comments.level) as level'))
+                         'categories.name as category_name', DB::raw('avg(comments.level) as comment'))
                 ->groupBy('products.id','products.category_id','products.name','products.desc','products.img','products.thumb',
                           'products.address','products.meridian','products.weft','products.heat','products.star_rate', 'categories.name');
         $datas = IQuery::ofText($datas, $request->query_text, 'product' , ['products.name']);

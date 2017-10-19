@@ -15,7 +15,7 @@ export default {
             tab: '产品',
             url: 'product',
             database: 'Product',
-            theads: ['产品名称', '分类', '描述', '图片', '地址', '经度', '纬度', '星级', '关注度', '好评率'],
+            theads: ['产品名称', '分类', '描述', '图片', '地址', '经度', '纬度', '星级', '关注度', '好评率(分)'],
             protos: ['name', 'category_name', 'desc', 'img', 'address', 'meridian', 'weft', 'star_rate', 'heat', 'comment'],
             protosFilter: ['img', 'desc', 'heat', 'comment'],
             widths: [50, 50, 50, 50, 50, 50],

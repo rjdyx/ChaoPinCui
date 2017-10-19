@@ -141,6 +141,6 @@ class CategoryController extends Controller
                 $j++;
             }
         }
-        return $arrData;
+        return response()->json($arrData);
     }
 }
