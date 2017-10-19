@@ -1,6 +1,8 @@
 <template>
     <el-menu
-        :router="true" 
+        :router="true"
+        :default-openeds="defaultOpen"
+        :default-active="defaultActive"
         class="left-menu">
         <template v-for="(menu, index) in menus">
             <el-submenu v-if="menu.children.length" :index="menu.name" :key="index">
@@ -14,12 +16,11 @@
             <el-menu-item 
                 v-else
                 :index="menu.path"
-                 :key="index"
+                :key="index"
                 @click="clickEvent(menu, {name: ''})" exact>
                 {{menu.name}}
             </el-menu-item>
         </template>
-        
     </el-menu>
 </template>
 
@@ -36,10 +37,27 @@
                 }
             }
         },
+        data () {
+            return {
+                defaultOpen: [],
+                defaultActive: ''
+            }
+        },
         mounted () {
             if (localStorage.navbarName) {
                 this.SET_NAVBARNAME(localStorage.navbarName)
                 this.SET_SUBNAVBARNAME(localStorage.subNavBarName)
+                // 动态设置当前的导航栏
+                this.menus.forEach(menu => {
+                    if (menu.name === localStorage.navbarName) {
+                        this.defaultOpen.push(menu.name)
+                    }
+                    menu.children.forEach((child, i) => {
+                        if (child.name === localStorage.subNavBarName) {
+                            this.defaultActive = child.path
+                        }
+                    })
+                })
             }
         },
         methods: {

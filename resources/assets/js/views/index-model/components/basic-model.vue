@@ -314,7 +314,6 @@ export default {
             for (let pro in this.model.formRows) {
                 this.model.formRows[pro].value = scope.row[pro]
             }
-            console.dir(scope)
             this.$set(this, 'editScope', scope)
             this.setOption()
             this.isShowPopEdit = true
