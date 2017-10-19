@@ -241,6 +241,10 @@
                 })
             },
             handleClose () {
+                // 在分类或者分类子类改变后对分类缓存进行更新
+                if (this.url === 'category' || this.url === 'category_child') {
+                    this.$store.dispatch('GET_ALL_DATAS', {type: 'category', refresh: true})
+                }
                 this.ruleForm = {}
                 this.$emit('handleClose')
             },

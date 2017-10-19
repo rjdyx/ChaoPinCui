@@ -9,14 +9,15 @@
  */
 <template>
 	<div>
-		<el-select v-model="select" id="el-select" @change="change" placeholder="请选择分类">
-            <el-option 
-                v-for="(category, index) in allCategory" 
-                :label="category.name" 
-                :value="category.id"
-                :key="index">
-            </el-option>
-        </el-select>
+        <el-cascader
+            :options="allCategory"
+            :props="{
+                value: 'id',
+                label: 'name'
+            }"
+            v-model="currentCategory"
+            @change="change"
+        ></el-cascader>
 	</div>
 </template>
 
@@ -36,10 +37,6 @@ export default {
             default () {
                 return {}
             }
-        },
-        dialogTableVisible: {
-            type: Boolean,
-            default: false
         }
     },
     computed: {
@@ -47,21 +44,26 @@ export default {
     },
     data () {
         return {
-            categories: [],
-            select: ''
+            currentCategory: [],
+            select: null
         }
     },
     mounted () {
-        this.select = this.scope.row.category_id
-        // let params = {tname: 'categories', whs: ['pid|!=|null']}
-        // axios.get('api/get/tables', {params: params}).then((response) => {
-        //     if (response.status === 200) {
-        //         this.$set(this, 'categories', response.data)
-        //     }
-        // })
+        if (this.scope.row.category_id) {
+            this.allCategory.forEach(cate => {
+                cate.children.forEach(child => {
+                    if (child.id === this.scope.row.category_id) {
+                        this.select = child.id
+                        this.currentCategory.push(cate.id)
+                        this.currentCategory.push(child.id)
+                    }
+                })
+            })
+        }
     },
     methods: {
-        change () {
+        change (val) {
+            this.select = val[val.length-1]
             this.$emit('emit', {pro: 'category_id', val: this.select})
         }
     }

@@ -39,12 +39,12 @@ export default {
                     rules: [
                         { required: true, message: '请选择分类' }
                     ],
-                    options: [],
-                    optionLabel: 'name',
-                    optionValue: 'id',
-                    type: 'select',
-                    placeholder: '请选择分类'
-                    // component: CategorySelect
+                    // options: [],
+                    // optionLabel: 'name',
+                    // optionValue: 'id',
+                    // type: 'select',
+                    // placeholder: '请选择分类'
+                    component: CategorySelect
                 },
                 desc: {
                     label: '描述',
