@@ -12,11 +12,10 @@ export default {
             tab: '广告图',
             url: 'turn',
             database: 'True',
-            theads: ['链接产品', '链接', '状态', '图片', '排序'],
-            protos: ['product_name', 'url', 'state', 'img', 'sort'],
-            protosFilter: ['url'],
+            theads: ['链接产品', '状态', '图片', '排序'],
+            protos: ['product_name', 'state', 'img', 'sort'],
             showDetail: true,
-            widths: [50, 50, 50, 50],
+            widths: [80, 80, 80],
             colComponents: {img: Img, state: State},
             searchPlaceholder: '请输入链接产品搜索',
             formRows: {
@@ -25,15 +24,6 @@ export default {
                     rules: [{required: true, message: '请选择产品'}],
                     placeholder: '请选择产品',
                     component: productSelect 
-                },
-                url: {
-                    label: '外链URL',
-                    rules: [
-                        {required: false, message: '请输入链接', trigger: 'blur'}
-                    ],
-                    value: '',
-                    type: 'input',
-                    placeholder: '请输入链接'
                 },
                 sort: {
                     label: '排序',
