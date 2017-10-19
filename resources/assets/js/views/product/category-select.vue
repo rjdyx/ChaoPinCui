@@ -4,12 +4,14 @@
  * @author 苏锐佳
  * @date 2017/6/8
  * 
+ * 
+ * 
  */
 <template>
 	<div>
 		<el-select v-model="select" id="el-select" @change="change" placeholder="请选择分类">
             <el-option 
-                v-for="(category, index) in categories" 
+                v-for="(category, index) in allCategory" 
                 :label="category.name" 
                 :value="category.id"
                 :key="index">
@@ -19,6 +21,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name: 'CategorySelect',
     props: {
@@ -39,6 +42,9 @@ export default {
             default: false
         }
     },
+    computed: {
+        ...mapGetters(['allCategory'])
+    },
     data () {
         return {
             categories: [],
@@ -47,12 +53,12 @@ export default {
     },
     mounted () {
         this.select = this.scope.row.category_id
-        let params = {tname: 'categories', whs: ['pid|!=|null']}
-        axios.get('api/get/tables', {params: params}).then((response) => {
-            if (response.status === 200) {
-                this.$set(this, 'categories', response.data)
-            }
-        })
+        // let params = {tname: 'categories', whs: ['pid|!=|null']}
+        // axios.get('api/get/tables', {params: params}).then((response) => {
+        //     if (response.status === 200) {
+        //         this.$set(this, 'categories', response.data)
+        //     }
+        // })
     },
     methods: {
         change () {

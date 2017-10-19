@@ -7,7 +7,7 @@
  */
 <template>
 	<div>
-		<el-select v-model="select" filterable id="el-select" @change="change" placeholder="请搜索选择产品">
+		<el-select v-model="ruleForm[pro]" filterable id="el-select" @change="change" placeholder="请搜索选择产品">
             <el-option 
                 v-for="(product, index) in products" 
                 :label="product.name" 
@@ -22,31 +22,15 @@
 export default {
     name: 'ProductSelect',
     props: {
-        scope: {
-            type: Object,
-            default () {
-                return {}
-            }
-        },
-        row: {
-            type: Object,
-            default () {
-                return {}
-            }
-        },
-        dialogTableVisible: {
-            type: Boolean,
-            default: false
-        }
+        pro: String,
+        ruleForm: Object
     },
     data () {
         return {
-            products: [],
-            select: ''
+            products: []
         }
     },
     mounted () {
-        this.select = this.scope.product_id
         let params = {tname: 'products'}
         axios.get('api/get/tables', {params: params}).then((response) => {
             if (response.status === 200) {
@@ -56,7 +40,7 @@ export default {
     },
     methods: {
         change () {
-            this.$emit('emit', {pro: 'product_id', val: this.select})
+            this.$emit('emit', {pro: 'product_id', val: this.ruleForm[this.pro]})
         }
     }
 }

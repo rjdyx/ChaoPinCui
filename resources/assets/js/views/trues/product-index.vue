@@ -47,7 +47,7 @@ export default {
     },
     watch: {
         scope () {
-            this.changeName()
+            // this.changeName()
         }
     }
 }

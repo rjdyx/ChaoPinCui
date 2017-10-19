@@ -39,7 +39,12 @@ export default {
                     rules: [
                         { required: true, message: '请选择分类' }
                     ],
-                    component: CategorySelect
+                    options: [],
+                    optionLabel: 'name',
+                    optionValue: 'id',
+                    type: 'select',
+                    placeholder: '请选择分类'
+                    // component: CategorySelect
                 },
                 desc: {
                     label: '描述',
@@ -81,7 +86,7 @@ export default {
                 star_rate: {
                     label: '星级',
                     rules: [
-                        { required: true, message: '请输入星级', trigger: 'blur' },
+                        { required: true, message: '请输入星级' },
                         { validator: reInteger },
                         { validator: cestNumber, max: 5, min: 1 }
                     ],

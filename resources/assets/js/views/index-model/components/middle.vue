@@ -5,6 +5,9 @@
  * @author 苏锐佳
  * @date 2017/07/13
  * 
+ * 
+ * 新增:
+ * (1) vuex的action：GET_ALL_DATAS，全局缓存分类数据
  */
 <template>
     <div id="middle">
@@ -30,7 +33,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 import BasicModel from './basic-model'
 import user from '../../user/user'
 import feedback from '../../feedback/feedback'
@@ -74,6 +77,7 @@ export default {
         }
     },
     mounted () {
+        this.GET_ALL_DATAS('category')
         this.$set(this, 'model', this.modelObj[this.type][0])
         this.SET_ADDACTIVE(this.model.addActive)
         this.SET_EDITACTIVE(this.model.editActive)
@@ -96,6 +100,9 @@ export default {
             'SET_ADDEDACTIVE',
             'SET_EDITEDACTIVE',
             'SET_DELETEACTIVE'
+        ]),
+        ...mapActions([
+            'GET_ALL_DATAS'
         ]),
         changeIndex (data) {
             this.$set(this, 'model', this.modelObj[this.type][data.index])
