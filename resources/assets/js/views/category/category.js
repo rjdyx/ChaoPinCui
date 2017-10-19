@@ -13,7 +13,7 @@ export default {
             database: 'Category',
             theads: ['分类名称', '描述', '图标', '图片'],
             protos: ['name', 'desc', 'ico', 'img'],
-            widths: [50, 50, 50, 50],
+            widths: [90, 90, 90, 90],
             operateComponents: [{component: child, params: {}}],
             colComponents: {img: Img, ico: Ico},
             formRows: {
