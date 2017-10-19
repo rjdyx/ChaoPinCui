@@ -69,7 +69,7 @@
     </div>
 </template>
 
-<style lang="sass" scoped>
+<style lang="sass">
     @import "../../../sass/function";
     #indexHome{
         height: 100%;
@@ -94,6 +94,10 @@
         }
         .el-form-item__label{
             color: #666 !important;
+            width:100px;
+        }
+        .el-form-item__content {
+            overflow:hidden;
         }
         .formStore {
             text-align: center;
