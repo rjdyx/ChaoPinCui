@@ -117,7 +117,6 @@
         }
         #pop-form {
             width: 618px;
-            margin-left:0px;
         }
     }
 </style>
