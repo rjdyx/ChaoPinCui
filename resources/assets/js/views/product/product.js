@@ -37,7 +37,7 @@ export default {
                 category_id: {
                     label: '分类',
                     rules: [
-                        { required: true, message: '请选择分类', trigger: 'change' }
+                        { required: true, message: '请选择分类' }
                     ],
                     options: [],
                     optionLabel: 'name',

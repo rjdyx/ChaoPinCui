@@ -77,6 +77,7 @@ export default {
         }
     },
     mounted () {
+        this.GET_ALL_DATAS('category')
         this.$set(this, 'model', this.modelObj[this.type][0])
         this.SET_ADDACTIVE(this.model.addActive)
         this.SET_EDITACTIVE(this.model.editActive)
@@ -84,7 +85,6 @@ export default {
         this.SET_EDITEDACTIVE(this.model.editedActive)
         this.SET_DELETEACTIVE(this.model.deleteActive)
         this.getTableData()
-        this.GET_ALL_DATAS('category')
     },
     methods: {
         ...mapMutations([
