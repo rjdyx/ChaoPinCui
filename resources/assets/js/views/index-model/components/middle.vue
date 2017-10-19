@@ -77,7 +77,7 @@ export default {
         }
     },
     mounted () {
-        this.GET_ALL_DATAS('category')
+        this.GET_ALL_DATAS({ type: 'category' })
         this.$set(this, 'model', this.modelObj[this.type][0])
         this.SET_ADDACTIVE(this.model.addActive)
         this.SET_EDITACTIVE(this.model.editActive)

@@ -47,8 +47,10 @@ export default {
     methods: {
         update () {
             this.allCategory.forEach(cate => {
-                if (cate.id === this.scope.category_id) {
-                    this.category_name = cate.name
+                for (let child in cate.children) {
+                    if (cate.children[child].id === this.scope.category_id) {
+                        this.category_name = cate.children[child].name
+                    }
                 }
             })
         }

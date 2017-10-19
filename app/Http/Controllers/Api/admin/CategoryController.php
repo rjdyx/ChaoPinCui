@@ -119,28 +119,10 @@ class CategoryController extends Controller
     }
 
     public function all(Request $request) {
-        $arrData = array();
-        $arrId = array();
-        $i = 0;
-        $j = 0;
-        $datas = Category::join('categories as parent','categories.pid','=','parent.id')->whereNull('parent.pid')
-              ->whereNotNull('categories.pid')->whereNull('parent.deleted_at')
-              ->select('parent.id','parent.name', 'categories.id as category_id', 'categories.name as category_name')->get();
-        foreach($datas as $k=>$v) {
-            if (!in_array($v->id, $arrId)) {
-                $arrId[$k] = $v->id;
-                $arrData[$i]['id'] = $v->id;
-                $arrData[$i]['name'] = $v->name;
-                $arrData[$i]['children'][$j]['category_id'] = $v->category_id;
-                $arrData[$i]['children'][$j]['category_name'] = $v->category_name;
-                $i++;
-                $j++;
-            } else {
-                $arrData[$i]['children'][$j]['category_id'] = $v->category_id;
-                $arrData[$i]['children'][$j]['category_name'] = $v->category_name;
-                $j++;
-            }
-        }
-        return response()->json($arrData);
+        // $datas = Category::join('categories as parent','categories.pid','=','parent.id')->whereNull('parent.pid')
+        //       ->whereNotNull('categories.pid')->whereNull('parent.deleted_at')
+        //       ->select('parent.id','parent.name', 'categories.id as category_id', 'categories.name as category_name')->get();
+        $datas = Category::whereNull('deleted_at')->select('id', 'name', 'pid')->get();
+        return $datas;
     }
 }

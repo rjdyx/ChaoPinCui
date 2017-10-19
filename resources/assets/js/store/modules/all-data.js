@@ -13,7 +13,16 @@ const getters = {
 }
 
 const actions = {
-    GET_ALL_DATAS ({commit, state}, type) {
+    GET_ALL_DATAS ({commit, state}, {type, refresh = false}) {
+        if (refresh) {
+            axios.get(Vue.prototype.$adminUrl(`${type}/all`))
+            .then(response => {
+                if (response.status === 200) {
+                    commit(`SET_${type.toLocaleUpperCase()}`, response.data)
+                }
+            })
+            return
+        }
         if (state[type].length) {
             return state[type]
         } else {
@@ -28,8 +37,25 @@ const actions = {
 }
 
 const mutations = {
+    // 获取产品分类的数据
     SET_CATEGORY (state, category) {
-        state.category = category
+        let arr = []
+        category.forEach(cate => {
+            if (cate.pid === null) {
+                let obj = {
+                    id: cate.id,
+                    name: cate.name,
+                    children: []
+                }
+                category.forEach(child => {
+                    if (child.pid === cate.id) {
+                        obj.children.push(child)
+                    }
+                })
+                arr.push(obj)
+            }
+        })
+        state.category = arr
     }
 }
 
