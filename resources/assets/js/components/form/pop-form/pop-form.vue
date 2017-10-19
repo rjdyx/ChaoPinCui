@@ -1,3 +1,7 @@
+/**
+ * 修改
+ * (1)在动态组件处新增ruleForm属性 (2017/10/19)
+ */
 <template>
     <el-dialog :title="title" size="small" :visible.sync="dialogTableVisible" :show-close="false" :close-on-click-modal="false">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" id="pop-form">
@@ -43,6 +47,7 @@
                         :scope="scope"
                         :row="rows[pro]"
                         :pro='pro'
+                        :ruleForm='ruleForm'
                         :componentParam="rows[pro].componentParam"
                         @emit="returnValue"
                     ></component>
@@ -153,7 +158,8 @@
             // 编辑继续传值
             if (this.isEdit) {
                 for (let i in this.scope.row) {
-                    ruleForm[i] = this.scope.row[i]
+                    // 下拉选择类型的数据_id需要把字符串类型转换成数字类型
+                    ruleForm[i] = i.indexOf('_id') > -1 ? parseInt(this.scope.row[i]) : this.scope.row[i]
                 }
                 if (ruleForm.img !== undefined) {
                     this.defaultImg = ruleForm.img

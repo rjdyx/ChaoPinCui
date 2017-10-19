@@ -28,7 +28,9 @@ export default {
                 },
                 url: {
                     label: '外链URL',
-                    rules: [{required: false, message: '请输入链接', trigger: 'blur'}],
+                    rules: [
+                        {required: false, message: '请输入链接', trigger: 'blur'}
+                    ],
                     value: '',
                     type: 'input',
                     placeholder: '请输入链接'
