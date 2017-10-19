@@ -95,6 +95,9 @@ class ProductController extends Controller
 
         if ($model->save()) {
             IQuery::logNewOrEdit($id, 'product', 0);
+            if ($id != -1) {
+                $model->id = $id;
+            }
             return [
                 'id'=>$model->id,
                 'img'=>$model->img

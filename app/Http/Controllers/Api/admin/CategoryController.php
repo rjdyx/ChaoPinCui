@@ -119,6 +119,6 @@ class CategoryController extends Controller
     }
 
     public function all(Request $request) {
-        return Category::whereNotNull('pid')->whereNull('deleted_at')->get();
+        return Category::whereNotNull('pid')->whereNull('deleted_at')->select('id','name')->get();
     }
 }

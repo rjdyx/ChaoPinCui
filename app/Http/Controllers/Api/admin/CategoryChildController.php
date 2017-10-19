@@ -110,7 +110,8 @@ class CategoryChildController extends Controller
             return [
                 'id'=>$model->id,
                 'img'=>$model->img,
-                'ico'=>$model->ico
+                'ico'=>$model->ico,
+                'name'=>$model->name
             ];
         }
         IQuery::logNewOrEdit($id, 'category_child', 1);
