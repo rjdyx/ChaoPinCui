@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Model\Turn;
+use App\Model\Product;
 use IQuery;
 
 class ProductTurnController extends Controller
@@ -92,7 +93,8 @@ class ProductTurnController extends Controller
         return [
             'id'=>$model->id,
             'img'=>$model->img,
-            'product_id'=>$model->product_id
+            'product_id'=>$model->product_id,
+            'product_name'=>Product::find($model->product_id)->name
         ];
     }
 }

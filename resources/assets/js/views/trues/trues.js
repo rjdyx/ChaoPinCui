@@ -17,7 +17,7 @@ export default {
             protosFilter: ['url'],
             showDetail: true,
             widths: [50, 50, 50, 50],
-            colComponents: {img: Img, product_name: productIndex, state: State},
+            colComponents: {img: Img, state: State},
             searchPlaceholder: '请输入链接产品搜索',
             formRows: {
                 product_id: {
