@@ -4,14 +4,17 @@
  * @author 苏锐佳
  * @date 2017/6/8
  * 
+ * 修改：
+ * (1)新增allCategory,获取categoryname时不再使用异步请求
  */
 <template>
 	<div>
-		{{this.scope.category_name}}
+		{{category_name}}
 	</div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name: 'Category',
     props: {
@@ -22,34 +25,32 @@ export default {
             }
         }
     },
+    computed: {
+        ...mapGetters(['allCategory'])
+    },
     data () {
         return {
-            select: '',
-            flag: ''
+            category_name: ''
         }
     },
     mounted () {
-        // this.update()
+        this.update()
     },
     watch: {
         scope () {
+            this.update()
+        },
+        allCategory () {
             this.update()
         }
     },
     methods: {
         update () {
-            axios.get(this.$adminUrl('category/' + this.scope.category_id))
-                .then((response) => {
-                    console.dir(response)
-                    if (response.status === 200) {
-                        if (response.data.name !== undefined) {
-                            this.select = response.data.name
-                            this.flag = response.data.name
-                        } else {
-                            this.select = this.flag
-                        }
-                    }
-                })
+            this.allCategory.forEach(cate => {
+                if (cate.id === this.scope.category_id) {
+                    this.category_name = cate.name
+                }
+            })
         }
     }
 }

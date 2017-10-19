@@ -1,5 +1,5 @@
 <template>
-    <el-dialog :title="title" size="small" :visible.sync="dialogTableVisible" :show-close="false">
+    <el-dialog :title="title" size="small" :visible.sync="dialogTableVisible" :show-close="false" :close-on-click-modal="false">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" id="pop-form">
             <template v-for="pro of Object.keys(rows)">
                 <!-- 隐藏域 -->
@@ -185,7 +185,6 @@
                 return form
             },
             submitForm (formName) {
-                console.dir(this.ruleForm)
                 let headers = {headers: {'Content-Type': 'multipart/form-data'}}
                 let form = this.formDataCl()
                 this.$refs[formName].validate(async (valid) => {
