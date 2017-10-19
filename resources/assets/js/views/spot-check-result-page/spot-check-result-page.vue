@@ -7,7 +7,7 @@
  * 
  */
 <template>
-    <div>
+    <div id="middle">
         
         <basic-model
             ref="basicModel"
@@ -90,7 +90,7 @@ export default {
 </script>
 
 <style scoped>
-    #back {
+    #middle #back {
         position: absolute;
         top: 16px;
         right: 26px;

@@ -45,8 +45,9 @@
                     <el-form-item label="手机" prop="phone">
                         <el-input type="text" v-model="ruleForm.phone"></el-input>
                     </el-form-item>
-                    <div>logo图片</div>
-                    <inputFile v-if="showfile" :row="logoVal" pro="logo" @emit="returnValue" :isEdit="true"></inputFile>
+                    <el-form-item label="logo图片">
+                        <inputFile v-if="showfile" :row="logoVal" pro="logo" @emit="returnValue" :isEdit="true"></inputFile>
+                    </el-form-item>
                 </el-form>
                 <div slot="footer" class="formStore">
                     <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
@@ -56,7 +57,7 @@
     </div>
 </template>
 
-<style lang="sass" scoped>
+<style lang="sass">
     @import "../../../sass/function";
     #system{
         height: 100%;
@@ -81,6 +82,10 @@
         }
         .el-form-item__label{
             color: #666 !important;
+            width: 100px;
+        }
+        .el-form-item__content {
+            overflow:hidden;
         }
         .formStore {
             text-align: center;
