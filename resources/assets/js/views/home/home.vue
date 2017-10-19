@@ -24,40 +24,55 @@
             <div class="userForm">
                 <template>
                     <el-form :model="ruleForm" ref="ruleForm" id="pop-form">
-                        <el-form-item label="头像" prop="img">
-                            <inputFile v-if="showfile" :row="userImg"pro="img" @emit="returnValue" :isEdit="true"></inputFile>
-                        </el-form-item>
-                        <el-form-item label="用户名" prop="name">
-                            <el-input type="text" v-model="ruleForm.name"></el-input>
-                        </el-form-item>
-                        <el-form-item label="邮箱" prop="email">
-                            <el-input type="text" v-model="ruleForm.email"></el-input>
-                        </el-form-item>
-                        <el-form-item label="手机号" prop="phone">
-                            <el-input type="text" v-model="ruleForm.phone"></el-input>
-                        </el-form-item>
-                        <el-form-item label="地址" prop="address">
-                            <el-input type="text" v-model="ruleForm.address"></el-input>
-                        </el-form-item>
-                        <el-form-item label="性别" prop="sex">
-                            <el-radio-group v-model="ruleForm.sex">
-                                <el-radio-button :label="0">保密</el-radio-button>
-                                <el-radio-button :label="1">男</el-radio-button>
-                                <el-radio-button :label="2">女</el-radio-button>
-                            </el-radio-group>
-                        </el-form-item>
-
-                        <el-form-item label="出生日期" prop="age">
-                            <el-form-item prop="age">
-                                <el-date-picker
-                                  v-model="ruleForm.age"
-                                  type="date"
-                                  placeholder="出生年月日"
-                                  :picker-options="pickerOptions0"
-                                  @change="GMTToStr">
-                                </el-date-picker>
-                            </el-form-item>
-                        </el-form-item>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="用户名" prop="name">
+                                    <el-input type="text" v-model="ruleForm.name"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="邮箱" prop="email">
+                                    <el-input type="text" v-model="ruleForm.email"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="手机号" prop="phone">
+                                    <el-input type="text" v-model="ruleForm.phone"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="地址" prop="address">
+                                    <el-input type="text" v-model="ruleForm.address"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="性别" prop="sex">
+                                    <el-radio-group v-model="ruleForm.sex">
+                                        <el-radio-button :label="0">保密</el-radio-button>
+                                        <el-radio-button :label="1">男</el-radio-button>
+                                        <el-radio-button :label="2">女</el-radio-button>
+                                    </el-radio-group>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="出生日期" prop="age">
+                                    <el-form-item prop="age">
+                                        <el-date-picker
+                                          v-model="ruleForm.age"
+                                          type="date"
+                                          placeholder="出生年月日"
+                                          :picker-options="pickerOptions0"
+                                          @change="GMTToStr">
+                                        </el-date-picker>
+                                    </el-form-item>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="24">
+                                <el-form-item label="头像" prop="img">
+                                    <inputFile v-if="showfile" :row="userImg"pro="img" @emit="returnValue" :isEdit="true"></inputFile>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
                     </el-form>
                     <div slot="footer" class="formStore">
                         <el-button type="primary" @click="submitForm">保存</el-button>
@@ -111,7 +126,6 @@
         }
         #pop-form {
             width: 618px;
-            margin-left:0px;
         }
     }
         

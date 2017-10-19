@@ -24,30 +24,48 @@
             </el-tabs>
             <template>
                 <el-form :model="ruleForm" :rules="rulesValite" ref="ruleForm" id="pop-form">
-                    <el-form-item label="网站名称" prop="name">
-                        <el-input type="text" v-model="ruleForm.name"></el-input>
-                    </el-form-item>
-                    <el-form-item label="关键字" prop="keywords">
-                        <el-input type="text" v-model="ruleForm.keywords"></el-input>
-                    </el-form-item>
-                    <el-form-item label="备案号" prop="icp">
-                        <el-input type="text" v-model="ruleForm.icp"></el-input>
-                    </el-form-item>
-                    <el-form-item label="copyright" prop="copy">
-                        <el-input type="text" v-model="ruleForm.copy"></el-input>
-                    </el-form-item>
-                    <el-form-item label="地址" prop="address">
-                        <el-input type="text" v-model="ruleForm.address"></el-input>
-                    </el-form-item>
-                    <el-form-item label="邮箱" prop="email">
-                        <el-input type="text" v-model="ruleForm.email"></el-input>
-                    </el-form-item>
-                    <el-form-item label="手机" prop="phone">
-                        <el-input type="text" v-model="ruleForm.phone"></el-input>
-                    </el-form-item>
-                    <el-form-item label="logo图片">
-                        <inputFile v-if="showfile" :row="logoVal" pro="logo" @emit="returnValue" :isEdit="true"></inputFile>
-                    </el-form-item>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="网站名称" prop="name">
+                                <el-input type="text" v-model="ruleForm.name"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="关键字" prop="keywords">
+                                <el-input type="text" v-model="ruleForm.keywords"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="备案号" prop="icp">
+                                <el-input type="text" v-model="ruleForm.icp"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="copyright" prop="copy">
+                                <el-input type="text" v-model="ruleForm.copy"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="地址" prop="address">
+                                <el-input type="text" v-model="ruleForm.address"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="邮箱" prop="email">
+                                <el-input type="text" v-model="ruleForm.email"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="logo图片">
+                                <inputFile v-if="showfile" :row="logoVal" pro="logo" @emit="returnValue" :isEdit="true"></inputFile>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="手机" prop="phone">
+                                <el-input type="text" v-model="ruleForm.phone"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
                 </el-form>
                 <div slot="footer" class="formStore">
                     <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
@@ -99,7 +117,6 @@
         }
         #pop-form {
             width: 618px;
-            margin-left:0px;
         }
     }
 </style>
