@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Model\Product;
 use IQuery;
+use DB;
 
 class ProductController extends Controller
 {
@@ -19,8 +20,14 @@ class ProductController extends Controller
     public function index(Request $request)
     {
     	$datas = Product::join('categories','products.category_id','=','categories.id')
+                ->whereNull('categories.deleted_at')->whereNotNull('categories.pid')
+                ->leftjoin('comments','comments.product_id','=','products.id')->whereNull('comments.deleted_at')
                 ->orderBy('products.created_at','desc')
-                ->select('products.*','categories.name as category_name');
+                ->select('products.id','products.category_id','products.name','products.desc','products.img','products.thumb',
+                         'products.address','products.meridian','products.weft','products.heat','products.star_rate',
+                         'categories.name as category_name', DB::raw('avg(comments.level) as level'))
+                ->groupBy('products.id','products.category_id','products.name','products.desc','products.img','products.thumb',
+                          'products.address','products.meridian','products.weft','products.heat','products.star_rate', 'categories.name');
         $datas = IQuery::ofText($datas, $request->query_text, 'product' , ['products.name']);
         $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
