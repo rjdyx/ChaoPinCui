@@ -73,18 +73,18 @@
 /**
  * $px can has unit or hasn't
 */
-#indexHome[data-v-0baaad3e] {
+#indexHome {
   height: 100%;
   overflow: hidden;
   padding: 3rem 0rem 0rem 1.5625rem;
   box-sizing: border-box;
 }
-#indexHome #nav[data-v-0baaad3e] {
+#indexHome #nav {
     height: 3.875rem;
     line-height: 3.875rem;
     font-size: 1.25rem;
 }
-#indexHome .indexHomeInner[data-v-0baaad3e] {
+#indexHome .indexHomeInner {
     width: 100%;
     min-width: 800px;
     height: 100%;
@@ -92,25 +92,28 @@
     padding-right: 1rem;
     box-sizing: border-box;
 }
-#indexHome h1[data-v-0baaad3e] {
+#indexHome h1 {
     margin-bottom: 20px;
 }
-#indexHome .el-form-item__label[data-v-0baaad3e] {
+#indexHome .el-form-item__label {
     color: #666 !important;
+    width: 100px;
 }
-#indexHome .formStore[data-v-0baaad3e] {
+#indexHome .el-form-item__content {
+    overflow: hidden;
+}
+#indexHome .formStore {
     text-align: center;
     margin-bottom: 50px;
 }
-#indexHome .formStore button[data-v-0baaad3e] {
+#indexHome .formStore button {
       width: 50%;
 }
-#indexHome .userForm[data-v-0baaad3e] {
+#indexHome .userForm {
     width: 100%;
 }
-#indexHome #pop-form[data-v-0baaad3e] {
+#indexHome #pop-form {
     width: 618px;
-    margin-left: 0px;
 }
 
 .avatar-uploader .el-upload {
@@ -139,18 +142,18 @@
 /**
  * $px can has unit or hasn't
 */
-#system[data-v-553723be] {
+#system {
   height: 100%;
   overflow: hidden;
   padding: 3rem 0rem 0rem 1.5625rem;
   box-sizing: border-box;
 }
-#system #nav[data-v-553723be] {
+#system #nav {
     height: 3.875rem;
     line-height: 3.875rem;
     font-size: 1.25rem;
 }
-#system .systemInner[data-v-553723be] {
+#system .systemInner {
     width: 100%;
     min-width: 800px;
     height: 100%;
@@ -158,25 +161,28 @@
     padding-right: 1rem;
     box-sizing: border-box;
 }
-#system h1[data-v-553723be] {
+#system h1 {
     margin-bottom: 20px;
 }
-#system .el-form-item__label[data-v-553723be] {
+#system .el-form-item__label {
     color: #666 !important;
+    width: 100px;
 }
-#system .formStore[data-v-553723be] {
+#system .el-form-item__content {
+    overflow: hidden;
+}
+#system .formStore {
     text-align: center;
     margin-bottom: 50px;
 }
-#system .formStore button[data-v-553723be] {
+#system .formStore button {
       width: 50%;
 }
-#system .userForm[data-v-553723be] {
+#system .userForm {
     width: 100%;
 }
-#system #pop-form[data-v-553723be] {
+#system #pop-form {
     width: 618px;
-    margin-left: 0px;
 }
 
 #flash[data-v-05721c08] {
@@ -281,6 +287,55 @@
   padding: 0px 5px 0px 8px;
 }
 
+.dialog {
+  cursor: default;
+}
+.dialog .el-dialog__body {
+    height: auto;
+    max-height: 100%;
+}
+@media only screen and (max-width: 1920px) {
+.dialog .look_img {
+      width: 1800px;
+      height: 700px;
+}
+}
+@media only screen and (max-width: 1600px) {
+.dialog .look_img {
+      width: 1500px;
+      height: 600px;
+}
+}
+@media only screen and (max-width: 1366px) {
+.dialog .look_img {
+      width: 1200px;
+      height: 500px;
+}
+}
+.dialog .look_img {
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+}
+.dialog .look_img .look_img_control {
+      position: absolute;
+      top: 50%;
+      display: block;
+      font-size: 28px;
+      cursor: pointer;
+}
+.dialog .look_img .look_img_control.el-icon-caret-left {
+      left: 0;
+}
+.dialog .look_img .look_img_control.el-icon-caret-right {
+      right: 0;
+}
+.dialog .look_img img {
+      display: block;
+      margin: 0 auto;
+      height: 100%;
+}
+
 .btn span {
   border-left: 1px solid #a7bad6;
   padding: 0px 5px 0px 8px;
@@ -335,7 +390,7 @@
 .basic-model > div#operate {
   margin-top: 6rem;
 }
-#back {
+#middle #back {
   position: absolute;
   top: 16px;
   right: 26px;
@@ -363,7 +418,7 @@
 .basic-model > div#operate {
   margin-top: 6rem;
 }
-#back {
+#middle #back {
   position: absolute;
   top: 16px;
   right: 26px;
@@ -419,13 +474,13 @@
 .basic-model > div#operate {
   margin-top: 6rem;
 }
-#back {
+#middle #back {
   position: absolute;
   top: 16px;
   right: 26px;
 }
 
-#back[data-v-bf3da084] {
+#middle #back[data-v-bf3da084] {
     position: absolute;
     top: 16px;
     right: 26px;

@@ -1,5 +1,6 @@
 // 中间列表的数据
 import Img from './img.vue'
+import LookImg from './look-img.vue'
 export default {
     feedback: [
         {
@@ -13,7 +14,8 @@ export default {
             showNewBuild: false,
             showEdit: false,
             searchPlaceholder: '请输入反馈用户搜索',
-            colComponents: {img: Img}
+            colComponents: {img: Img},
+            operateComponents: [{component: LookImg, params: {}}]
         }
     ]
 }
