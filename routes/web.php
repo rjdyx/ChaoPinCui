@@ -49,7 +49,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 	});
 
 	/********************* 后台 ***********************/
-	Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'UserAuth:admin'], function() {
+	Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function() {
 		Route::resource('index', 'IndexController'); //首页
 		Route::resource('user', 'UserController'); // 用户管理
 		Route::resource('system', 'SystemController'); // 系统管理
