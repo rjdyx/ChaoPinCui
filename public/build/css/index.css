@@ -287,6 +287,55 @@
   padding: 0px 5px 0px 8px;
 }
 
+.dialog {
+  cursor: default;
+}
+.dialog .el-dialog__body {
+    height: auto;
+    max-height: 100%;
+}
+@media only screen and (max-width: 1920px) {
+.dialog .look_img {
+      width: 1800px;
+      height: 700px;
+}
+}
+@media only screen and (max-width: 1600px) {
+.dialog .look_img {
+      width: 1500px;
+      height: 600px;
+}
+}
+@media only screen and (max-width: 1366px) {
+.dialog .look_img {
+      width: 1200px;
+      height: 500px;
+}
+}
+.dialog .look_img {
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+}
+.dialog .look_img .look_img_control {
+      position: absolute;
+      top: 50%;
+      display: block;
+      font-size: 28px;
+      cursor: pointer;
+}
+.dialog .look_img .look_img_control.el-icon-caret-left {
+      left: 0;
+}
+.dialog .look_img .look_img_control.el-icon-caret-right {
+      right: 0;
+}
+.dialog .look_img img {
+      display: block;
+      margin: 0 auto;
+      height: 100%;
+}
+
 .btn span {
   border-left: 1px solid #a7bad6;
   padding: 0px 5px 0px 8px;
