@@ -62,6 +62,9 @@
                                 this.$message('登录成功')
                                 this.SET_IS_LOGIN(true)
                                 this.$router.push('/index/home')
+                                // 保证左侧导航默认显示系统配置页
+                                localStorage.setItem('navbarName', ' ')
+                                localStorage.setItem('subNavBarName', ' ')
                             } else {
                                 this.$message('账号或密码错误')
                             }
