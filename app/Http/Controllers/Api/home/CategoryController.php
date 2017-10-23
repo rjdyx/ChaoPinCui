@@ -29,7 +29,6 @@ class CategoryController extends Controller
 	public function getChild(Request $request)
 	{
 		$data = Category::where('pid', $request->pid)->get();
-			// ->offset(1)->limit(6)->get();
 		return $data;
 	}
 

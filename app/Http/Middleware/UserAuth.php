@@ -25,6 +25,9 @@ class UserAuth
             if (!isset($user->id)) {
                 return response()->json($this->res['401'], 401);
             }
+            if (Auth::user()->id !== $user->id) {
+                return response()->json($this->res['403'], 403);
+            }
             if ($role == 'admin' && $user->type != 1) {
                 return response()->json($this->res['403'], 403);
             }
@@ -38,7 +41,6 @@ class UserAuth
         if ($role == 'admin' && Auth::user()->type != 1) {
             return response()->json($this->res['403'], 403);
         }
-
         return $next($request);
     }
 }

@@ -11,10 +11,10 @@
         <div class="admin-title">潮品萃后台</div>
         <el-form :model="form" :rules="rules" ref="form" label-width="80px" id="login">
             <el-form-item label="账号" prop="name">
-                <el-input v-model="form.name" placeholder="请输入用户名/邮箱/手机号"></el-input>
+                <el-input v-model="form.name" placeholder="请输入用户名/邮箱/手机号" @keyup.enter.native="tabEnter($event)"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password">
-                <el-input v-model="form.password" type="password"  placeholder="请输入密码"></el-input>
+                <el-input v-model="form.password" type="password"  placeholder="请输入密码" @keyup.enter.native="tabEnter($event)"></el-input>
             </el-form-item>
             <div id="login-btn">
                 <el-button type="primary" @click="onSubmit">登录</el-button>
@@ -68,6 +68,9 @@
                         })
                     }
                 })
+            },
+            tabEnter () {
+                this.onSubmit()
             }
         }
     }
