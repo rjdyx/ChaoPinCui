@@ -134,7 +134,6 @@
 			img {
 				display: block;
 				margin: 0 auto;
-				height: 100%;
 				user-select: none;
 			}
 		}
