@@ -6,11 +6,10 @@
  * 
  */
 <template>
-	<div>
+	<div @click="SpotCheck">
 		<el-button 
             type="text" 
             size="small"
-            @click="SpotCheck"
         >图片</el-button>
 	</div>
 </template>

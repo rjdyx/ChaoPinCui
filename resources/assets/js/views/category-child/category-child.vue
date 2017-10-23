@@ -3,6 +3,8 @@
  * @author 郭森林
  * @date 2017/09/21
  * 
+ * 补充:
+ * (1)新增LookImgDialog组件查看图片 (2017/10/23 suzhihao)
  */
 <template>
     <div id="middle">
@@ -13,13 +15,22 @@
             @search="search"
             @multiSelect="multiSelect"
         >
-        <el-row :gutter="20" slot="tabs-downside">
-            <el-col :span="6" v-for="(v, i) in theads" :key="i" class="parent-info"  :title="protos[i]">
-                <span class="grid-content" >{{v}}: </span>
-                {{protos[i]}}
-            </el-col>
-        </el-row>
+            <el-row :gutter="20" slot="tabs-downside">
+                <el-col :span="6" v-for="(v, i) in theads" :key="i" class="parent-info"  :title="protos[i]">
+                    <span class="grid-content" >{{v}}: </span>
+                    <el-button v-if="protos[i] && protos[i].indexOf('upload') > -1" type="text" @click="showImg(protos[i])">查看</el-button>
+                    <span v-else>
+                        {{protos[i]}}
+                    </span>
+                </el-col>
+            </el-row>
             <el-button id="back" slot="tabs-downside" @click="back"> 返回 </el-button>
+            <LookImgDialog
+                slot="extraDialog"
+                :visible="visible"
+                :imgUrl="currentImgUrl"
+                v-on:close="close">
+            </LookImgDialog>
         </basic-model>
     </div>
 </template>
@@ -32,6 +43,7 @@ import DateFilter from 'components/form/date-filter'
 import inputFile from '../../components/public/inputFile.vue'
 import Img from '../../components/public/img.vue'
 import Ico from './ico.vue'
+import LookImgDialog from 'components/func/look-img-dialog.vue'
 export default {
     name: 'CustomCheckPage',
     data () {
@@ -94,7 +106,9 @@ export default {
             id: this.$route.params.id,
             theads: {name: '名称', desc: '描述', ico: '图标', img: '图片'},
             protos: [],
-            total: 0
+            total: 0,
+            currentImgUrl: '',
+            visible: false
         }
     },
     mounted () {
@@ -154,43 +168,22 @@ export default {
         },
         back () {
             this.$router.back()
+        },
+        // 打开图片查看器
+        showImg (url) {
+            console.dir(url)
+            this.currentImgUrl = url
+            console.dir(this.currentImgUrl)
+            this.visible = true
+        },
+        // 关闭图片查看
+        close () {
+            this.visible = false
         }
     },
     components: {
-        BasicModel
+        BasicModel,
+        LookImgDialog
     }
 }
 </script>
-
-<style lang="sass">
-    .basic-model > div#operate {
-        margin-top: 1rem !important;
-    }
-    .parent-info{
-        color:#999999;
-        height: 40px;
-        overflow: hidden; 
-        text-overflow:ellipsis;
-        white-space: nowrap;
-        cursor: pointer;
-    }
-    .numbers {
-        margin-top: 20px;
-        margin-bottom: -60px;
-
-        span {
-            font-size: 2rem;
-            margin-right: 50px;
-        }
-    }
-
-    .basic-model>div#operate {
-        margin-top: 6rem;
-    }
-
-    #middle #back {
-        position: absolute;
-        top: 70px;
-        right: 26px;
-    }
-</style>

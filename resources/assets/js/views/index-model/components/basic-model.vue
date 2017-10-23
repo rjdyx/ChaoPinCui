@@ -11,6 +11,7 @@
  * 修改
  * (1)所有的动态组件component绑定的属性scope修改为scope.row (2017.10.18 suzhihao)
  * (2)新增setOption方法用于下拉框异步赋值给option(2017.10.19 suzhihao)
+ * (2)新增extraDialog插口(2017.10.23 suzhihao)
  */
 <template>
     <div class="middleInner">
@@ -232,6 +233,8 @@
             :scope="editScope"
             @handleClose="isShowPopEdit=false"
         ></pop-form>
+
+        <slot name="extraDialog"></slot>
     </div>
 </template>
 

@@ -6,11 +6,10 @@
  * 
  */
 <template>
-	<div>
+	<div @click="SpotCheck">
 		<el-button 
             type="text" 
             size="small"
-            @click="SpotCheck"
         >评论</el-button>
 	</div>
 </template>

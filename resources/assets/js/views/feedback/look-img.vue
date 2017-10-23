@@ -9,15 +9,16 @@
     <div>
 	   <el-button type="text" size="small" @click="lookImg">查看图片</el-button>
         <LookImgDialog
+            :title="'反馈图片查看'"
             :visible="visible"
-            :scope="scope"
+            :imgUrl="scope.img"
             v-on:close="close">
         </LookImgDialog>
     </div>
 </template>
 
 <script>
-import LookImgDialog from './look-img-dialog.vue'
+import LookImgDialog from 'components/func/look-img-dialog.vue'
 export default {
     name: 'LookImg',
     components: {

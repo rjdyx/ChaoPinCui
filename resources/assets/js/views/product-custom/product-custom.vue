@@ -156,36 +156,3 @@ export default {
     }
 }
 </script>
-
-<style lang="sass">
-    .basic-model > div#operate {
-        margin-top: 1rem !important;
-    }
-    .parent-info{
-        color:#999999;
-        height: 40px;
-        overflow: hidden; 
-        text-overflow:ellipsis;
-        white-space: nowrap;
-        cursor: pointer;
-    }
-    .numbers {
-        margin-top: 20px;
-        margin-bottom: -60px;
-
-        span {
-            font-size: 2rem;
-            margin-right: 50px;
-        }
-    }
-
-    .basic-model>div#operate {
-        margin-top: 6rem;
-    }
-
-    #middle  #back {
-        position: absolute;
-        top: 16px;
-        right: 26px;
-    }
-</style>

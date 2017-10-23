@@ -5,8 +5,9 @@
  * 		|-BasicDialog 基本对话框组件
  *
  * 	props
- * 		|-visible   对话看显示控制
- * 		|-scope     当前行的数据
+ * 		|-title     对话框标题
+ * 		|-visible   对话框显示控制
+ * 		|-imgUrl    当前行的图片路径字符串，多个图片时默认用逗号分隔
  * 
  * 	data
  * 		|-visible   对话看显示控制
@@ -18,7 +19,7 @@
  */
 <template>
 	<BasicDialog
-		:title="'反馈图片查看'"
+		:title="title"
 		:visible="visible"
 		:size="'full'"
 		v-on:close="close"
@@ -38,16 +39,15 @@
 			BasicDialog
 		},
 		props: {
+			title: {
+				type: String,
+				default: '图片查看'
+			},
 			visible: {
 				type: Boolean,
 				default: false
 			},
-			scope: {
-				type: Object,
-				default () {
-					return {}
-				}
-			}
+			imgUrl: String
 		},
 		data () {
 			return {
@@ -56,7 +56,7 @@
 			}
 		},
 		mounted () {
-			this.imgs = this.scope.img.split(',')
+			this.imgs = this.imgUrl.split(',')
 		},
 		methods: {
 			close () {
@@ -76,6 +76,11 @@
 				} else {
 					this.idx += 1
 				}
+			}
+		},
+		watch: {
+			imgUrl () {
+				this.imgs = this.imgUrl.split(',')
 			}
 		}
 	}
@@ -130,6 +135,7 @@
 				display: block;
 				margin: 0 auto;
 				height: 100%;
+				user-select: none;
 			}
 		}
 	}
