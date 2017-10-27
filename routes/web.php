@@ -107,6 +107,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 
 		/* 我的收藏 */
 		Route::get('collect/user', 'CollectController@userCollect'); // 收藏或取消
+		Route::get('collect/cancel', 'CollectController@CancelCol'); // 收藏或取消
 		Route::resource('collect', 'CollectController');
 
 		/* 我的评论 */

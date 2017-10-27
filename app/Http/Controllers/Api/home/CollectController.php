@@ -57,4 +57,8 @@ class CollectController extends Controller
         $model = Collect::where('product_id', $product_id)->where('user_id', $user_id)->first();
         return Collect::destroy($model->id);  
     }
+    // 取消收藏
+    public function CancelCol(Request $request) {
+        return $this->collectCancell($request);
+    }
 }
