@@ -61,9 +61,18 @@ class WxController extends Controller
         if ($user != null) {
             $user->openid = $request->openid;
             if (!$user->save()) return 500;
+            $this->guard()->login($user);
             return $user;
         } else {
-            
+            $data['name'] = $this->createRandomStr(10);
+            $data['type'] = 0;
+            $data['sex'] = 0;
+            $data['openid'] = $request->openid;
+            $data['wxopenid'] = $request->openid;
+            $data['password'] = bcrypt('000000');
+            $result = User::create($data);
+            $this->guard()->login($result);
+            return $result;
         }
     }
 
@@ -85,6 +94,7 @@ class WxController extends Controller
         if ($this->userCheckUnique('phone', $request->phone)) return 103;
         if ($this->userCheckUnique('openid', $request->openid)) return 104;
         $data['openid'] = $request->openid;
+        $data['wxopenid'] = $request->openid;
         $data['name'] = $request->name;
         $data['phone'] = $request->phone;
         $data['email'] = $request->email;
@@ -130,6 +140,17 @@ class WxController extends Controller
 		}
 		return $rand;
     }
+    // 随机字符串生成
+    public function createRandomStr($length){ 
+        $str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';//62个字符 
+        $strlen = 62; 
+        while($length > $strlen) {
+            $str .= $str; 
+            $strlen += 62; 
+        } 
+        $str = str_shuffle($str); 
+        return substr($str,0,$length); 
+    } 
 
     //获取登录字段
     public function credentials(Request $request)
