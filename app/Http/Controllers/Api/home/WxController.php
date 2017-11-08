@@ -55,6 +55,18 @@ class WxController extends Controller
         return $this->login($request, $filed, $user[0][$filed]);
     }
 
+    // 微信直接登陆
+    public function wxLogin(Request $request) {
+        $user = User::where('wxopenid','=',$request->openid)->first();
+        if ($user != null) {
+            $user->openid = $request->openid;
+            if (!$user->save()) return 500;
+            return $user;
+        } else {
+            
+        }
+    }
+
     //  登录、绑定
     public function login($request, $filed, $value)
     {   
@@ -154,18 +166,6 @@ class WxController extends Controller
             $str.= substr($chars, mt_rand(0, strlen($chars)-1), 1);  
         }  
         return $str;
-    }
-
-    // 微信直接登陆
-    public function wxLogin(Request $request) {
-        $user = User::where('openid','=',$request->openid)->first();
-        return $user;
-        if ($user != null) {
-            $this->guard()->login($user);
-            return $user;
-        } else {
-            return 500;
-        }
     }
 
 }
