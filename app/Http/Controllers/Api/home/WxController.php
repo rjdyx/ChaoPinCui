@@ -158,7 +158,13 @@ class WxController extends Controller
 
     // 微信直接登陆
     public function wxLogin(Request $request) {
-        return 666;
+        $user = User::where('openid',$request->openid)->first();
+        if ($user != null) {
+            $this->guard()->login($user);
+            return $user;
+        } else {
+            return 500;
+        }
     }
 
 }
