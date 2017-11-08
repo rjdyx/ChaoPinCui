@@ -61,8 +61,6 @@ class WxController extends Controller
         if ($user != null) {
             $user->openid = $request->openid;
             if (!$user->save()) return 500;
-            $this->guard()->login($user);
-            $request->session()->regenerate();
             return $user;
         } else {
             $data['name'] = $this->createRandomStr(10);
@@ -72,8 +70,6 @@ class WxController extends Controller
             $data['wxopenid'] = $request->openid;
             $data['password'] = bcrypt('000000');
             $result = User::create($data);
-            $this->guard()->login($result);
-            $request->session()->regenerate();
             return $result;
         }
     }
