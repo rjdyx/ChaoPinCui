@@ -61,9 +61,7 @@ class WxController extends Controller
         $model = User::where($filed, $value)->first();
         $model->openid = $request->openid;
         if (!$model->save()) return 500;
-        // auth()->login($model);
         return $model;
-        // return 200;
     }
 
     //微信号快速注册
@@ -156,6 +154,11 @@ class WxController extends Controller
             $str.= substr($chars, mt_rand(0, strlen($chars)-1), 1);  
         }  
         return $str;
+    }
+
+    // 微信直接登陆
+    public function wxLogin(Request $request) {
+        return 666;
     }
 
 }

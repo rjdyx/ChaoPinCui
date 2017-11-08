@@ -70,6 +70,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		/* 登录、注册 */
 		Route::get('wx/check','WxController@wxCheck');//微信解除绑定
 		Route::post('wx/login','WxController@bindWeiXin');// 微信绑定账户登录
+		Route::get('wx/wxlogin','WxController@wxLogin');// 微信账号登录
 		Route::post('wx/register','WxController@bindWeiXinUserRegister');// 微信注册
 		Route::get('wx/relieve','WxController@bindWeiXinRelieve');//微信解除绑定
 
