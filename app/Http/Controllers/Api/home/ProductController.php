@@ -14,6 +14,7 @@ use App\Model\Collect;
 use App\Model\Img;
 use IQuery;
 use DB;
+use Session;
 
 class ProductController extends Controller
 {
@@ -97,6 +98,15 @@ class ProductController extends Controller
         $page = isset($page) ? $page : '';
         if($page != '') {
             $request->merge(['page'=>$page]);
+        }
+        if (isset($cid)) {
+        	$aheat = Session::get('sessionHeat_'.$cid);
+        	if ($aheat != null) {
+        		$aheat += 1;
+        	} else {
+        		$aheat = 1;
+        	}
+        	Session::put('sessionHeat_'.$cid, $aheat);
         }
 		$data = $this->getCategoryProduct($id, $cid, $pid, $type, $name);
 		return response()->json($data);

@@ -10,6 +10,7 @@ use App\Model\Category;
 use App\Model\Product;
 use App\Model\Custom;
 use IQuery;
+use Session;
 
 class CategoryController extends Controller
 {
@@ -28,7 +29,19 @@ class CategoryController extends Controller
 	// 获取二级分类
 	public function getChild(Request $request)
 	{
+		// $sessionArr = [];
 		$data = Category::where('pid', $request->pid)->get();
+		foreach($data as $d) {
+			// $sessionArr[$d->id] = Session::get('sessionHeat_'.($d->id));
+			$data->tap_head = Session::get('sessionHeat_'.($d->id)) != null ? Session::get('sessionHeat_'.($d->id)) : 0;
+		}
+		// $sessionArr = krsort($sessionArr);
+		// $i = 0;
+		// foreach($sessionArr as $k=>$v) {
+		// 	if ($i<=3) {
+
+		// 	}
+		// } 
 		return $data;
 	}
 
