@@ -78,7 +78,8 @@ class ProductController extends Controller
             'desc' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:100',
             'meridian' => 'nullable|string|max:30',
-            'weft' => 'nullable|string|max:30'
+            'weft' => 'nullable|string|max:30',
+            'heat' => 'required'
         ]);
 
         if ($id == -1) {
@@ -87,7 +88,7 @@ class ProductController extends Controller
         	$model = Product::find($id);
         }
 
-        $arr = ['name', 'desc', 'category_id', 'address', 'meridian', 'star_rate', 'weft'];
+        $arr = ['name', 'desc', 'category_id', 'address', 'meridian', 'star_rate', 'weft', 'heat'];
         $model->setRawAttributes($request->only($arr));
         $res = IQuery::upload($request,'img', true);
         $model->img = $res['p'];

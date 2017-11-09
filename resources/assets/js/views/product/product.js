@@ -15,9 +15,9 @@ export default {
             tab: '产品',
             url: 'product',
             database: 'Product',
-            theads: ['产品名称', '分类', '描述', '图片', '地址', '经度', '纬度', '星级', '关注度', '好评率(分)'],
-            protos: ['name', 'category_name', 'desc', 'img', 'address', 'meridian', 'weft', 'star_rate', 'heat', 'comment'],
-            protosFilter: ['img', 'desc', 'heat', 'comment'],
+            theads: ['产品名称', '分类', '描述', '图片', '地址', '经度', '纬度', '推荐指数', '星级', '好评率(分)'],
+            protos: ['name', 'category_name', 'desc', 'img', 'address', 'meridian', 'weft', 'heat', 'star_rate', 'comment'],
+            protosFilter: ['img', 'desc', 'comment'],
             widths: [50, 50, 50, 50, 50, 50],
             showDetail: true,
             colComponents: {img: Img, category_name: Category},
@@ -39,11 +39,6 @@ export default {
                     rules: [
                         { required: true, message: '请选择分类' }
                     ],
-                    // options: [],
-                    // optionLabel: 'name',
-                    // optionValue: 'id',
-                    // type: 'select',
-                    // placeholder: '请选择分类'
                     component: CategorySelect
                 },
                 desc: {
@@ -82,6 +77,17 @@ export default {
                     value: '',
                     type: 'input',
                     placeholder: ''
+                },
+                heat: {
+                    label: '推荐指数',
+                    rules: [
+                        { required: true, message: '请输入推荐指数' },
+                        { validator: reInteger },
+                        { validator: cestNumber, max: 999999, min: 1 }
+                    ],
+                    value: '',
+                    type: 'input',
+                    placeholder: '请输入正整数'
                 },
                 star_rate: {
                     label: '星级',
