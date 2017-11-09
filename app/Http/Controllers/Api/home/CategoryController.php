@@ -33,7 +33,6 @@ class CategoryController extends Controller
 		foreach($data as $d) {
 			$d->tap_head = Redis::get('sessionHeat_'.($d->id)) != null ? Redis::get('sessionHeat_'.($d->id)) : 0;
 		}
-		$data->orderBy('tap_head','desc');
 		return $data;
 	}
 
