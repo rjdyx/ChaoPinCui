@@ -33,7 +33,7 @@ class CategoryController extends Controller
 		$data = Category::where('pid', $request->pid)->get();
 		foreach($data as $d) {
 			// $sessionArr[$d->id] = Session::get('sessionHeat_'.($d->id));
-			$data->tap_head = Session::get('sessionHeat_'.($d->id)) != null ? Session::get('sessionHeat_'.($d->id)) : 0;
+			$d->tap_head = Session::get('sessionHeat_'.($d->id)) != null ? Session::get('sessionHeat_'.($d->id)) : 0;
 		}
 		// $sessionArr = krsort($sessionArr);
 		// $i = 0;
