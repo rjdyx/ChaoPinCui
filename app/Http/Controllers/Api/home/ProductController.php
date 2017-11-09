@@ -14,7 +14,7 @@ use App\Model\Collect;
 use App\Model\Img;
 use IQuery;
 use DB;
-use Session;
+use Illuminate\Support\Facades\Redis;
 
 class ProductController extends Controller
 {
@@ -100,13 +100,13 @@ class ProductController extends Controller
             $request->merge(['page'=>$page]);
         }
         if (isset($cid)) {
-        	$aheat = Session::get('sessionHeat_'.$cid);
+        	$aheat = Redis::get('sessionHeat_'.$cid);
         	if ($aheat != null) {
         		$aheat += 1;
         	} else {
         		$aheat = 1;
         	}
-        	Session::put('sessionHeat_'.$cid, $aheat);
+        	Redis::set('sessionHeat_'.$cid, $aheat);
         }
 		$data = $this->getCategoryProduct($id, $cid, $pid, $type, $name);
 		return response()->json($data);
