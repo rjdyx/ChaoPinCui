@@ -18,7 +18,7 @@ class ImgController extends Controller
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = Img::orderBy('created_at','desc');
+    	$datas = Img::orderBy('created_at','desc')->where('product_id',$request->id);
         $datas = IQuery::ofText($datas, $request->query_text, 'img');
         $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
