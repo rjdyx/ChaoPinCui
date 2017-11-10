@@ -18,7 +18,7 @@ class CustomController extends Controller
 	// 分页信息
     public function index(Request $request)
     {
-    	$datas = Custom::orderBy('created_at','desc');
+    	$datas = Custom::orderBy('created_at','desc')->where('product_id',$request->id);
         $datas = IQuery::ofText($datas,$request->query_text, 'custom');
         $datas = $datas->paginate(config('app.page'));
     	return response()->json($datas);
