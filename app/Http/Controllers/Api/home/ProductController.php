@@ -81,6 +81,7 @@ class ProductController extends Controller
 
 		$res = Product::where('category_id', $pt->category_id)
 			->select('products.*')
+                        ->where('id','!=',$id)
 			->orderBy('desc')
 			->paginate(6);
 		return $res;
