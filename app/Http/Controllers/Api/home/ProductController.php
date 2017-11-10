@@ -122,7 +122,7 @@ class ProductController extends Controller
 		               ->whereNull('parent.pid');
 
 		if ($type == 'nearby') {
-			$data = $data->where('parent.id', $pid);
+			$data = $data->where('parent.id', $pid)->where('products.id','!=',$id);
 		} else if ($type == 'category') {
 			$data = $data->where('products.category_id', $cid);
 		} else if ($type == 'search') {
