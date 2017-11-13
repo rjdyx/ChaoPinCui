@@ -13,6 +13,10 @@ class SystemController extends Controller
 {
 	public function index()
 	{
-		return System::select('name', 'email', 'phone', 'address')->first();
+		$data = IQuery::redisGet('company_system');
+		if (!isset($data)) {
+			$data = System::select('name', 'email', 'phone', 'address')->first();
+		}
+		return $data;
 	}
 }

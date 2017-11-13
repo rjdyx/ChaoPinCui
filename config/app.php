@@ -17,6 +17,8 @@ return [
     'thumb_width' => 100,
     'thumb_height' => 100, 
     'image_path' => 'upload',
+    'redis_time' => 60,
+    'redis_pre' => 'cpc',
 
     /*
     |--------------------------------------------------------------------------

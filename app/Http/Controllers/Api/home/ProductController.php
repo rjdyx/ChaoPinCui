@@ -20,13 +20,16 @@ class ProductController extends Controller
 {
 
 	// 产品基础信息
-	public function productInfo(Request $request)
-	{
-		$info = Product::join('categories','products.category_id','=','categories.id')->where('categories.deleted_at')
-			->join('categories as parent','categories.pid','=','parent.id')->where('parent.deleted_at')
-			->where('products.id','=',$request->id)
-			->select('products.*','parent.name as parent_name','categories.name as category_name', 'parent.id as parent_id')
-			->first();
+	public function productInfo(Request $request) {
+		$info = IQuery::redisGet('product_info_'.$request->id);
+		if (!isset($info)) {
+			$info = Product::join('categories','products.category_id','=','categories.id')->where('categories.deleted_at')
+				->join('categories as parent','categories.pid','=','parent.id')->where('parent.deleted_at')
+				->where('products.id','=',$request->id)
+				->select('products.*','parent.name as parent_name','categories.name as category_name', 'parent.id as parent_id')
+				->first();
+			IQuery::redisSet('product_info_'.$request->id, $info);
+		}
 		$model = Collect::where('product_id',$request->id)->where('user_id', $request->user_id)->first();
 		$isCollect = isset($model->id)?1:0;
 		$info->is_collect = $isCollect;
@@ -37,9 +40,13 @@ class ProductController extends Controller
 	}
 
 	// 获取产品自定义信息
-	public function productCustoms($id)
-	{
-		return Custom::where('product_id', $id)->get();
+	public function productCustoms($id) {
+		$data = IQuery::redisGet('product_custom_'.$id);
+		if (!isset($data)) {
+			$data = Custom::where('product_id', $id)->get();
+			IQuery::redisSet('product_custom_'.$id, $data);
+		}
+		return $data
 	}
 
 	// 获取加载下信息
@@ -66,30 +73,34 @@ class ProductController extends Controller
 	}
 
 	// 获取产品图片信息
-	public function productImgs(Request $request)
-	{
-		return Img::where('product_id', $request->product_id)->orderBy('sort','desc')->get();
+	public function productImgs(Request $request) {
+		$data = IQuery::redisGet('product_img_'.$request->product_id);
+		if (!isset($data)) {
+			$data = Img::where('product_id', $request->product_id)->orderBy('sort','desc')->get();
+			IQuery::redisSet('product_img_'.$request->product_id, $data);
+		}
+		return $data;
 	}
 
 	// 获取产品附近产品信息
-	public function productNearby(Request $request)
-	{
+	public function productNearby(Request $request) {
 		$id = $request->id;
-		if (!$id) return response()->json('参数错误！', 500);
-
-		$pt = Product::find($id);
-
-		$res = Product::where('category_id', $pt->category_id)
-			->select('products.*')
-                        ->where('id','!=',$id)
-			->orderBy('desc')
-			->paginate(6);
+		$res = IQuery::redisGet('product_nearby_'.$id);
+		if (!isset($res)) {
+			if (!$id) return response()->json('参数错误！', 500);
+			$pt = Product::find($id);
+			$res = Product::where('category_id', $pt->category_id)
+				->select('products.*')
+	            ->where('id','!=',$id)
+				->orderBy('desc')
+				->paginate(6);
+			IQuery::redisSet('product_nearby_'.$id, $res);
+		}
 		return $res;
 	}
 
 	// 获取产品列表信息
-	public function productLists(Request $request)
-	{
+	public function productLists(Request $request) {
 		$type = $request->type; // 产品类型（推荐、附近）
 		$cid = $request->category_id; // 分类id
 		$pid = $request->parent_id; // 父分类id
@@ -114,47 +125,28 @@ class ProductController extends Controller
 	}
 
 	//获取普通分类的列表产品/附近
-	public function getCategoryProduct($id, $cid, $pid, $type, $name='')
-	{
-		$data = Product::join('categories','products.category_id','=','categories.id')->whereNull('categories.deleted_at')
-		               ->whereNotNull('categories.pid')
-		               ->join('categories as parent', 'parent.id', '=', 'categories.pid')->whereNull('parent.deleted_at')
-		               ->whereNull('parent.pid');
-
-		if ($type == 'nearby') {
-			$data = $data->where('parent.id', $pid)->where('products.id','!=',$id);
-		} else if ($type == 'category') {
-			$data = $data->where('products.category_id', $cid);
-		} else if ($type == 'search') {
-			$data = $data->where('products.name','like','%'.$name.'%')
-			        ->where('categories.pid','=',$id);
-		} else if ($type == 'recommend') {
-			$data = $data->where('categories.pid','=',$id);
+	public function getCategoryProduct($id, $cid, $pid, $type, $name='') {
+		$data = IQuery::redisGet('product_list_'.$id.$cid.$pid.$type.$name);
+			if (!isset($data)) {
+			$data = Product::join('categories','products.category_id','=','categories.id')->whereNull('categories.deleted_at')
+			               ->whereNotNull('categories.pid')
+			               ->join('categories as parent', 'parent.id', '=', 'categories.pid')->whereNull('parent.deleted_at')
+			               ->whereNull('parent.pid');
+			if ($type == 'nearby') {
+				$data = $data->where('parent.id', $pid)->where('products.id','!=',$id);
+			} else if ($type == 'category') {
+				$data = $data->where('products.category_id', $cid);
+			} else if ($type == 'search') {
+				$data = $data->where('products.name','like','%'.$name.'%')
+				        ->where('categories.pid','=',$id);
+			} else if ($type == 'recommend') {
+				$data = $data->where('categories.pid','=',$id);
+			}
+			$data = $data->select('products.*')
+				  ->orderBy('desc')
+				  ->paginate(5);
+			IQuery::redisSet('product_list_'.$id.$cid.$pid.$type.$name, $data);
 		}
-		$data = $data->select('products.*')
-			  ->orderBy('desc')
-			  ->paginate(5);
-		return $data;
-	}
-
-	//推荐列表信息
-	public  function recommendList($cid)
-	{
-		$data = Product::join('categories','products.category_id','=','categories.id')
-			->where('categories.pid','=',$cid)
-			->orderBy('products.heat','desc')
-			->get();
-		return $data;
-	}
-
-	// 获取推荐产品信息
-	public function getRecommend($cid)
-	{
-		$data = Product::where('category_id', $cid)
-			->orderBy('heat','desc')
-			->offset(1)
-			->limit(6)
-			->get();
 		return $data;
 	}
 }
