@@ -15,10 +15,9 @@ use IQuery;
 
 class CommentController extends Controller
 {
-	// 全部收藏信息
-    public function index(Request $request)
-    {
-    	$datas = Comment::join('products','comments.product_id','=','products.id')
+	// 全部个人评论信息
+    public function index(Request $request) {
+    	$data = Comment::join('products','comments.product_id','=','products.id')
             ->join('users','comments.user_id','=','users.id')
             ->where('comments.user_id', '=', $request->user_id)
             ->orderBy('comments.created_at','desc')
@@ -26,7 +25,8 @@ class CommentController extends Controller
                 'products.thumb as product_thumb','products.name as product_name',
                 'users.img as user_img','users.name as user_name'
             )->get();
-    	return response()->json($datas);
+        }
+    	return response()->json($data);
     }
 
     // 新增保存

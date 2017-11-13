@@ -32,7 +32,6 @@ class WxController extends Controller
         $user = User::where('openid', $request->openid)->first();
         if (!isset($user->id) && empty($user->id)) return 400;
         return $user;
-        // return 200;
     }
     
     //微信绑定账户
