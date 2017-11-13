@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Model\Category;
 use App\Model\Product;
 use App\Model\Turn;
-use Illuminate\Support\Facades\Redis;
+use IQuery;
 
 class IndexController extends Controller
 {
