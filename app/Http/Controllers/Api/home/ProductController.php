@@ -46,7 +46,7 @@ class ProductController extends Controller
 			$data = Custom::where('product_id', $id)->get();
 			IQuery::redisSet('product_custom_'.$id, $data);
 		}
-		return $data
+		return $data;
 	}
 
 	// 获取加载下信息
