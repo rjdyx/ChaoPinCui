@@ -17,6 +17,8 @@
             window.Laravel = <?php echo json_encode([
                 'csrfToken' => csrf_token()
             ]); ?>;
+            window.Auth = {}
+            window.flag = true;
         </script>
     </head>
     <body>

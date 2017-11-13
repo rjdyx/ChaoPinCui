@@ -46,22 +46,22 @@ const routes = [
                 meta: { requiresAuth: true }
             },
             {
-                path: 'category-child/:id',
+                path: 'category-child',
                 component: categoryChild,
                 meta: { requiresAuth: true }
             },
             {
-                path: 'product-img/:id',
+                path: 'product-img',
                 component: productImg,
                 meta: { requiresAuth: true }
             },
             {
-                path: 'product-custom/:id',
+                path: 'product-custom',
                 component: productCustom,
                 meta: { requiresAuth: true }
             },
             {
-                path: 'product-comment/:id',
+                path: 'product-comment',
                 component: productComment,
                 meta: { requiresAuth: true }
             },

@@ -32,7 +32,6 @@ Route::get('/home', function () {
 
 Route::get('phone','HomeController@phone');
 Route::get('get/openid','HomeController@getOpenid'); //获取openid
-// Route::post('home','HomeController@store'); //测试无token提交
 
 Route::get('logout','Auth\LoginController@logout'); //登出
 

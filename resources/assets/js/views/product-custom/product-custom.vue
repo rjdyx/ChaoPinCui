@@ -81,12 +81,12 @@ export default {
                         placeholder: ''
                     },
                     product_id: {
-                        value: this.$route.params.id,
+                        value: localStorage.getItem('detailId'),
                         type: 'hidden'
                     }
                 }
             },
-            id: this.$route.params.id,
+            id: localStorage.getItem('detailId'),
             theads: {name: '名称', address: '地址', desc: '描述', meridian: '经度', weft: '维度', heat: '热度', comment: '评分'},
             protos: [],
             total: 0

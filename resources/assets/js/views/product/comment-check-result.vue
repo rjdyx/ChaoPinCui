@@ -38,7 +38,8 @@ export default {
         ]),
         SpotCheck () {
             this.SET_TABLE_DATA([])
-            this.$router.push('/index/product-comment/' + this.scope.id)
+            this.$router.push('/index/product-comment')
+            localStorage.setItem('detailId', this.scope.id)
         }
     }
 }

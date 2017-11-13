@@ -35,6 +35,7 @@ class UserAuth
 
         // 普通判断
         if (!Auth::user()) {
+            // return redirect('/login');
             return response()->json($this->res['401'], 401);
         }
 

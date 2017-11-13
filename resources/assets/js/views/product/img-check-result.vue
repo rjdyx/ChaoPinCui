@@ -38,7 +38,8 @@ export default {
         ]),
         SpotCheck () {
             this.SET_TABLE_DATA([])
-            this.$router.push('/index/product-img/' + this.scope.id)
+            this.$router.push('/index/product-img')
+            localStorage.setItem('detailId', this.scope.id)
         }
     }
 }

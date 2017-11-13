@@ -98,12 +98,12 @@ export default {
                         placeholder: ''
                     },
                     pid: {
-                        value: this.$route.params.id,
+                        value: localStorage.getItem('detailId'),
                         type: 'hidden'
                     }
                 }
             },
-            id: this.$route.params.id,
+            id: localStorage.getItem('detailId'),
             theads: {name: '名称', desc: '描述', ico: '图标', img: '图片'},
             protos: [],
             total: 0,
