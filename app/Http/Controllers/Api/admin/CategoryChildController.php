@@ -53,6 +53,11 @@ class CategoryChildController extends Controller
     {
         $childs = Product::where('category_id',$id)->get();
         if (count($childs)) return -1;
+        $category = Category::find($id);
+        $img = $category->img;
+        $ico = $category->ico;
+        IQuery::delImg($img);
+        IQuery::delImg($ico);
     	if (Category::destroy($id)) {
             IQuery::ofLog('category_child', 4, 0);
             return $id;

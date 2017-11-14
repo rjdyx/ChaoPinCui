@@ -63,6 +63,16 @@ export default {
                                 type: 'error',
                                 message: '已被使用，无法删除'
                             })
+                        } else if (response.data === 'self') {
+                            this.$message({
+                                type: 'error',
+                                message: '无法删除自身用户数据'
+                            })
+                        } else if (response.data === 'notallow') {
+                            this.$message({
+                                type: 'error',
+                                message: '同级用户，没有删除操作权限'
+                            })
                         } else {
                             this.$message({
                                 message: '删除成功',

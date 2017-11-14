@@ -11,7 +11,7 @@ export default {
             key: 'trues',
             tab: '广告图',
             url: 'turn',
-            database: 'True',
+            database: 'Turn',
             theads: ['链接产品', '状态', '图片', '排序'],
             protos: ['product_name', 'state', 'img', 'sort'],
             showDetail: true,

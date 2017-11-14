@@ -52,6 +52,11 @@ class CategoryController extends Controller
     {
         $childs = Category::where('pid',$id)->get();
         if (count($childs)) return -1;
+        $category = Category::find($id);
+        $img = $category->img;
+        $ico = $category->ico;
+        IQuery::delImg($img);
+        IQuery::delImg($ico);
     	if (Category::destroy($id)) {
             IQuery::ofLog('category', 4, 0);
             return $id;

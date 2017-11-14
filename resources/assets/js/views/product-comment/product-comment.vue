@@ -32,7 +32,8 @@ import BasicModel from '../index-model/components/basic-model'
 import Classification from '../expert/classification.vue'
 import DateFilter from 'components/form/date-filter'
 import inputFile from '../../components/public/inputFile.vue'
-import Img from '../../components/public/img.vue'
+import Img from './img.vue'
+import LookImg from './look-img.vue'
 export default {
     name: 'CustomCheckPage',
     data () {
@@ -50,6 +51,7 @@ export default {
                 showDetail: true,
                 searchModelComponents: [{component: null, params: {}}],
                 topOperateComponents: [{component: null, params: {}}],
+                operateComponents: [{component: LookImg, params: {}}],
                 showTabs: false,
                 showNewBuild: false,
                 showEdit: false,

@@ -56,14 +56,15 @@
 			}
 		},
 		mounted () {
-			this.imgs = this.imgUrl.split(',')
+			if (this.imgUrl !== null && this.imgUrl !== '') {
+				this.imgs = this.imgUrl.split(',')
+			}
 		},
 		methods: {
 			close () {
 				this.$emit('close')
 			},
 			left () {
-				console.dir(this.idx)
 				if (this.idx) {
 					this.idx -= 1
 				} else {
@@ -80,7 +81,9 @@
 		},
 		watch: {
 			imgUrl () {
-				this.imgs = this.imgUrl.split(',')
+				if (this.imgUrl !== null && this.imgUrl !== '') {
+					this.imgs = this.imgUrl.split(',')
+				}
 			}
 		}
 	}

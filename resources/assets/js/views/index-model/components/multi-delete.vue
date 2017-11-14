@@ -60,7 +60,7 @@ export default {
                     }
                     axios.delete(this.$adminUrl('deletes'), {data: {tname: database, ids: ids}})
                         .then((response) => {
-                            if (response.data) {
+                            if (response.data === 'true') {
                                 this.$message({
                                     message: '删除成功',
                                     type: 'success'
@@ -68,6 +68,10 @@ export default {
                                 let target = this.$deepClone(this.$store.state.basicModel.tableData)
                                 let result = this.$deleteArrayWith(target, select, 'id')
                                 this.SET_TABLE_DATA(result)
+                            } else if (response.data === 'self') {
+                                this.$message('无法删除自身数据')
+                            } else if (response.data === 'notallow') {
+                                this.$message('存在同级用户，无法进行批量删除操作')
                             } else {
                                 this.$message({
                                     type: 'error',

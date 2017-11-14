@@ -37,6 +37,8 @@ class CommentController extends Controller
     // 单条删除
     public function destroy($id)
     {
+        $comment = Comment::find($id);
+        IQuery::delMosImg($comment->img);
     	if (Comment::destroy($id)) {
             IQuery::ofLog('comment', 4, 0);
             return $id;
@@ -49,46 +51,5 @@ class CommentController extends Controller
     public function edit($id)
     {
     	return Comment::find($id);
-    }
-
-    // 编辑保存
-    public function update(Request $request, $id)
-    {
-    	return $this->storeOrUpdate($request, $id);
-    }
-
-    // 新建保存
-    public function store(Request $request)
-    {
-    	return $this->storeOrUpdate($request);
-    }
-
-    // 新建、编辑 保存方法
-    private function storeOrUpdate($request, $id = -1)
-    {
-    	$this->validate($request, [
-            'content' => 'required|text|max:2000',
-            'product_id' => 'required|exists:products',
-            'level' => 'required',
-            'url' => 'nullable|max:100',
-        ]);
-
-        if ($id == -1) {
-        	$model = new Comment;
-        } else {
-        	$model = Comment::find($id);
-        }
-
-        $arr = ['name', 'content', 'product_id', 'sort', 'desc'];
-        $model->setRawAttributes($request->only($arr));
-        $res = IQuery::uploads($request, 'img', true);
-        $model->img = $res['ps'];
-        $model->thumb = $res['ts'];
-        
-        if (!$model->save()) {
-            return 0;
-        }
-        if ($id != -1) $model->id = $id;
-        return $model->id;
     }
 }

@@ -75,47 +75,7 @@
             rows: {
                 type: Object,
                 default () {
-                    return {
-                        name: {
-                            label: '预案名称',
-                            rules: [
-                                { required: true, message: '请输入活动名称', trigger: 'blur' },
-                                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-                            ],
-                            value: '',
-                            type: 'input',
-                            placeholder: '必填'
-                        },
-                        password: {
-                            label: '密码',
-                            rules: [
-                                { required: true, message: '请输入密码', trigger: 'blur' },
-                                { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
-                            ],
-                            value: '',
-                            type: 'password'
-                        },
-                        type: {
-                            label: '事件类型',
-                            rules: [
-                                { required: true, type: 'number', message: '请选择类型', trigger: 'change' }
-                            ],
-                            options: [{id: 1, name: '预警事件'}, {id: 2, name: '突发事件'}],
-                            optionLabel: 'name',
-                            optionValue: 'id',
-                            value: '',
-                            type: 'select',
-                            placeholder: '请选择事件类型'
-                        },
-                        memo: {
-                            label: '备注',
-                            rules: [
-                                { required: false }
-                            ],
-                            value: '',
-                            type: 'textarea'
-                        }
-                    }
+                    return {}
                 }
             },
             scope: {
@@ -150,7 +110,7 @@
                     rules[pro] = this.rows[pro].rules
                 }
                 if (!this.isEdit) {
-                    ruleForm[pro] = ''
+                    ruleForm[pro] = this.rows[pro].value != undefined ? this.rows[pro].value : ''
                 } else {
                     ruleForm[pro] = this.scope.row[pro]
                 }

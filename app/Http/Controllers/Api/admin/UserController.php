@@ -33,7 +33,14 @@ class UserController extends Controller
     // 单条删除
     public function destroy($id)
     {
-        $img = User::find($id)->img;
+        if (Auth::user()->id == $id) {
+            return response()->json('self');
+        }
+        $user = User::find($id);
+        if ($user->type == 1) {
+            return response()->json('notallow');
+        }
+        $img = $user->img;
         IQuery::delImg($img);
     	if (User::destroy($id)) {
             IQuery::ofLog('user', 4, 0);

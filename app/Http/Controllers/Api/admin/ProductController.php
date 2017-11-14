@@ -42,6 +42,9 @@ class ProductController extends Controller
     // 单条删除
     public function destroy($id)
     {
+        $product = Product::find($id);
+        $img = $product->img;
+        IQuery::delImg($img);
         if (Product::destroy($id)) {
             IQuery::ofLog('product', 4, 0);
             return $id;
@@ -90,9 +93,8 @@ class ProductController extends Controller
 
         $arr = ['name', 'desc', 'category_id', 'address', 'meridian', 'star_rate', 'weft', 'heat'];
         $model->setRawAttributes($request->only($arr));
-        $res = IQuery::upload($request,'img', true);
-        $model->img = $res['p'];
-        $model->thumb = $res['t'];
+        $model->img = IQuery::singleImg($request,'img');
+        // $res = IQuery::upload($request,'img', true);
 
         if ($model->save()) {
             IQuery::logNewOrEdit($id, 'product', 0);

@@ -85,7 +85,7 @@ export default {
                         { validator: reInteger },
                         { validator: cestNumber, max: 999999, min: 1 }
                     ],
-                    value: '',
+                    value: '50',
                     type: 'input',
                     placeholder: '请输入正整数'
                 },
@@ -96,7 +96,7 @@ export default {
                         { validator: reInteger },
                         { validator: cestNumber, max: 5, min: 1 }
                     ],
-                    value: '',
+                    value: '1',
                     type: 'input',
                     placeholder: '最大输入5，最小输入1'
                 },

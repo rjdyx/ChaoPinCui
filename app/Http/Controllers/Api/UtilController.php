@@ -72,15 +72,48 @@ class UtilController extends Controller
     {
         $tname = $request->tname;
         $ids = $request->ids;
-
+        $res = $this->setMutilDel($tname, $ids);
+        if ($res !== 'true') {
+            return response()->json($res);
+        }
         if (empty($tname) || !count($ids)) {
             IQuery::ofLog(strtolower($tname), 5, 1);
             return response()->json('Parameter error', 500);
         }
 
         $model = 'App\Model\\'."$tname";
-        if (!$model::destroy($ids)) return response()->json(0);
+        if (!$model::destroy($ids)) return response()->json('false');
         IQuery::ofLog(strtolower($tname), 5, 0);
-        return response()->json(1);
+        return response()->json('true');
     }
+
+    /* 批量删除前置出处理
+     * $tname 表类名，$ids多id
+     */
+    public function setMutilDel($tname, $ids) {
+        $model = 'App\Model\\'."$tname";
+        $sname = strtolower($tname);
+        if ($sname == 'user') {
+            foreach ($ids as $id) {
+                if (Auth::user()->id == $id) {
+                    return 'self';
+                }
+                $user = $model::find($id);
+                if ($user->type == 1) {
+                    return 'notallow';
+                }
+            }
+        }
+        // 批量删除图片
+        foreach ($ids as $id) {
+            $table = $model::find($id);
+            $img = $table->img;
+            $ico = $table->ico;
+            IQuery::delImg($img);
+            IQuery::delMosImg($img);
+            IQuery::delImg($ico);
+        }
+        return 'true';
+    }
+
 }
