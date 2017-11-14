@@ -33,6 +33,9 @@ class ImgController extends Controller
     // 单条删除
     public function destroy($id)
     {
+        $res = Img::find($id);
+        $img = $res->img;
+        IQuery::delImg($img);
     	if (Img::destroy($id)) {
             IQuery::ofLog('img', 4, 0);
             return $id;
@@ -75,9 +78,7 @@ class ImgController extends Controller
         }
         $arr = ['name', 'product_id', 'sort', 'desc'];
         $model->setRawAttributes($request->only($arr));
-        $res = IQuery::upload($request,'img', true);
-        $model->img = $res['p'];
-        $model->thumb = $res['t'];
+        $model->img = IQuery::singleImg($request,'img');
 
         if (!$model->save()) {
             IQuery::logNewOrEdit($id, 'img', 1);

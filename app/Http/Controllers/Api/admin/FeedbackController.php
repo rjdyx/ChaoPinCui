@@ -43,46 +43,4 @@ class FeedbackController extends Controller
         IQuery::ofLog('feedback', 4, 1);
     	return 0;
     }
-
-    // 编辑
-    public function edit($id)
-    {
-    	return Feedback::find($id);
-    }
-
-    // 编辑保存
-    public function update(Request $request, $id)
-    {
-    	return $this->storeOrUpdate($request, $id);
-    }
-
-    // 新建保存
-    public function store(Request $request)
-    {
-    	return $this->storeOrUpdate($request);
-    }
-
-    // 新建、编辑 保存方法
-    private function storeOrUpdate($request, $id = -1)
-    {
-    	$this->validate($request, [
-            'content' => 'required',
-            'user_id' => 'required|exists:users'
-        ]);
-
-        if ($id == -1) {
-        	$model = new Feedback;
-        } else {
-        	$model = Feedback::find($id);
-        }
-
-        $arr = ['content', 'user_id'];
-        $model->setRawAttributes($request->only($arr));
-        $res = IQuery::uploads($request, 'img');
-        $model->img = $res['ps'];
-        
-        if (!$model->save()) return 0;
-        if ($id != -1) $model->id = $id;
-        return $model->id;
-    }
 }
