@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Session;
 use IQuery;
 use App\Model\User;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -52,7 +53,7 @@ class LoginController extends Controller
             return $this->sendLoginResponse($request); //登陆成功
         }
         $this->incrementLoginAttempts($request); //登陆失败
-        return 500;
+        return response()->json(['res' => 0, 'status'=> 500]);
     }
 
     //字段验证
@@ -83,9 +84,9 @@ class LoginController extends Controller
     {
         $request->session()->regenerate();
         $this->clearLoginAttempts($request);
-        $time = date("y-m-d h:i:s",time());
+        $time = date("Y-m-d H:i:s",time());
         Session::put('time',$time);
-        return 200;
+        return response()->json(['res' => Auth::user()->type, 'status'=> 200]);
     }
 
     //登出

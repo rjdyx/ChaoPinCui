@@ -58,13 +58,25 @@
                         let url = 'login'
                         let params = {user: this.form.name, password: this.form.password}
                         axios.post(url, params).then((res) => {
-                            if (res.data === 200) {
-                                this.$message('登录成功')
-                                this.SET_IS_LOGIN(true)
-                                this.$router.push('/index/home')
-                                // 保证左侧导航默认显示系统配置页
-                                localStorage.setItem('navbarName', ' ')
-                                localStorage.setItem('subNavBarName', ' ')
+                            console.log(res.data.status)
+                            if (res.data.status === 200) {
+                                if (res.data.res === 1) {
+                                    this.$message({
+                                        type: 'success',
+                                        message: '登录成功'
+                                    })
+                                    this.SET_IS_LOGIN(true)
+                                    this.$router.push('/index/home')
+                                    // 保证左侧导航默认显示系统配置页
+                                    localStorage.setItem('navbarName', ' ')
+                                    localStorage.setItem('subNavBarName', ' ')
+                                } else {
+                                    axios.get('logout').then((res) => {
+                                        if (res.data === 200) {
+                                            this.$message('无操作权限')
+                                        }
+                                    })
+                                }
                             } else {
                                 this.$message('账号或密码错误')
                             }

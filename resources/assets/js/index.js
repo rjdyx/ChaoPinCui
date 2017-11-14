@@ -14,7 +14,7 @@ router.beforeEach(async (to, from, next) => {
     let res = false
     if (window.flag) {
         await axios.get('/auth').then(responce => {
-            if (responce.data.name !== undefined) {
+            if (responce.data.type !== undefined && responce.data.type !== 0) {
                 res = true
                 window.Auth = responce.data
                 return false

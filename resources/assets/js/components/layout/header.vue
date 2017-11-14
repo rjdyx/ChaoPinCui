@@ -109,18 +109,30 @@
                 'SET_IS_LOGIN'
             ]),
             logout () {
-                if (confirm('是否要退出后台？')) {
-                    this.axiosOut()
-                }
-            },
-            axiosOut () {
-                let url = 'logout'
-                axios.get(url).then((res) => {
-                    if (res.data === 200) {
-                        this.$message('退出成功')
-                        this.SET_IS_LOGIN(false)
-                        this.$router.push('/login')
-                    }
+                this.$confirm('你是否要退出后台?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let url = 'logout'
+                    axios.get(url).then((res) => {
+                        if (res.data === 200) {
+                            this.$message({
+                                type: 'success',
+                                message: '退出成功!'
+                            })
+                            var _this = this
+                            setInterval(function () {
+                                _this.SET_IS_LOGIN(false)
+                                _this.$router.push('/login')
+                            }, 500)
+                        }
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消退出'
+                    })        
                 })
             }
         }
