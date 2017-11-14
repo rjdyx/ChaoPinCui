@@ -21,7 +21,10 @@ class ProductController extends Controller
     {
     	$datas = Product::join('categories','products.category_id','=','categories.id')
                 ->whereNull('categories.deleted_at')->whereNotNull('categories.pid')
-                ->leftjoin('comments','comments.product_id','=','products.id')->whereNull('comments.deleted_at')
+                ->leftjoin('comments',function($join){
+                    $join->on('comments.product_id','=','products.id')
+                    ->whereNull('comments.deleted_at');
+                })
                 ->orderBy('products.created_at','desc')
                 ->select('products.id','products.category_id','products.name','products.desc','products.img','products.thumb',
                          'products.address','products.meridian','products.weft','products.heat','products.star_rate',
@@ -94,7 +97,6 @@ class ProductController extends Controller
         $arr = ['name', 'desc', 'category_id', 'address', 'meridian', 'star_rate', 'weft', 'heat'];
         $model->setRawAttributes($request->only($arr));
         $model->img = IQuery::singleImg($request,'img');
-        // $res = IQuery::upload($request,'img', true);
 
         if ($model->save()) {
             IQuery::logNewOrEdit($id, 'product', 0);
