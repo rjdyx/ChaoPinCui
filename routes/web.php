@@ -43,14 +43,16 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 	/********************* 公共 ***********************/
 	Route::get('get/tables','UtilController@getTable');// 查询单张表数据
 	Route::get('find/{$id}','UtilController@findTable');// 查询单表单条数据
-	Route::group(['prefix' => 'admin', 'middleware' => 'UserAuth:admin'], function() {
+	Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
 		Route::delete('deletes','UtilController@deletes');// 批量删除
 	});
 
 	/********************* 后台 ***********************/
-	Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'UserAuth:admin'], function() {
+	Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function() {
 		Route::resource('index', 'IndexController'); //首页
-		Route::resource('user', 'UserController'); // 用户管理
+		Route::group(['middleware' => 'UserAuth:admin'], function() {
+			Route::resource('user', 'UserController'); // 用户管理
+		});
 		Route::resource('system', 'SystemController'); // 系统管理
 		Route::resource('log', 'LogController'); // 操作日志管理
 		Route::get('category/all', 'CategoryController@all'); // 分类管理

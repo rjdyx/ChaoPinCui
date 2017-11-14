@@ -20,28 +20,27 @@ class UserAuth
     public function handle($request, Closure $next, $role='home')
     {
         // 微信登录状态判断
-        if (isset($request->openid)) {
-            $user = User::where('openid', $request->openid)->first();
-            if (!isset($user->id)) {
-                return response()->json($this->res['401'], 401);
-            }
-            if (Auth::user()->id !== $user->id) {
-                return response()->json($this->res['403'], 403);
-            }
-            if ($role == 'admin' && $user->type != 1) {
-                return response()->json($this->res['403'], 403);
-            }
-        }
+        // if (isset($request->openid)) {
+        //     $user = User::where('openid', $request->openid)->first();
+        //     if (!isset($user->id)) {
+        //         return response()->json($this->res['401'], 401);
+        //     }
+        //     if (Auth::user()->id !== $user->id) {
+        //         return response()->json($this->res['403'], 403);
+        //     }
+        //     if ($role == 'admin' && $user->type != 1) {
+        //         return response()->json($this->res['403'], 403);
+        //     }
+        // }
 
-        // 普通判断
-        if (!Auth::user()) {
-            // return redirect('/login');
-            return response()->json($this->res['401'], 401);
-        }
+        // // 普通判断
+        // if (!Auth::user()) {
+        //     return response()->json($this->res['401'], 401);
+        // }
 
-        if ($role == 'admin' && Auth::user()->type != 1) {
-            return response()->json($this->res['403'], 403);
-        }
+        // if ($role == 'admin' && Auth::user()->type != 1) {
+        //     return response()->json($this->res['403'], 403);
+        // }
         return $next($request);
     }
 }

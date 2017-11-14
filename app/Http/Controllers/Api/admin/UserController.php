@@ -75,11 +75,7 @@ class UserController extends Controller
                     $query->whereNull('deleted_at');
                 })
             ],
-            'phone' => ['max:20',
-                Rule::unique('users')->ignore($id)->where(function($query) use ($id) {
-                    $query->whereNull('deleted_at');
-                })
-            ],
+            'phone' => 'nullable',
             'sex' => 'required',
             'age' => 'nullable|date',
             'real_name' => 'nullable|max:30',
