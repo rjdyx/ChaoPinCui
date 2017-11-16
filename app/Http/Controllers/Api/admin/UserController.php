@@ -94,6 +94,10 @@ class UserController extends Controller
         	$model = new User;
         } else {
         	$model = User::find($id);
+                $result = $this->checkLevel($model);
+                if ($result!='true') {
+                    return response()->json($result);
+                }
         }
         $arr = ['name','real_name','sex','age','email','phone','type','address'];
         $model->setRawAttributes($request->only($arr));
@@ -114,5 +118,13 @@ class UserController extends Controller
             'id'=>$model->id,
             'img'=>$model->img
         ];
+    }
+    
+    //判断是否同级（管理员之间无法编辑和删除）
+    function checkLevel($model) {
+        if ($model->type == 1) {
+            return 'notallow';
+        }
+        return 'true';
     }
 }

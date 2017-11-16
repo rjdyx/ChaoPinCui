@@ -178,6 +178,10 @@
                             axios.post(this.$adminUrl(this.url) + '/' + id, form, headers)
                                 .then(async (responce) => {
                                     if (responce.data) {
+                                        if (responce.data === 'notallow') {
+                                            this.$message('同级用户，无法对其进行编辑操作')
+                                            return false
+                                        }
                                         let tmp = await this.$ACT_EDITEDACTIVE({vm: this, id: this.ruleForm.id, obj: this.ruleForm, res: responce})
                                         let newOne = this.$deepClone(tmp ? tmp : this.ruleForm)
                                         newOne = this.$changeObj(newOne, responce.data)
