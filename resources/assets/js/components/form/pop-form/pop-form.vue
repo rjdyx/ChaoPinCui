@@ -179,7 +179,7 @@
                                 .then(async (responce) => {
                                     if (responce.data) {
                                         if (responce.data === 'notallow') {
-                                            this.$message('同级用户，无法对其进行编辑操作')
+                                            this.$message('同级用户，没有权限对其进行编辑操作')
                                             return false
                                         }
                                         let tmp = await this.$ACT_EDITEDACTIVE({vm: this, id: this.ruleForm.id, obj: this.ruleForm, res: responce})

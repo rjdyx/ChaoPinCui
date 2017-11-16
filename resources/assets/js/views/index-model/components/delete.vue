@@ -71,7 +71,7 @@ export default {
                         } else if (response.data === 'notallow') {
                             this.$message({
                                 type: 'error',
-                                message: '同级用户，没有删除操作权限'
+                                message: '同级用户，没有权限对其进行删除操作'
                             })
                         } else {
                             this.$message({
