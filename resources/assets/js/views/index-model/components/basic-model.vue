@@ -293,17 +293,11 @@ export default {
     // 混合
     mixins: [computed],
     mounted () {
+        this.getRowInit()
     },
     watch: {
         formRows () {
-            this.rowInit = {}
-            for (let i in this.formRows) {
-                var obj = {}
-                for (let j in this.formRows[i]) {
-                    obj[j] = this.formRows[i][j]
-                }
-                this.rowInit[i] = obj
-            }
+            this.getRowInit()
         }
     },
     methods: {
@@ -312,6 +306,16 @@ export default {
                 return false
             } else {
                 return true
+            }
+        },
+        getRowInit () {
+            this.rowInit = {}
+            for (let i in this.formRows) {
+                var obj = {}
+                for (let j in this.formRows[i]) {
+                    obj[j] = this.formRows[i][j]
+                }
+                this.rowInit[i] = obj
             }
         },
         closePop (val) {
