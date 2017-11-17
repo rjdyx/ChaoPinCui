@@ -111,7 +111,6 @@
                 }
                 if (!this.isEdit) {
                     ruleForm[pro] = this.rows[pro].value != undefined ? this.rows[pro].value : ''
-                    // ruleForm[pro] = ''
                 } else {
                     ruleForm[pro] = this.scope.row[pro]
                 }
@@ -197,10 +196,7 @@
                                 })
                         }
                     } else {
-                        this.$message({
-                            type: 'error',
-                            message: '提交错误'
-                        })
+                        this.$message('请正确填写输入框信息')
                         return false
                     }
                 })
