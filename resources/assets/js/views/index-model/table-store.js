@@ -87,7 +87,6 @@ let TableStore = {
     // 表单删除时，数据删除前的回调函数
     deleteActive: null
 }
-
 /**
  * 对有固定选项的属性进行过滤
  * @param  {String} pro          属性名

@@ -221,8 +221,8 @@
             v-if="isShowPopNew"
             :isEdit="false"
             :url="url"
-            :rows="formRows"
-            @handleClose="isShowPopNew=false"
+            :rows="rowInit"
+            @handleClose="closePop"
         ></pop-form>
 
         <pop-form 
@@ -231,7 +231,7 @@
             :url="url"
             :rows="formRows"
             :scope="editScope"
-            @handleClose="isShowPopEdit=false"
+            @handleClose="closePop"
         ></pop-form>
 
         <slot name="extraDialog"></slot>
@@ -264,6 +264,12 @@ export default {
         loading: {
             type: Boolean,
             default: false
+        },
+        defaultInit: {
+            type: Object,
+            default () {
+                return {}
+            }
         }
     },
     data () {
@@ -280,12 +286,25 @@ export default {
             isShowPopNew: false,
             isShowPopEdit: false,
             editScope: {row: {}},
-            isEdit: false
+            isEdit: false,
+            rowInit: {}
         }
     },
     // 混合
     mixins: [computed],
     mounted () {
+    },
+    watch: {
+        formRows () {
+            this.rowInit = {}
+            for (let i in this.formRows) {
+                var obj = {}
+                for (let j in this.formRows[i]) {
+                    obj[j] = this.formRows[i][j]
+                }
+                this.rowInit[i] = obj
+            }
+        }
     },
     methods: {
         checkboxDis (row, index) {
@@ -293,6 +312,13 @@ export default {
                 return false
             } else {
                 return true
+            }
+        },
+        closePop (val) {
+            if (val === 'new') {
+                this.isShowPopNew=false
+            } else {
+                this.isShowPopEdit=false
             }
         },
         showPopNew () {

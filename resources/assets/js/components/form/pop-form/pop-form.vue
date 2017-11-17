@@ -59,7 +59,7 @@
                 <template v-if="!isEdit">新建</template>
                 <template v-else>保存</template>
             </el-button>
-            <el-button @click="handleClose('ruleForm')">取消</el-button>
+            <el-button @click="cancelClose()">取消</el-button>
         </div>
     </el-dialog>
 </template>
@@ -111,6 +111,7 @@
                 }
                 if (!this.isEdit) {
                     ruleForm[pro] = this.rows[pro].value != undefined ? this.rows[pro].value : ''
+                    // ruleForm[pro] = ''
                 } else {
                     ruleForm[pro] = this.scope.row[pro]
                 }
@@ -168,7 +169,7 @@
                                             message: '新增成功',
                                             type: 'success'
                                         })
-                                        this.handleClose()
+                                        this.handleClose('new')
                                     }
                                 })
                         } else {
@@ -191,7 +192,7 @@
                                             type: 'success'
                                         })
                                         this.$refs['ruleForm'].resetFields()
-                                        this.handleClose()
+                                        this.handleClose('edit')
                                     }
                                 })
                         }
@@ -204,13 +205,20 @@
                     }
                 })
             },
-            handleClose () {
+            cancelClose () {
+                if (this.isEdit) {
+                    this.handleClose('edit')
+                } else {
+                    this.handleClose('new')
+                }
+            },
+            handleClose (val) {
                 // 在分类或者分类子类改变后对分类缓存进行更新
                 if (this.url === 'category' || this.url === 'category_child') {
                     this.$store.dispatch('GET_ALL_DATAS', {type: 'category', refresh: true})
                 }
                 this.ruleForm = {}
-                this.$emit('handleClose')
+                this.$emit('handleClose', val)
             },
             returnValue ({pro, val}) {
                 if (pro === 'img' || pro === 'ico') {
