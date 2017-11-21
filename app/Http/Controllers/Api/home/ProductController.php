@@ -76,7 +76,7 @@ class ProductController extends Controller
 	public function productImgs(Request $request) {
 		$data = IQuery::redisGet('product_img_'.$request->product_id);
 		if (!isset($data)) {
-			$data = Img::where('product_id', $request->product_id)->orderBy('sort','desc')->get();
+			$data = Img::where('product_id', $request->product_id)->orderBy('sort','asc')->get();
 			IQuery::redisSet('product_img_'.$request->product_id, $data);
 		}
 		return $data;
