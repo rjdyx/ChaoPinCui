@@ -31,6 +31,7 @@ class ProductController extends Controller
 			IQuery::redisSet('product_info_'.$request->id, $info);
 		}
 		$model = Collect::where('product_id',$request->id)->where('user_id', $request->user_id)->first();
+		$this->setRedis($model->category_id);
 		$isCollect = isset($model->id)?1:0;
 		$info->is_collect = $isCollect;
 		$recommend = $this->productCustoms($request->id);
@@ -111,15 +112,6 @@ class ProductController extends Controller
         if($page != '') {
             $request->merge(['page'=>$page]);
         }
-        if (isset($cid)) {
-        	$aheat = Redis::get('sessionHeat_'.$cid);
-        	if ($aheat != null) {
-        		$aheat += 1;
-        	} else {
-        		$aheat = 1;
-        	}
-        	Redis::set('sessionHeat_'.$cid, $aheat);
-        }
 		$data = $this->getCategoryProduct($id, $cid, $pid, $type, $name);
 		return response()->json($data);
 	}
@@ -148,5 +140,16 @@ class ProductController extends Controller
 			IQuery::redisSet('product_list_'.$id.$cid.$pid.$type.$name, $data);
 		}
 		return $data;
+	}
+
+	// 保存进redis
+	public function setRedis ($cid) {
+		$aheat = Redis::get('sessionHeat_'.$cid);
+    	if ($aheat != null) {
+    		$aheat += 1;
+    	} else {
+    		$aheat = 1;
+    	}
+    	Redis::set('sessionHeat_'.$cid, $aheat);
 	}
 }
