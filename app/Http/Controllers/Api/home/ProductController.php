@@ -31,7 +31,7 @@ class ProductController extends Controller
 			IQuery::redisSet('product_info_'.$request->id, $info);
 		}
 		$model = Collect::where('product_id',$request->id)->where('user_id', $request->user_id)->first();
-		$this->setRedis($model->category_id);
+		$this->setRedis($info->category_id);
 		$isCollect = isset($model->id)?1:0;
 		$info->is_collect = $isCollect;
 		$recommend = $this->productCustoms($request->id);
