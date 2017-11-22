@@ -63,6 +63,7 @@ class WxController extends Controller
             return $user;
         } else {
             $data['name'] = $this->createRandomStr(10);
+            $data['img'] = $request->img;
             $data['type'] = 0;
             $data['real_name'] = $request->real_name; 
             $data['sex'] = $request->sex;
