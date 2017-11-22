@@ -234,7 +234,6 @@ class IQuery{
         $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type='.$grant_type.'&appid='.$appid.'&secret='.$secret;
         $token = $this->getJson($url);
         $access_token = $token['access_token'];
-        return $access_token;
         $get_user_info_url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
         $userInfo = $this->getJson($get_user_info_url);
         return $userInfo;
