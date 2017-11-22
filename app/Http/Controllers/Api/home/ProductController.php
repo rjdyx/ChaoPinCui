@@ -154,10 +154,4 @@ class ProductController extends Controller
     	}
     	Redis::set('sessionHeat_'.$cid, $aheat);
 	}
-
-	// 测试微信用户
-	public function test() {
-		$res = IQuery::getWxPic('oFDbs0H6qVByMqboE9tc7uo9agPQ');
-		return $res;
-	}
 }

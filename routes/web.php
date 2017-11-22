@@ -93,7 +93,6 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		Route::get('product/imgs', 'ProductController@productImgs'); // 获取产品图片信息
 		Route::get('product/nearbys', 'ProductController@productNearby'); // 获取当前产品附近产品信息
 		Route::get('product/lists', 'ProductController@productLists'); // 获取产品列表信息
-		Route::get('product/test', 'ProductController@test'); // 获取产品列表信息
 
 		/* 公司信息（关于我们） */
 		Route::get('company', 'SystemController@index');

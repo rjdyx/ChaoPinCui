@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('sex')->default(0)->comment('性别 默认0保密，1男，2女');
             $table->tinyInteger('type')->default(0)->comment('用户类型 默认0普通用户，1管理员');
             $table->date('age')->nullable()->comment('出生年月日');
-            $table->string('img', 50)->nullable()->comment('头像');
+            $table->string('img', 255)->nullable()->comment('头像');
             $table->string('address', 100)->nullable()->comment('地址');
             $table->string('email', 50)->comment('邮箱');
             $table->string('phone', 20)->nullable()->comment('手机');
