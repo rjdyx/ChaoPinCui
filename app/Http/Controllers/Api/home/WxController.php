@@ -58,6 +58,7 @@ class WxController extends Controller
     public function wxLogin(Request $request) {
         $user = User::where('wxopenid','=',$request->openid)->first();
         if ($user != null) {
+            $user->img = $request->img;
             $user->openid = $request->openid;
             if (!$user->save()) return 500;
             return $user;
