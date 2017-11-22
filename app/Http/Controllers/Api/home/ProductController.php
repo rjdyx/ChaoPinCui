@@ -70,6 +70,8 @@ class ProductController extends Controller
 			->select('comments.*','users.img as user_img', 'users.name as user_name','products.comment as count_comment');
 	    $totalComment = $data->sum('comments.level');
 		$dataComment = $data ->paginate(10);
+		// foreach($dataComment as $data) {
+		// }
 		return [$dataComment, $totalComment];
 	}
 
@@ -151,5 +153,11 @@ class ProductController extends Controller
     		$aheat = 1;
     	}
     	Redis::set('sessionHeat_'.$cid, $aheat);
+	}
+
+	// 测试微信用户
+	public function test() {
+		$res = IQuery::getWxPic('oFDbs0H6qVByMqboE9tc7uo9agPQ');
+		return $res;
 	}
 }

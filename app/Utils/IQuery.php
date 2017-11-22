@@ -222,4 +222,36 @@ class IQuery{
         }
         Redis::setex(config('app.redis_pre').'_'.$key, config('app.redis_time'), $val);
     }
+
+    /*
+     * 获取微信用户头像
+     * $openid 根据已有openid
+     */
+    public function getWxPic($openid) {
+        $appid = 'wx64f95ab001bb8dd2'; // 小程序appid
+        $secret = '9697804b07c0596aee40c7f35e327d19'; //密匙
+        $grant_type = 'authorization_code'; //固定值
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type='.$grant_type.'&appid='.$appid.'&secret='.$secret;
+        $token = $this->getJson($url);
+        $access_token = $token["access_token"];
+        $get_user_info_url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
+        $userInfo = getJson($get_user_info_url);
+        return $userInfo;
+    }
+
+    /*
+     * 转化数据样式
+     * url微信地址
+     */
+    public function getJson($url){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($output, true);
+    }
+
 }
