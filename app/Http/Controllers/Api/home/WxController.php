@@ -64,7 +64,8 @@ class WxController extends Controller
         } else {
             $data['name'] = $this->createRandomStr(10);
             $data['type'] = 0;
-            $data['sex'] = 0;
+            $data['real_name'] = $request->real_name; 
+            $data['sex'] = $request->sex;
             $data['openid'] = $request->openid;
             $data['wxopenid'] = $request->openid;
             $data['password'] = bcrypt('000000');
