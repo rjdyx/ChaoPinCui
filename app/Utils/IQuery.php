@@ -230,7 +230,7 @@ class IQuery{
     public function getWxPic($openid) {
         $appid = 'wx64f95ab001bb8dd2'; // 小程序appid
         $secret = '9697804b07c0596aee40c7f35e327d19'; //密匙
-        $grant_type = 'authorization_code'; //固定值
+        $grant_type = 'client_credential'; //固定值
         $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type='.$grant_type.'&appid='.$appid.'&secret='.$secret;
         $token = $this->getJson($url);
         return $token;
