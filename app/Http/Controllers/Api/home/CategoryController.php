@@ -61,7 +61,7 @@ class CategoryController extends Controller
 	// 获取各分类产品推荐
 	public function getCatRec(Request $request) {
 		$arr = [];
-		$res = Category::where('pid', $request->category_id)->select('id', 'name')->get();
+		$res = Category::where('pid', $request->category_id)->select('id', 'name')->limit(3)->get();
 		foreach($res as $v) {
 			$data = Product::where('category_id', '=', $v->id)
 				->orderBy('heat','desc')
@@ -69,7 +69,7 @@ class CategoryController extends Controller
 				->get();
 			$arr[$v->name] = $data;
 		}
-		return $arr;
+		return response()->json($arr);
 	}
 
 	// 获取其它分类
