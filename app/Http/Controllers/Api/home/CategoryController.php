@@ -66,7 +66,7 @@ class CategoryController extends Controller
 			->orderBy('products.heat','desc')
 			->whereNull('categories.deleted_at')
 			->select('products.*')
-			->groupBy('categories.id')
+			// ->groupBy('categories.id')
 			->limit(2)
 			->get();
 		return $data;
