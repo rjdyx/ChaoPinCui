@@ -46,7 +46,7 @@ class CategoryController extends Controller
 	public function getRecommend(Request $request) {	
 		$data = IQuery::redisGet('category_recommend_'.$request->category_id);
 		if (!isset($data)) {
-			$num = $request->num?$request->num:6;
+			$num = $request->num?$request->num:4;
 			$data = Product::join('categories','products.category_id','=','categories.id')
 					->where('categories.pid', '=', $request->category_id)
 					->orderBy('products.heat','desc')
@@ -56,6 +56,11 @@ class CategoryController extends Controller
 			IQuery::redisSet('category_recommend_'.$request->category_id, $data);
 		}
 		return response()->json($data);
+	}
+
+	// 获取各分类产品推荐
+	public function getCatRec() {
+		
 	}
 
 	// 获取其它分类

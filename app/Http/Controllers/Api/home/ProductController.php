@@ -70,8 +70,6 @@ class ProductController extends Controller
 			->select('comments.*','users.img as user_img', 'users.name as user_name','products.comment as count_comment');
 	    $totalComment = $data->sum('comments.level');
 		$dataComment = $data ->paginate(10);
-		// foreach($dataComment as $data) {
-		// }
 		return [$dataComment, $totalComment];
 	}
 
@@ -134,7 +132,11 @@ class ProductController extends Controller
 				$data = $data->where('products.name','like','%'.$name.'%')
 				        ->where('categories.pid','=',$id);
 			} else if ($type == 'recommend') {
-				$data = $data->where('categories.pid','=',$id);
+				if ($cid == 'undefined') {
+					$data = $data->where('categories.pid','=',$id);
+				} else {
+					$data = $data->where('categories.pid','=',$id)->where('categories.id','=',$cid);
+				}
 			}
 			$data = $data->select('products.*')
 				  ->orderBy('desc')
