@@ -86,7 +86,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		Route::get('category/recommend', 'CategoryController@getRecommend'); // 获取产品推荐
 		Route::get('category/other', 'CategoryController@getOther'); // 获取其它分类
 		Route::get('category/rand', 'CategoryController@getRand'); // 获取随机分类
-		Route::get('category/test', 'CategoryController@getCatRec'); // 获取随机分类
+		Route::get('category/getCat', 'CategoryController@getCatRec'); // 获取各推荐分类
 
 		/* 产品详情页 */
 		Route::get('product/details', 'ProductController@productInfo'); // 获取产品信息
