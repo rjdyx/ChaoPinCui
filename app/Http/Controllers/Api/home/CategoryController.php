@@ -55,12 +55,21 @@ class CategoryController extends Controller
 					->paginate($num);
 			IQuery::redisSet('category_recommend_'.$request->category_id, $data);
 		}
+		// 
 		return response()->json($data);
 	}
 
 	// 获取各分类产品推荐
-	public function getCatRec() {
-		
+	public function getCatRec(Request $request) {
+		$data = Product::join('categories','products.category_id','=','categories.id')
+			->where('categories.pid', '=', $request->category_id)
+			->orderBy('products.heat','desc')
+			->whereNull('categories.deleted_at')
+			->select('products.*')
+			->group('categories.id')
+			->limit(2)
+			->get();
+		return $data;
 	}
 
 	// 获取其它分类
