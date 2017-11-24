@@ -26,11 +26,6 @@ Route::get('/', function () {
     return view('index');
 });
 
-// 购买链接
-Route::get('abc', function() {
-	header('location: http://www.baidu.com');
-});
-
 Route::get('/home', function () {
     return view('home');
 });
