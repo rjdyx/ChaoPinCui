@@ -117,7 +117,7 @@ class ProductController extends Controller
 	}
 
 	//获取普通分类的列表产品/附近
-	public function getCategoryProduct($id, $cid, $pid, $type, $name='') {
+	public function getCategoryProduct($id, $cid, $pid, $type, $name='', $page) {
 		$data = IQuery::redisGet('product_list_'.$id.$cid.$pid.$type.$name.$page);
 			if (!isset($data)) {
 			$data = Product::join('categories','products.category_id','=','categories.id')->whereNull('categories.deleted_at')
