@@ -112,13 +112,13 @@ class ProductController extends Controller
         if($page != '') {
             $request->merge(['page'=>$page]);
         }
-		$data = $this->getCategoryProduct($id, $cid, $pid, $type, $name);
+		$data = $this->getCategoryProduct($id, $cid, $pid, $type, $name, $page);
 		return response()->json($data);
 	}
 
 	//获取普通分类的列表产品/附近
 	public function getCategoryProduct($id, $cid, $pid, $type, $name='') {
-		$data = IQuery::redisGet('product_list_'.$id.$cid.$pid.$type.$name);
+		$data = IQuery::redisGet('product_list_'.$id.$cid.$pid.$type.$name.$page);
 			if (!isset($data)) {
 			$data = Product::join('categories','products.category_id','=','categories.id')->whereNull('categories.deleted_at')
 			               ->whereNotNull('categories.pid')
@@ -141,7 +141,7 @@ class ProductController extends Controller
 			$data = $data->select('products.*')
 				  ->orderBy('desc')
 				  ->paginate(5);
-			IQuery::redisSet('product_list_'.$id.$cid.$pid.$type.$name, $data);
+			IQuery::redisSet('product_list_'.$id.$cid.$pid.$type.$name.$page, $data);
 		}
 		return $data;
 	}
