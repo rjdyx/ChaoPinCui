@@ -95,6 +95,9 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 		Route::get('product/nearbys', 'ProductController@productNearby'); // 获取当前产品附近产品信息
 		Route::get('product/lists', 'ProductController@productLists'); // 获取产品列表信息
 
+		/* 获取附近住宿信息 */
+		Route::get('near_hotel', 'NearHotelController@getNearHotelData');
+
 		/* 公司信息（关于我们） */
 		Route::get('company', 'SystemController@index');
 	// });
