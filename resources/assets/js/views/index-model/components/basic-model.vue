@@ -135,7 +135,8 @@
                     :prop="protosShort[index]"
                     :label="item"
                     :min-width="widths[index]"
-                    :key="index">
+                    :key="index"
+                    show-overflow-tooltip>
                     <template scope="scope">
                         <component
                             v-if="colComponents[protosShort[index]]"
@@ -144,7 +145,7 @@
                             :prop="protosShort[index]"
                             :isEdit="isEdit"
                         ></component>
-                        <div v-else>{{scope.row[protosShort[index]]}}</div>
+                        <div v-else :title="scope.row[protosShort[index]]">{{scope.row[protosShort[index]]}}</div>
                     </template>
                 </el-table-column>
             </template>
