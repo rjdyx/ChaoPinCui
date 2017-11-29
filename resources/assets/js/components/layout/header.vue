@@ -11,7 +11,8 @@
         <h1 id="title">潮品萃</h1>
         <div id="content">
             <ul class="left">
-                <li><router-link to="/index/home">首页</router-link></li>
+                <li style="float: left;"><router-link to="/index/home">首页</router-link></li>
+                <div style="float: left;">登录账户：</div>
             </ul>
             <ul class="right">
                 <li>

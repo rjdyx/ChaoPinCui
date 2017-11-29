@@ -118,6 +118,7 @@ Route::group(['prefix' => 'api', 'namespace' => 'Api'], function() {
 
 		/* 我的评论 */
 		Route::post('comment/img', 'CommentController@uploadImg');
+		Route::get('comment/check', 'CommentController@checkComment');
 		Route::resource('comment', 'CommentController');
 
 		/* 意见反馈 */

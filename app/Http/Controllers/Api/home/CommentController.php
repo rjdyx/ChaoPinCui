@@ -73,4 +73,18 @@ class CommentController extends Controller
         $pic = IQuery::setImg($request,$img,'comment/','COM_');
         return $pic;
     }
+
+    /*
+     * 每天只能评论一次
+     */
+    public function checkComment(Request $request) {
+        $user_id = $request->user_id;
+        $product_id = $request->product_id;
+        $data = Comment::where('user_id', $user_id)->where('product_id', $product_id)->whereDate('created_at', date('Y-m-d', time()))->first();
+        if ($data != null) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 }
