@@ -58,7 +58,7 @@ class CommentController extends Controller
         $arr = ['content', 'product_id', 'level', 'user_id', 'img'];
         $model->setRawAttributes($request->only($arr));
         if ($isUserName == 1) {
-            $model->anony = '游客'.time().rand(0,1000);
+            $model->anony = '匿名'.time().rand(0,1000);
         }
         
         if (!$model->save()) return 0;
