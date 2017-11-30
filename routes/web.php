@@ -34,7 +34,7 @@ Route::get('phone','HomeController@phone');
 Route::get('get/openid','HomeController@getOpenid'); //获取openid
 
 Route::get('logout','Auth\LoginController@logout'); //登出
-Route::get('aaa' function() {
+Route::get('aaa', function() {
 	return view('aaa');
 });
 
