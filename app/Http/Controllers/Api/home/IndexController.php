@@ -37,7 +37,8 @@ class IndexController extends Controller
 	public function getTurns() {
 		$data = IQuery::redisGet('index_turns');
 		if (!isset($data)) {
-			$data = Turn::where('state',1)->orderBy('sort','asc')->paginate(4);
+			$data = Turn::join('products', 'product_id', '=', 'id')->where('state',1)->orderBy('sort','asc')
+			->select('products.img','turns.product_id')->paginate(4);
 			IQuery::redisSet('index_turns', $data);
 		}
 		return response()->json($data);
