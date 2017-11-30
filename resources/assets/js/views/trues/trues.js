@@ -1,8 +1,6 @@
 // 中间列表的数据
 import { reInteger } from 'utils/validate'
-import Img from '../../components/public/img.vue'
 import State from './state.vue'
-import inputFile from 'components/public/inputFile.vue'
 import productSelect from './product-select.vue'
 import productIndex from './product-index'
 export default {
@@ -12,11 +10,11 @@ export default {
             tab: '广告图',
             url: 'turn',
             database: 'Turn',
-            theads: ['链接产品', '状态', '图片', '排序'],
-            protos: ['product_name', 'state', 'img', 'sort'],
+            theads: ['链接产品', '状态', '排序'],
+            protos: ['product_name', 'state', 'sort'],
             showDetail: true,
-            widths: [80, 80, 80],
-            colComponents: {img: Img, state: State},
+            widths: [120, 120, 120],
+            colComponents: {state: State},
             searchPlaceholder: '请输入链接产品搜索',
             formRows: {
                 product_id: {
@@ -45,12 +43,6 @@ export default {
                     optionLabel: 'name',
                     optionValue: 'num',
                     type: 'select'
-                },
-                img: {
-                    label: '图片',
-                    rules: [{required: true, message: '请上传图片'}],
-                    component: inputFile,
-                    placeholder: ''
                 }
             }
         }

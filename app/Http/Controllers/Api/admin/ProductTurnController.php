@@ -82,7 +82,6 @@ class ProductTurnController extends Controller
 
         $arr = ['state', 'url', 'product_id', 'sort'];
         $model->setRawAttributes($request->only($arr));
-        $model->img = IQuery::singleImg($request,'img');
         
         if (!$model->save()) {
             IQuery::logNewOrEdit($id, 'turn', 1);
@@ -92,7 +91,6 @@ class ProductTurnController extends Controller
         IQuery::logNewOrEdit($id, 'turn', 0);
         return [
             'id'=>$model->id,
-            'img'=>$model->img,
             'product_id'=>$model->product_id,
             'product_name'=>Product::find($model->product_id)->name
         ];
