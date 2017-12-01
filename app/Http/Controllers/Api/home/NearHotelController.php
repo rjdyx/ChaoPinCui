@@ -22,7 +22,7 @@ class NearHotelController extends Controller
 			// 百度地图api
 			// $url = "http://api.map.baidu.com/place/v2/search?query=%E9%85%92%E5%BA%97$%E5%AE%BE%E9%A6%86&location=$weft,$meridian&radius=$round&output=json&ak=Nj0gBuO7PDZsawzGGmt0ScBVEccDPDUd&page_num=$page";
 			//高德地图
-			$url = "http://restapi.amap.com/v3/place/around?key=563947810a1f78a0819f14713f0fe241&location=$meridian,$weft&output=json&radius=$round&keywords=%E9%85%92%E5%BA%97|%E5%AE%BE%E9%A6%86&extensions=all&offset=10&page=$page";
+			$url = "http://restapi.amap.com/v3/place/around?key=563947810a1f78a0819f14713f0fe241&location=$meridian,$weft&output=json&radius=$round&keywords=%E9%85%92%E5%BA%97|%E5%AE%BE%E9%A6%86&extensions=all&offset=10&types=住宿服务&page=$page";
 			$infos = file_get_contents($url);
 			IQuery::redisSet('near_hotel_info_'.$weft.$meridian.$page, $infos);
 		}
