@@ -33,32 +33,18 @@ class UserController extends Controller
             'sex' => 'required',
             'age' => 'nullable',
             'real_name' => 'nullable|max:30',
-            'password' => 'nullable|max:100',
             'address' => 'nullable|max:100'
         ]);
         $id = $request->id;
         $model = User::find($id);
         $type = $model->type;
-        if ($this->unquired($request,'name', $id)) return 101;
-        if ($this->unquired($request,'email', $id)) return 102;
-        if ($this->unquired($request,'phone', $id)) return 103;
-        $arr = ['name','real_name','sex','age','email','phone','address'];
+        $arr = ['real_name','sex','age','email','phone','address'];
         $model->setRawAttributes($request->only($arr));
         if ($type!=1) {
             $model->type = 0;
         }
-        if ($request->password) $model->password = bcrypt($request->password);
         if ($model->save()) return $id;
         return 0;
-    }
-
-    public function unquired($request, $filed, $id)
-    {
-        $res = User::where($filed, $request->$filed)
-                ->where('id','!=',$id)
-                ->first();
-        if (isset($res->id)) return true;
-        return false;
     }
 
     // 重置密码
