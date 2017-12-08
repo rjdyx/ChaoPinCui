@@ -81,7 +81,7 @@ class ProductController extends Controller
             'name' => 'required','max:50',
             'star_rate' => 'required',
             'category_id' => 'required|exists:categories,id',
-            'desc' => 'nullable|string|max:255',
+            'desc' => 'nullable',
             'address' => 'nullable|string|max:100',
             'meridian' => 'nullable|string|max:30',
             'weft' => 'nullable|string|max:30',
