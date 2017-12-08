@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->integer('category_id')->comment('分类id');
             $table->string('name', 50)->comment('名称');
-            $table->string('desc', 255)->nullable()->comment('描述');
+            $table->text('desc')->nullable()->comment('描述');
             $table->string('img', 50)->nullable()->comment('图片');
             $table->string('thumb', 50)->nullable()->comment('缩略图');
             $table->string('address', 100)->comment('地址');

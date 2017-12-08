@@ -44,7 +44,7 @@ export default {
                 desc: {
                     label: '描述',
                     rules: [
-                        { required: true, max: 255, message: '长度在 255 个字符以内', trigger: 'blur' }
+                        { required: true, max: 2000, message: '长度在 2000个字符以内', trigger: 'blur' }
                     ],
                     value: '',
                     type: 'textarea',
