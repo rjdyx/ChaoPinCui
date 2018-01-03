@@ -67,7 +67,7 @@ class ProductController extends Controller
 			->join('products','comments.product_id','=','products.id')->whereNull('products.deleted_at')
 			->where('comments.product_id', $id)
 			->orderBy('created_at','desc')
-			->select('comments.*','users.img as user_img', 'users.name as user_name','products.comment as count_comment');
+			->select('comments.*','users.img as user_img', 'users.real_name as user_name','products.comment as count_comment');
 	    $totalComment = $data->sum('comments.level');
 		$dataComment = $data ->paginate(10);
 		return [$dataComment, $totalComment];
