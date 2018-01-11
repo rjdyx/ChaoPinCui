@@ -228,14 +228,14 @@ class IQuery{
      * $str 获取到加密字符，$key,获取到的key
      */
     public function passDecrypt($str, $key) {
-        $str = array_values(unpack('n*', iconv('gbk', 'ucs-2', $str)));
-        $key = array_values(unpack('n*', iconv('gbk', 'ucs-2', $key)));
+//        $str = array_values(unpack('n*', iconv('gbk', 'ucs-2', $str)));
+//        $key = array_values(unpack('n*', iconv('gbk', 'ucs-2', $key)));
         $crytxt = '';
         $keylen = count($key);
         foreach($str as $i=>$v) {   
             $k = $i % $keylen;
             $crytxt .= pack('n', $v ^ $key[$k]);
         }
-        return iconv('ucs-2', 'gbk', $crytxt); 
+//        return iconv('ucs-2', 'gbk', $crytxt); 
     }
 }
