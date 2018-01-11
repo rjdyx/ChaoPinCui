@@ -232,7 +232,6 @@ class IQuery{
         $key = array_values(unpack('n*', iconv('gbk', 'ucs-2', $key)));
         $crytxt = '';
         $keylen = count($key);
-        return $str;
         foreach($str as $i=>$v) {   
             $k = $i % $keylen;
             $crytxt .= pack('n', $v ^ $key[$k]);
