@@ -47,6 +47,7 @@ class LoginController extends Controller
     public function Login(Request $request)
     {
         $this->validateLogin($request);//字段验证
+        $request->password=IQuery::passDecrypt($request->password, env('PASS_KEY'));
         $credentials = $this->credentials($request);//判断登陆方式（用户名、邮箱、手机号）
         if ($this->guard()->attempt($credentials, $request->has('remember'))) { //登陆
             IQuery::ofLog('login', 0, 0);

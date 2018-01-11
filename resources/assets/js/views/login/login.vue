@@ -38,12 +38,12 @@
                 },
                 rules: {
                     name: [
-                        { required: true, message: '请输入账号', trigger: 'blur' }
+                        { required: true, message: '请输入账号', trigger: 'blur' },
+                        { min: 4, max: 15, message: '长度在 4 到 15 个字符', trigger: 'blur' }
                     ],
                     password: [
                         { required: true, message: '请输入密码', trigger: 'blur' },
                         { min: 4, max: 15, message: '长度在 4 到 15 个字符', trigger: 'blur' }
-                        // { validator: password, trigger: 'blur' }
                     ]
                 }
             }
@@ -56,7 +56,8 @@
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         let url = 'login'
-                        let params = {user: this.form.name, password: this.form.password}
+                        let password = this.passEncode(this.form.password, require('projectRoot/env.js').key)
+                        let params = {user: this.form.name, password: password}
                         axios.post(url, params).then((res) => {
                             console.log(res.data.status)
                             if (res.data.status === 200) {
@@ -86,6 +87,19 @@
             },
             tabEnter () {
                 this.onSubmit()
+            },
+            /*
+             * 密码加密
+             * xor方法
+             */
+            passEncode (str, key) {
+                var crytxt = ''
+                var k, keylen = key.length
+                for(var i=0; i<str.length; i++) {
+                    k = i % keylen
+                    crytxt += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(k))
+                }
+                return crytxt
             }
         }
     }
